@@ -1,18 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getItems } from "../redux/modules/signupSlice";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
-import { useDispatch } from "react-redux";
-import { getItems } from "../redux/modules/signupSlice";
 
-const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
-  const emailRef = useRef();
+const SignupForth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const dispatch = useDispatch();
+
+  const fileRef = useRef();
+
   const onClickHandler = () => {
-    const firstItem = { memberEmail: String(emailRef.current.value) };
-    setSignupMode("SECOND");
-    dispatch(getItems(firstItem));
+    const thirdItems = {
+      memberImg: fileRef.current.value,
+    };
+    setSignupMode("FORTH");
+    dispatch(getItems(thirdItems));
+    console.log(thirdItems);
   };
+
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState("");
@@ -54,37 +60,20 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
           <CloseBtn onClick={() => setOnShowSignup(false)}>
             <GrClose size={16} />
           </CloseBtn>
-          <LoginHeader>회원 가입</LoginHeader>
+          <LoginHeader>프로필 생성하기</LoginHeader>
           <LoginBody>
             <LoginContent>
               <WelcomeText>당근비앤비에 오신 것을 환영합니다.</WelcomeText>
-              <SelectArea>
-                <SelectText
-                  className={isActive ? "Active" : ""}
-                  htmlFor="email"
-                >
-                  E-mail
-                </SelectText>
-                <SelectInput
-                  type="email"
-                  value={value}
-                  onChange={(e) => handleTextChange(e.target.value)}
-                  placeholder="xxx@xxxxx.com"
-                  ref={emailRef}
-                  required
-                />
-              </SelectArea>
               <SelectNotice>
                 <span>
-                  전화나 문자로 전화번호를 확인하겠습니다. 일반 문자 메시지 요금
-                  및 데이터 요금이 부과됩니다.
+                  전 세계 숙소, 현지 레스토랑 및 독특한 체험을 찾아보세요.
                 </span>
-                <TagA href="#">개인정보 처리방침</TagA>
               </SelectNotice>
+
               <Button
                 onClick={onClickHandler}
                 background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
-                // bgColor='#ff385c'
+                bgColor="#717171"
                 color="white"
                 border="none"
                 fontSize="16px"
@@ -94,55 +83,17 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 계속
               </Button>
             </LoginContent>
-            <OrLine>
-              <Line />
-              <Or>또는</Or>
-              <Line />
-            </OrLine>
-            <LoginFooter>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
-                    alt="facebook"
-                  />
-                  <FooterText>페이스북으로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
-                    alt="google"
-                  />
-                  <FooterText>구글로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-dallas-shootings-don-add-are-speech-zones-used-4.png"
-                    alt="apple"
-                  />
-                  <FooterText>Apple 계정으로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://cdn4.iconfinder.com/data/icons/simplicity-vector-icon-set/512/mail.png"
-                    alt="e-mail"
-                  />
-                  <FooterText>이메일로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-            </LoginFooter>
           </LoginBody>
         </LoginCtn>
       </Ctn>
     </BGBlack>
   );
 };
+const WelcomeText = styled.h3`
+  margin: 10px 0 20px 0;
+  font-size: 20px;
+  font-weight: 600;
+`;
 
 const BGBlack = styled.div`
   position: fixed;
@@ -226,11 +177,7 @@ const LoginContent = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
-const WelcomeText = styled.h3`
-  margin: 10px 0 20px 0;
-  font-size: 20px;
-  font-weight: 600;
-`;
+
 const SelectArea = styled.div`
   position: relative;
   display: flex;
@@ -245,6 +192,7 @@ const SelectArea = styled.div`
     transform: translate(4px, 12px) scale(0.75);
   }
 `;
+
 const SelectText = styled.label`
   position: absolute;
   padding: 0 12px;
@@ -277,8 +225,10 @@ const SelectInput = styled.input`
 const SelectNotice = styled.p`
   font-size: 12px;
   margin-bottom: 10px;
+  color: #717171;
 `;
 const TagA = styled.a`
+  display: block;
   text-decoration: underline;
   font-weight: 600;
   color: inherit;
@@ -288,7 +238,6 @@ const OrLine = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
 `;
 const Line = styled.hr`
   width: 100%;
@@ -324,4 +273,4 @@ const FooterText = styled.p`
   font-weight: 600;
 `;
 
-export default SignupJJY;
+export default SignupForth;

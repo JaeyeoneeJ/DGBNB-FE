@@ -1,18 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { getItems } from "../redux/modules/signupSlice";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
-import { useDispatch } from "react-redux";
-import { getItems } from "../redux/modules/signupSlice";
 
-const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
-  const emailRef = useRef();
+const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const dispatch = useDispatch();
+  // const nicknameRef = useRef();
+  // const nameRef = useRef();
+  // const phoneNumRef = useRef();
+  // const passwordRef = useRef();
+
   const onClickHandler = () => {
-    const firstItem = { memberEmail: String(emailRef.current.value) };
-    setSignupMode("SECOND");
-    dispatch(getItems(firstItem));
+    const secondItems = {
+      // nickname: nicknameRef.current.value,
+      // name: nameRef.current.value,
+      // phoneNum: phoneNumRef.current.value,
+      // password: passwordRef.current.value,
+    };
+    setSignupMode("THIRD");
+    dispatch(getItems(secondItems));
+    console.log(secondItems);
   };
+
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState("");
@@ -46,6 +57,15 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+  // return (
+  //   <>
+  //     <input type="text" placeholder="nickname" ref={nicknameRef} />
+  //     <input type="text" placeholder="name" ref={nameRef} />
+  //     <input type="text" placeholder="phoneNum" ref={phoneNumRef} />
+  //     <input type="text" placeholder="password" ref={passwordRef} />
+  //     <button onClick={onClickHandler}>계속</button>
+  //   </>
+  // );
 
   return (
     <BGBlack>
@@ -54,32 +74,105 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
           <CloseBtn onClick={() => setOnShowSignup(false)}>
             <GrClose size={16} />
           </CloseBtn>
-          <LoginHeader>회원 가입</LoginHeader>
+          <LoginHeader>회원 가입 완료하기</LoginHeader>
           <LoginBody>
             <LoginContent>
-              <WelcomeText>당근비앤비에 오신 것을 환영합니다.</WelcomeText>
               <SelectArea>
                 <SelectText
                   className={isActive ? "Active" : ""}
                   htmlFor="email"
                 >
-                  E-mail
+                  이름
                 </SelectText>
                 <SelectInput
                   type="email"
-                  value={value}
                   onChange={(e) => handleTextChange(e.target.value)}
-                  placeholder="xxx@xxxxx.com"
-                  ref={emailRef}
-                  required
+                  placeholder="(예: 길동)"
                 />
               </SelectArea>
               <SelectNotice>
                 <span>
-                  전화나 문자로 전화번호를 확인하겠습니다. 일반 문자 메시지 요금
-                  및 데이터 요금이 부과됩니다.
+                  정부 발급 신분증에 표시된 이름과 일치하는지 확인하세요.
                 </span>
-                <TagA href="#">개인정보 처리방침</TagA>
+              </SelectNotice>
+              <SelectArea>
+                <SelectText
+                  className={isActive ? "Active" : ""}
+                  htmlFor="email"
+                >
+                  닉네임
+                </SelectText>
+                <SelectInput
+                  type="email"
+                  onChange={(e) => handleTextChange(e.target.value)}
+                  placeholder="(예: Jain)"
+                />
+              </SelectArea>
+              <SelectNotice>
+                <span>사용하실 닉네임을 입력해주세요.</span>
+              </SelectNotice>
+              <SelectArea>
+                <SelectText
+                  className={isActive ? "Active" : ""}
+                  htmlFor="email"
+                >
+                  이메일
+                </SelectText>
+                <SelectInput
+                  type="email"
+                  onChange={(e) => handleTextChange(e.target.value)}
+                  placeholder="xxx@xxxxx.com"
+                />
+              </SelectArea>
+              <SelectNotice>
+                <span>예약 확인과 영수증을 이메일로 보내드립니다.</span>
+              </SelectNotice>
+              <SelectArea>
+                <SelectText
+                  className={isActive ? "Active" : ""}
+                  htmlFor="email"
+                >
+                  비밀번호
+                </SelectText>
+                <SelectInput
+                  type="password"
+                  onChange={(e) => handleTextChange(e.target.value)}
+                  placeholder=""
+                />
+              </SelectArea>
+              <SelectNotice>
+                <span>사용하실 비밀번호를 입력해주세요.</span>
+              </SelectNotice>
+              <OrLine>
+                <Line />
+              </OrLine>
+              <SelectNotice>
+                <span>개인정보 수집 및 이용에 동의합니다.</span>
+                <span>
+                  1. 당근비앤비가 수집하는 개인 정보 당근비앤비 플랫폼을
+                  이용하는 데 필요한 정보 당사는 회원님이 당근비앤비 플랫폼을
+                  이용할 때 회원님의 개인 정보를 수집합니다. 그렇지 않은 경우,
+                  당근비앤비는 요청하신 서비스를 회원님께 제공하지 못할 수
+                  있습니다. 이러한 정보에는 다음이 포함됩니다.
+                </span>
+                <TagA href="#">더보기</TagA>
+                <span>마케팅 이메일 수신을 원합니다(선택).</span>
+                <span>
+                  당근비앤비 회원 전용 할인, 추천 여행 정보, 마케팅 이메일, 푸시
+                  알람을 보내드립니다. 계정 설정 또는 마케팅 알림에서 언제든지
+                  수신을 거부할 수 있습니다.
+                </span>
+                <TagA href="#">더보기</TagA>
+              </SelectNotice>
+              <OrLine>
+                <Line />
+              </OrLine>
+              <SelectNotice>
+                <span>
+                  동의 및 계속하기를 선택하여 당근비앤비 서비스 약관, 결제
+                  서비스 약관, 위치기반 서비스 이용약관, 차별 금지 정책,
+                  개인정보 처리방치에 동의합니다.
+                </span>
               </SelectNotice>
               <Button
                 onClick={onClickHandler}
@@ -91,7 +184,7 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 width="100%"
                 padding="14px"
               >
-                계속
+                동의 및 계속하기
               </Button>
             </LoginContent>
             <OrLine>
@@ -99,44 +192,6 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
               <Or>또는</Or>
               <Line />
             </OrLine>
-            <LoginFooter>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
-                    alt="facebook"
-                  />
-                  <FooterText>페이스북으로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
-                    alt="google"
-                  />
-                  <FooterText>구글로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-dallas-shootings-don-add-are-speech-zones-used-4.png"
-                    alt="apple"
-                  />
-                  <FooterText>Apple 계정으로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://cdn4.iconfinder.com/data/icons/simplicity-vector-icon-set/512/mail.png"
-                    alt="e-mail"
-                  />
-                  <FooterText>이메일로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-            </LoginFooter>
           </LoginBody>
         </LoginCtn>
       </Ctn>
@@ -226,11 +281,7 @@ const LoginContent = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
-const WelcomeText = styled.h3`
-  margin: 10px 0 20px 0;
-  font-size: 20px;
-  font-weight: 600;
-`;
+
 const SelectArea = styled.div`
   position: relative;
   display: flex;
@@ -245,6 +296,7 @@ const SelectArea = styled.div`
     transform: translate(4px, 12px) scale(0.75);
   }
 `;
+
 const SelectText = styled.label`
   position: absolute;
   padding: 0 12px;
@@ -277,8 +329,10 @@ const SelectInput = styled.input`
 const SelectNotice = styled.p`
   font-size: 12px;
   margin-bottom: 10px;
+  color: #717171;
 `;
 const TagA = styled.a`
+  display: block;
   text-decoration: underline;
   font-weight: 600;
   color: inherit;
@@ -288,7 +342,6 @@ const OrLine = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
 `;
 const Line = styled.hr`
   width: 100%;
@@ -324,4 +377,4 @@ const FooterText = styled.p`
   font-weight: 600;
 `;
 
-export default SignupJJY;
+export default SignupSecond;

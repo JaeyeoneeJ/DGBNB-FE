@@ -1,18 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { __postSignup } from "../redux/modules/signupSlice";
+import { getItems } from "../redux/modules/signupSlice";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
-import { useDispatch } from "react-redux";
-import { getItems } from "../redux/modules/signupSlice";
 
-const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
-  const emailRef = useRef();
-  const dispatch = useDispatch();
-  const onClickHandler = () => {
-    const firstItem = { memberEmail: String(emailRef.current.value) };
-    setSignupMode("SECOND");
-    dispatch(getItems(firstItem));
-  };
+const SignupThird = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState("");
@@ -46,6 +40,12 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+  // return (
+  //   <div>
+  //     <input type="file" accept="image/*" ref={fileRef} required />
+  //     <button onClick={onClickHandler}>끝</button>
+  //   </div>
+  // );
 
   return (
     <BGBlack>
@@ -54,89 +54,55 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
           <CloseBtn onClick={() => setOnShowSignup(false)}>
             <GrClose size={16} />
           </CloseBtn>
-          <LoginHeader>회원 가입</LoginHeader>
+          <LoginHeader></LoginHeader>
           <LoginBody>
             <LoginContent>
-              <WelcomeText>당근비앤비에 오신 것을 환영합니다.</WelcomeText>
-              <SelectArea>
-                <SelectText
-                  className={isActive ? "Active" : ""}
-                  htmlFor="email"
-                >
-                  E-mail
-                </SelectText>
-                <SelectInput
-                  type="email"
-                  value={value}
-                  onChange={(e) => handleTextChange(e.target.value)}
-                  placeholder="xxx@xxxxx.com"
-                  ref={emailRef}
-                  required
-                />
-              </SelectArea>
+              <SelectNotice>
+                <span>에어비앤비 커뮤니티 차별반대 서약</span>
+              </SelectNotice>
+              <WelcomeText>
+                에어비앤비는 누구나 어디에서나 우리 집처럼 편안함을 느낄 수 있는
+                커뮤니티를 지향합니다.
+              </WelcomeText>
+              <SelectNotice>
+                <span>이를 위해 다음에 동의해 주실 것을 부탁드립니다.</span>
+              </SelectNotice>
+
               <SelectNotice>
                 <span>
-                  전화나 문자로 전화번호를 확인하겠습니다. 일반 문자 메시지 요금
-                  및 데이터 요금이 부과됩니다.
+                  인종, 종교, 출신, 국가, 민족, 피부색, 장애, 성별, 성 정체성,
+                  성적 지향, 연령 등과 관계없이 에어비앤비 커뮤니티의 모든
+                  사람을 존중하며 편견이나 선입견 없이 대하는 것에 동의합니다.
                 </span>
-                <TagA href="#">개인정보 처리방침</TagA>
+                <TagA href="#">더 알아보기</TagA>
               </SelectNotice>
               <Button
-                onClick={onClickHandler}
+                onClick={() => {
+                  setSignupMode("FORTH");
+                }}
                 background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
-                // bgColor='#ff385c'
+                bgColor="#ff385c"
                 color="white"
                 border="none"
                 fontSize="16px"
                 width="100%"
                 padding="14px"
               >
-                계속
+                동의 및 계속하기
+              </Button>
+              <Button
+                // onClick={#}
+                background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
+                bgColor="#fffff"
+                border="1px solid gray"
+                color="white"
+                fontSize="16px"
+                width="100%"
+                padding="14px"
+              >
+                거절하기
               </Button>
             </LoginContent>
-            <OrLine>
-              <Line />
-              <Or>또는</Or>
-              <Line />
-            </OrLine>
-            <LoginFooter>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
-                    alt="facebook"
-                  />
-                  <FooterText>페이스북으로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
-                    alt="google"
-                  />
-                  <FooterText>구글로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-dallas-shootings-don-add-are-speech-zones-used-4.png"
-                    alt="apple"
-                  />
-                  <FooterText>Apple 계정으로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-              <Button fontSize="12px" width="100%" padding="14px 20px">
-                <FlexRowBetween>
-                  <ImgTag
-                    src="https://cdn4.iconfinder.com/data/icons/simplicity-vector-icon-set/512/mail.png"
-                    alt="e-mail"
-                  />
-                  <FooterText>이메일로 로그인하기</FooterText>
-                </FlexRowBetween>
-              </Button>
-            </LoginFooter>
           </LoginBody>
         </LoginCtn>
       </Ctn>
@@ -324,4 +290,4 @@ const FooterText = styled.p`
   font-weight: 600;
 `;
 
-export default SignupJJY;
+export default SignupThird;
