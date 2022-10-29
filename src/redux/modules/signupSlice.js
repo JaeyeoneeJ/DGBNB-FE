@@ -8,13 +8,13 @@ export const __postSignup = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const signupItems = {
-        userEmail: payload.userEmail,
+        memberEmail: payload.memberEmail,
         password: payload.password,
         nickname: payload.nickname,
         name: payload.name,
         gender: payload.gender,
         phoneNum: payload.phoneNum,
-        userImg: payload.userImg,
+        memberImg: payload.memberImg,
       };
 
       const jsonSignupItems = JSON.stringify(signupItems);
