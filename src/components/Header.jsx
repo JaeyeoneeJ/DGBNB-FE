@@ -7,14 +7,16 @@ import FilterItem from './elements/FilterItem';
 import LogoItem from './elements/LogoItem';
 import LogoTextItem from './elements/LogoTextItem';
 import EarthItem from './elements/EarthItem';
+import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({onShowSignup, setOnShowSignup}) => {
+  const navigate = useNavigate()
   return (
     <Ctn>
       <HeaderCtn>
         <Box>
           <Logo1150Up><LogoTextItem /></Logo1150Up>
-          <Logo1150Down><LogoItem /></Logo1150Down>          
+          <Logo1150Down><LogoItem /></Logo1150Down>
         </Box>
         <SearchBar>
           <SearchBarLeft>
@@ -39,7 +41,7 @@ const Header = () => {
           <HoverBtn>
             <EarthItem />
           </HoverBtn>
-          <Profile>
+          <Profile onClick={()=>setOnShowSignup(true)}>
             <MenuItem>
               <GiHamburgerMenu size={16} />
             </MenuItem>
