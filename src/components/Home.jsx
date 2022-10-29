@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import AccomodationList from './AccomodationList'
 
 const Home = () => {
   return (
     <Ctn>
       <Wrap>
-        
+        <AccomodationList />
       </Wrap>
     </Ctn>
   )
@@ -13,8 +14,7 @@ const Home = () => {
 
 const Ctn = styled.div`
   margin: 10px auto 0 auto;
-  height: 2000px;
-  background-color: red;
+  /* border: 1px solid red; */
   @media screen and (max-width: 1200px){
     
   }
