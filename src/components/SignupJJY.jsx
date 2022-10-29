@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { GrClose } from "react-icons/gr";
 import Button from './elements/Button';
-import { useNavigate } from 'react-router-dom';
 
-const SignupJJY = ({onShowSignup, setOnShowSignup}) => {
-    const navigate = useNavigate()
+const SignupJJY = ({ onShowSignup, setOnShowSignup }) => {
     const [isActive, setIsActive] = useState(false)
-
+    console.log(onShowSignup)
     const [value, setValue] = useState('')
     const handleTextChange = (text) => {
         setValue(text)
@@ -18,11 +16,33 @@ const SignupJJY = ({onShowSignup, setOnShowSignup}) => {
         }
     }
 
+    const modalRef = useRef(null);
+
+    useEffect(() => {
+        // 이벤트 핸들러 함수
+        const handler = (event) => {
+            // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setOnShowSignup(false);
+            }
+        };
+        
+        // 이벤트 핸들러 등록
+        document.addEventListener('mousedown', handler);
+        // document.addEventListener('touchstart', handler); // 모바일 대응
+        
+        return () => {
+            // 이벤트 핸들러 해제
+            document.removeEventListener('mousedown', handler);
+            // document.removeEventListener('touchstart', handler); // 모바일 대응
+        };
+    });
+    
     return (
-        <BGBlack onClick={()=>setOnShowSignup(false)}>
-            <Ctn>
+        <BGBlack>
+            <Ctn ref={modalRef}>
                 <LoginCtn>
-                    <CloseBtn onClick={()=>setOnShowSignup(false)}><GrClose size={16} /></CloseBtn>
+                    <CloseBtn onClick={() => setOnShowSignup(false)}><GrClose size={16} /></CloseBtn>
                     <LoginHeader>
                         회원 가입
                     </LoginHeader>
@@ -108,7 +128,7 @@ const SignupJJY = ({onShowSignup, setOnShowSignup}) => {
                             </Button>
                         </LoginFooter>
                     </LoginBody>
-                </LoginCtn>            
+                </LoginCtn>
             </Ctn>
         </BGBlack>
     )

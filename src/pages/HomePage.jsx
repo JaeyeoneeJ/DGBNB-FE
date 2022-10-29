@@ -7,6 +7,7 @@ import SignupJJY from "../components/SignupJJY";
 
 const HomePage = () => {
   const [onShowSignup, setOnShowSignup] = useState(false)
+  console.log(onShowSignup)
   
   return (
     <>
