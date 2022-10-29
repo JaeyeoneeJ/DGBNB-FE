@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginJJY from "../components/members/LoginJJY";
-import Signup from "../components/members/Signup";
+// import SignupJJY from "../components/SignupJJY";
 import HomePage from "../pages/HomePage";
 
 const Router = () => {
@@ -9,9 +8,8 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/login" element={<LoginJJY />} /> */}
-        <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/signup" element={<SignUp />} /> */}
+        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/signup" element={<SignupJJY />} />
       </Routes>
     </BrowserRouter>
   );
