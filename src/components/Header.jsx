@@ -5,6 +5,7 @@ import { BiSearch } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import FilterItem from './elements/FilterItem';
 import LogoItem from './elements/LogoItem';
+import LogoTextItem from './elements/LogoTextItem';
 import EarthItem from './elements/EarthItem';
 
 const Header = () => {
@@ -12,7 +13,8 @@ const Header = () => {
     <Ctn>
       <HeaderCtn>
         <Box>
-          <LogoItem />
+          <Logo1150Up><LogoTextItem /></Logo1150Up>
+          <Logo1150Down><LogoItem /></Logo1150Down>          
         </Box>
         <SearchBar>
           <SearchBarLeft>
@@ -46,20 +48,23 @@ const Header = () => {
           </Profile>
         </BoxRight>
       </HeaderCtn>
-      <NavBar />
     </Ctn>
   )
 }
 
 const Ctn = styled.div`
   position: fixed;
+  z-index: 2;
+  background-color: white;
+  top: 0;
   max-width: 2100px;
   width: 100%;
-  padding: 14px 50px 0 50px;
-  border: 1px solid red;
+  padding: 14px 50px 14px 50px;
   box-sizing: border-box;
+  border-bottom: 1px solid #ebebeb;
   @media screen and (max-width: 800px){
     padding: 14px 24px 0 24px;
+    border-bottom: none;
   }
 `
 const HeaderCtn = styled.div`
@@ -72,8 +77,24 @@ const Box = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  min-width: 216px;
+  @media screen and (max-width: 1000px){
+    min-width: 40px;
+  }
   @media screen and (max-width: 800px){
     display: none;
+  }
+`
+const Logo1150Up = styled.div`
+  display:flex;
+  @media screen and (max-width: 1150px){
+    display: none;
+  }
+`
+const Logo1150Down = styled.div`
+  display: none;
+  @media screen and (max-width: 1150px){
+    display: flex;
   }
 `
 const BoxRight = styled.div`
