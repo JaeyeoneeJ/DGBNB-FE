@@ -4,9 +4,8 @@ import styled from 'styled-components'
 
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false)
-  console.log(isFixed)
   const handleShowButton = () => {
-    if (window.scrollY > 200) {
+    if (window.scrollY > 10) {
       setIsFixed(true)
     } else {
       setIsFixed(false)
