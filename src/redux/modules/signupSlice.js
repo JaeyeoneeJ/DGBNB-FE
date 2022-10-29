@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const initialState = {};
+const initialState = {
+  postSignupItems: {},
+};
+
+const url = "";
 
 export const __postSignup = createAsyncThunk(
   "signup/postSignup",
@@ -39,18 +43,22 @@ export const __postSignup = createAsyncThunk(
 const signupSlice = createSlice({
   name: "signup",
   initialState,
-  reducers: {},
+  reducers: {
+    getItems: (state, action) => {
+      state.postSignupItems = { ...state.postSignupItems, ...action.payload };
+    },
+  },
   extraReducers: {
-    [__postLogin.pending]: (state, action) => {
+    [__postSignup.pending]: (state, action) => {
       console.log(action.payload);
     },
-    [__postLogin.fulfilled]: (state, action) => {
+    [__postSignup.fulfilled]: (state, action) => {
       console.log(action.payload);
     },
-    [__postLogin.rejected]: (state, action) => {
+    [__postSignup.rejected]: (state, action) => {
       console.log(action.payload);
     },
   },
 });
-
+export const { getItems } = signupSlice.actions;
 export default signupSlice.reducer;
