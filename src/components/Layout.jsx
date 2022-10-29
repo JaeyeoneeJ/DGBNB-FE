@@ -13,6 +13,6 @@ const LayoutCtn = styled.div`
     max-width: 2100px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 `
 export default Layout
