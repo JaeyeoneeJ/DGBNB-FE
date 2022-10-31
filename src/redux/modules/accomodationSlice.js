@@ -65,15 +65,15 @@ export const __postAccomodations = createAsyncThunk(
       accImg: payload.accImg, // array,
     };
 
-    const formData = new FormData();
-    formData.append(accomodationItem);
+    // const formData = new FormData();
+    // formData.append(accomodationItem);
 
-    try {
-      const { data } = await axios.post(`${url}/accomodations`, formData);
-      return thunkAPI.fulfillWithValue(data.data);
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+    // try {
+    //   const { data } = await axios.post(`${url}/accomodations`, formData);
+    //   return thunkAPI.fulfillWithValue(data.data);
+    // } catch (error) {
+    //   return thunkAPI.rejectWithValue(error);
+    // }
   }
 );
 

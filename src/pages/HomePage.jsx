@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Layout from "../components/Layout.jsx";
 import Home from "../components/Home";
@@ -8,13 +8,25 @@ import SignupSecond from "../components/SignupSecond";
 import SignupThird from "../components/SignupThird";
 import SignupForth from "../components/SignupForth";
 import SignupFifth from "../components/SginupFifth";
+import { useDispatch, useSelector } from "react-redux";
+import { __postAccomodations } from "../redux/modules/accomodationSlice";
+import { __postSignup } from "../redux/modules/signupSlice";
 
 const HomePage = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
+  const dispatch = useDispatch();
 
   /// 모드에 따라 렌더링 모달이 달라진다.
-
   const [signupMode, setSignupMode] = useState("FIRST");
+
+  const globalPostSignup = useSelector((state) => state.signup.postSignupItems);
+
+  useEffect(() => {
+    if (globalPostSignup.memberImg) {
+      dispatch(__postSignup(globalPostSignup));
+    }
+  }, [globalPostSignup]);
+
   let viewLogin = null;
   if (signupMode === "FIRST") {
     viewLogin = (

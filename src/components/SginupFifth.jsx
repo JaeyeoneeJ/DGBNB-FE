@@ -1,23 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getItems } from "../redux/modules/signupSlice";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
 import logoImg from "../components/airbnb_logo.png";
+import { __postSignup } from "../redux/modules/signupSlice";
 
 const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
+  //   console.log("회원정보", globalPostSignup);
   const dispatch = useDispatch();
-
   const fileRef = useRef();
 
   const onClickHandler = () => {
-    const thirdItems = {
-      memberImg: fileRef.current.value,
-    };
-    dispatch(getItems(thirdItems));
-    console.log(thirdItems);
+    const fileItem = { memberImg: fileRef.current.value };
     setOnShowSignup(false);
+    setSignupMode("FIRST");
+    dispatch(getItems(fileItem));
   };
 
   const XButtonOnClick = () => {

@@ -9,7 +9,7 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const emailRef = useRef();
   const dispatch = useDispatch();
   const onClickHandler = () => {
-    const firstItem = { memberEmail: String(emailRef.current.value) };
+    const firstItem = { memberEmail: emailRef.current.value };
     setSignupMode("SECOND");
     dispatch(getItems(firstItem));
   };
@@ -319,7 +319,7 @@ const ImgTag = styled.img`
   width: auto;
   height: 20px;
 `;
-const FooterText = styled.p`
+const FooterText = styled.span`
   width: 100%;
   font-weight: 600;
 `;
