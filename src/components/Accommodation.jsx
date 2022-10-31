@@ -1,11 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FaStar } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-const Accomodation = ({ acc }) => {
-    console.log(acc)
+const Accommodation = ({ acc }) => {
+    const navigate = useNavigate()
+    
+    // console.log(acc)
     return (
-        <Ctn>
+        <Ctn onClick={()=>navigate(`/accommodation/${acc.accId}`)}>
             <ImgBox>
                 <ImgTag src='https://a0.muscache.com/im/pictures/658a9058-3441-4af9-a56b-e7b56bf07c5e.jpg?im_w=720' alt={`acc.accId`} />
             </ImgBox>
@@ -31,6 +34,7 @@ const Ctn = styled.div`
     /* border: 1px solid green; */
     width: 15.5%;
     margin-bottom: 30px;
+    cursor: pointer;
     
     @media screen and (max-width: 1800px){
         width: 18.8%;
@@ -91,4 +95,4 @@ const AccPrice = styled.div``
 const Strong = styled.strong``
 
 
-export default Accomodation
+export default Accommodation

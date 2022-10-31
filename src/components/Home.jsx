@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import AccomodationList from './AccomodationList'
+import AccommodationList from './AccommodationList'
 
 const Home = () => {
   return (
     <Ctn>
       <Wrap>
-        <AccomodationList />
+        <AccommodationList />
       </Wrap>
     </Ctn>
   )

@@ -2,21 +2,21 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { __getAccomodationList } from '../redux/modules/accomodationSlice'
-import Accomodation from './Accomodation'
+import { __getAccommodationList } from '../redux/modules/accommodationSlice'
+import Accommodation from './Accommodation'
 
-const AccomodationList = () => {
+const AccommodationList = () => {
     const dispatch = useDispatch()
-    const {getAccomodationList} = useSelector((state)=>state.accomodation)
+    const {getAccommodationList} = useSelector((state)=>state.accommodation)
 
     useEffect(() => {
-        // dispatch(__getAccomodationList())
+        // dispatch(__getAccommodationList())
     })
 
     return (
         <Ctn>
-            {getAccomodationList.map((acc)=>(
-                <Accomodation key={acc.accId} acc={acc}/>
+            {getAccommodationList.map((acc)=>(
+                <Accommodation key={acc.accId} acc={acc}/>
             ))}
         </Ctn>
     )
@@ -43,4 +43,4 @@ const Ctn = styled.div`
     }
 `
 
-export default AccomodationList
+export default AccommodationList

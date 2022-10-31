@@ -16,7 +16,7 @@ const Header = ({onShowSignup, setOnShowSignup}) => {
       <HeaderCtn>
         <Box>
           <Logo1150Up><LogoTextItem /></Logo1150Up>
-          <Logo1150Down><LogoItem /></Logo1150Down>
+          <Logo1150Down><LogoItem fill='#54ff7f' /></Logo1150Down>
         </Box>
         <SearchBar>
           <SearchBarLeft>
