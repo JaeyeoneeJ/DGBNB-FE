@@ -7,17 +7,24 @@ import Button from "./elements/Button";
 
 const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const dispatch = useDispatch();
-  // const nicknameRef = useRef();
-  // const nameRef = useRef();
-  // const phoneNumRef = useRef();
-  // const passwordRef = useRef();
+  const nicknameRef = useRef();
+  const nameRef = useRef();
+  const phoneNumRef = useRef();
+  const passwordRef = useRef();
+  const emailRef = useRef();
+
+  const XButtonOnClick = () => {
+    setOnShowSignup(false);
+    setSignupMode("FIRST");
+  };
 
   const onClickHandler = () => {
     const secondItems = {
-      // nickname: nicknameRef.current.value,
-      // name: nameRef.current.value,
-      // phoneNum: phoneNumRef.current.value,
-      // password: passwordRef.current.value,
+      nickname: nicknameRef.current.value,
+      name: nameRef.current.value,
+      phoneNum: phoneNumRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
     };
     setSignupMode("THIRD");
     dispatch(getItems(secondItems));
@@ -44,6 +51,7 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
       // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setOnShowSignup(false);
+        setSignupMode("FIRST");
       }
     };
 
@@ -71,7 +79,7 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
     <BGBlack>
       <Ctn ref={modalRef}>
         <LoginCtn>
-          <CloseBtn onClick={() => setOnShowSignup(false)}>
+          <CloseBtn onClick={XButtonOnClick}>
             <GrClose size={16} />
           </CloseBtn>
           <LoginHeader>회원 가입 완료하기</LoginHeader>
@@ -88,6 +96,7 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                   type="email"
                   onChange={(e) => handleTextChange(e.target.value)}
                   placeholder="(예: 길동)"
+                  ref={nameRef}
                 />
               </SelectArea>
               <SelectNotice>
@@ -95,6 +104,7 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                   정부 발급 신분증에 표시된 이름과 일치하는지 확인하세요.
                 </span>
               </SelectNotice>
+
               <SelectArea>
                 <SelectText
                   className={isActive ? "Active" : ""}
@@ -106,6 +116,7 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                   type="email"
                   onChange={(e) => handleTextChange(e.target.value)}
                   placeholder="(예: Jain)"
+                  ref={nicknameRef}
                 />
               </SelectArea>
               <SelectNotice>
@@ -122,11 +133,33 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                   type="email"
                   onChange={(e) => handleTextChange(e.target.value)}
                   placeholder="xxx@xxxxx.com"
+                  ref={emailRef}
                 />
               </SelectArea>
+
               <SelectNotice>
                 <span>예약 확인과 영수증을 이메일로 보내드립니다.</span>
               </SelectNotice>
+
+              <SelectArea>
+                <SelectText
+                  className={isActive ? "Active" : ""}
+                  htmlFor="email"
+                >
+                  전화번호
+                </SelectText>
+                <SelectInput
+                  type="text"
+                  onChange={(e) => handleTextChange(e.target.value)}
+                  placeholder="010-XXXX-XXXX"
+                  ref={phoneNumRef}
+                />
+              </SelectArea>
+
+              <SelectNotice>
+                <span>전화번호를 입력해주세요</span>
+              </SelectNotice>
+
               <SelectArea>
                 <SelectText
                   className={isActive ? "Active" : ""}
@@ -138,8 +171,10 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                   type="password"
                   onChange={(e) => handleTextChange(e.target.value)}
                   placeholder=""
+                  ref={passwordRef}
                 />
               </SelectArea>
+
               <SelectNotice>
                 <span>사용하실 비밀번호를 입력해주세요.</span>
               </SelectNotice>
@@ -147,32 +182,44 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 <Line />
               </OrLine>
               <SelectNotice>
-                <span>개인정보 수집 및 이용에 동의합니다.</span>
-                <span>
+                <CheckArea>
+                  <div>개인정보 수집 및 이용에 동의합니다.</div>
+                  <CheckBox type="checkbox" />
+                </CheckArea>
+
+                <CheckDesc>
                   1. 당근비앤비가 수집하는 개인 정보 당근비앤비 플랫폼을
                   이용하는 데 필요한 정보 당사는 회원님이 당근비앤비 플랫폼을
                   이용할 때 회원님의 개인 정보를 수집합니다. 그렇지 않은 경우,
                   당근비앤비는 요청하신 서비스를 회원님께 제공하지 못할 수
                   있습니다. 이러한 정보에는 다음이 포함됩니다.
-                </span>
+                </CheckDesc>
                 <TagA href="#">더보기</TagA>
-                <span>마케팅 이메일 수신을 원합니다(선택).</span>
-                <span>
+
+                <CheckArea>
+                  <div>마케팅 이메일 수신을 원합니다(선택).</div>
+                  <CheckBox type="checkbox" />
+                </CheckArea>
+
+                <CheckDesc>
                   당근비앤비 회원 전용 할인, 추천 여행 정보, 마케팅 이메일, 푸시
                   알람을 보내드립니다. 계정 설정 또는 마케팅 알림에서 언제든지
                   수신을 거부할 수 있습니다.
-                </span>
+                </CheckDesc>
                 <TagA href="#">더보기</TagA>
               </SelectNotice>
               <OrLine>
                 <Line />
               </OrLine>
               <SelectNotice>
-                <span>
-                  동의 및 계속하기를 선택하여 당근비앤비 서비스 약관, 결제
-                  서비스 약관, 위치기반 서비스 이용약관, 차별 금지 정책,
-                  개인정보 처리방치에 동의합니다.
-                </span>
+                <FooterDesc>
+                  동의 및 계속하기를 선택하여 당근비앤비
+                  <TagABlue href="#">서비스 약관</TagABlue>,
+                  <TagABlue href="#">결제 서비스 약관</TagABlue>,
+                  <TagABlue href="#">위치기반 서비스 이용약관</TagABlue>
+                  <TagABlue href="#">차별 금지 정책</TagABlue>,
+                  <TagABlue href="#">개인정보 처리 방침</TagABlue>에 동의합니다.
+                </FooterDesc>
               </SelectNotice>
               <Button
                 onClick={onClickHandler}
@@ -187,11 +234,6 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 동의 및 계속하기
               </Button>
             </LoginContent>
-            <OrLine>
-              <Line />
-              <Or>또는</Or>
-              <Line />
-            </OrLine>
           </LoginBody>
         </LoginCtn>
       </Ctn>
@@ -279,7 +321,6 @@ const LoginContent = styled.div`
   margin: 10px auto 20px auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 `;
 
 const SelectArea = styled.div`
@@ -328,20 +369,27 @@ const SelectInput = styled.input`
 `;
 const SelectNotice = styled.p`
   font-size: 12px;
-  margin-bottom: 10px;
+  margin: 10px 0;
   color: #717171;
 `;
 const TagA = styled.a`
   display: block;
   text-decoration: underline;
-  font-weight: 600;
+  font-weight: 700;
   color: inherit;
+  margin-bottom: 10px;
+`;
+
+const TagABlue = styled(TagA)`
+  display: inline;
+  color: #4141ff;
 `;
 
 const OrLine = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 10px 0;
 `;
 const Line = styled.hr`
   width: 100%;
@@ -349,32 +397,32 @@ const Line = styled.hr`
   background-color: #ebebeb;
   border: none;
 `;
-const Or = styled.p`
-  min-width: 50px;
-  color: #717171;
-  font-size: 10px;
-  text-align: center;
-`;
-const LoginFooter = styled.div`
+const CheckArea = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px 24px;
-`;
-const FlexRowBetween = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: 7px;
 `;
-const ImgTag = styled.img`
-  background-color: white;
-  width: auto;
+
+const CheckBox = styled.input`
+  width: 20px;
   height: 20px;
 `;
-const FooterText = styled.p`
-  width: 100%;
-  font-weight: 600;
+
+const CheckDesc = styled.span`
+  display: block;
+  width: 450px;
+  text-align: justify;
+  font-size: 11px;
+  margin-bottom: 10px;
+`;
+
+const FooterDesc = styled(CheckDesc)`
+  display: block;
+  width: 90%;
+  text-align: justify;
+  font-size: 13px;
 `;
 
 export default SignupSecond;

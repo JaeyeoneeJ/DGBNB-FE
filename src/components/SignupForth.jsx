@@ -4,19 +4,16 @@ import { getItems } from "../redux/modules/signupSlice";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
+import logoImg from "../components/airbnb_logo.png";
 
 const SignupForth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
-  const dispatch = useDispatch();
-
-  const fileRef = useRef();
-
   const onClickHandler = () => {
-    const thirdItems = {
-      memberImg: fileRef.current.value,
-    };
-    setSignupMode("FORTH");
-    dispatch(getItems(thirdItems));
-    console.log(thirdItems);
+    setSignupMode("FIFTH");
+  };
+
+  const XButtonOnClick = () => {
+    setOnShowSignup(false);
+    setSignupMode("FIRST");
   };
 
   //// 기존 코드
@@ -39,6 +36,7 @@ const SignupForth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
       // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setOnShowSignup(false);
+        setSignupMode("FIRST");
       }
     };
 
@@ -57,12 +55,15 @@ const SignupForth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
     <BGBlack>
       <Ctn ref={modalRef}>
         <LoginCtn>
-          <CloseBtn onClick={() => setOnShowSignup(false)}>
-            <GrClose size={16} />
-          </CloseBtn>
-          <LoginHeader>프로필 생성하기</LoginHeader>
+          <LoginHeader>
+            <CloseBtn onClick={XButtonOnClick}>
+              <GrClose size={16} />
+            </CloseBtn>
+            <span>프로필 생성하기</span>
+          </LoginHeader>
           <LoginBody>
             <LoginContent>
+              <LogoImg src={logoImg} />
               <WelcomeText>당근비앤비에 오신 것을 환영합니다.</WelcomeText>
               <SelectNotice>
                 <span>
@@ -72,8 +73,8 @@ const SignupForth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
 
               <Button
                 onClick={onClickHandler}
-                background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
-                bgColor="#717171"
+                // background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
+                bgColor="#191919"
                 color="white"
                 border="none"
                 fontSize="16px"
@@ -90,9 +91,9 @@ const SignupForth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   );
 };
 const WelcomeText = styled.h3`
-  margin: 10px 0 20px 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 25px;
+  font-weight: 700;
+  margin-top: 7px;
 `;
 
 const BGBlack = styled.div`
@@ -141,7 +142,6 @@ const LoginCtn = styled.div`
   position: relative;
   border: 1px solid #ebebeb;
   border-radius: 10px;
-  /* padding: 10px; */
 `;
 const CloseBtn = styled.div`
   display: flex;
@@ -164,11 +164,12 @@ const CloseBtn = styled.div`
 const LoginHeader = styled.h3`
   display: flex;
   font-size: 16px;
-  padding-bottom: 10px;
   border-bottom: 1px solid #ebebeb;
   margin: 0;
   padding: 10px 24px;
+  margin-bottom: 20px;
   justify-content: center;
+  align-items: center;
 `;
 const LoginContent = styled.div`
   padding: 10px 24px;
@@ -176,101 +177,19 @@ const LoginContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  align-items: center;
 `;
 
-const SelectArea = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 16px;
-  &:focus-within label {
-    transform: translate(4px, 12px) scale(0.75);
-  }
-  & .Active {
-    transform: translate(4px, 12px) scale(0.75);
-  }
-`;
-
-const SelectText = styled.label`
-  position: absolute;
-  padding: 0 12px;
-  color: #717171;
-  pointer-events: none;
-  transform: translate(4px, 20px) scale(1);
-  transform-origin: top left;
-  transition: all 0.2s ease-out;
-`;
-const SelectInput = styled.input`
-  width: 100%;
-  height: 56px;
-  padding: 20px 12px 0px 12px;
-  outline: 0;
-  border: 1px solid #b0b0b0;
-  border-radius: 4px;
-  background: #fff;
-  font-size: inherit;
-  color: black;
-  &::placeholder {
-    color: transparent;
-  }
-
-  &:focus {
-    &::placeholder {
-      color: #717171;
-    }
-  }
-`;
 const SelectNotice = styled.p`
-  font-size: 12px;
+  font-size: 17px;
+  font-weight: 500;
   margin-bottom: 10px;
   color: #717171;
 `;
-const TagA = styled.a`
-  display: block;
-  text-decoration: underline;
-  font-weight: 600;
-  color: inherit;
-`;
 
-const OrLine = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const Line = styled.hr`
-  width: 100%;
-  height: 1px;
-  background-color: #ebebeb;
-  border: none;
-`;
-const Or = styled.p`
-  min-width: 50px;
-  color: #717171;
-  font-size: 10px;
-  text-align: center;
-`;
-const LoginFooter = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px 24px;
-`;
-const FlexRowBetween = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-const ImgTag = styled.img`
-  background-color: white;
-  width: auto;
-  height: 20px;
-`;
-const FooterText = styled.p`
-  width: 100%;
-  font-weight: 600;
+const LogoImg = styled.img`
+  width: 60px;
+  margin: 10px 0;
 `;
 
 export default SignupForth;

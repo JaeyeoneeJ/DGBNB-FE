@@ -1,13 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
-import { __postSignup } from "../redux/modules/signupSlice";
+import { useDispatch } from "react-redux";
 import { getItems } from "../redux/modules/signupSlice";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { HiChevronRight } from "react-icons/hi";
+import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
 import logoImg from "../components/airbnb_logo.png";
 
-const SignupThird = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
+const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
+  const dispatch = useDispatch();
+
+  const fileRef = useRef();
+
+  const onClickHandler = () => {
+    const thirdItems = {
+      memberImg: fileRef.current.value,
+    };
+    dispatch(getItems(thirdItems));
+    console.log(thirdItems);
+    setOnShowSignup(false);
+  };
+
+  const XButtonOnClick = () => {
+    setOnShowSignup(false);
+    setSignupMode("FIRST");
+  };
+
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState("");
@@ -42,70 +59,58 @@ const SignupThird = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
-  // return (
-  //   <div>
-  //     <input type="file" accept="image/*" ref={fileRef} required />
-  //     <button onClick={onClickHandler}>끝</button>
-  //   </div>
-  // );
 
   return (
     <BGBlack>
       <Ctn ref={modalRef}>
         <LoginCtn>
           <LoginHeader>
-            <LogoImg src={logoImg} />
+            <CloseBtn onClick={XButtonOnClick}>
+              <GrClose size={16} />
+            </CloseBtn>
+            <span>프로필 생성하기</span>
           </LoginHeader>
           <LoginBody>
             <LoginContent>
               <SelectNotice>
-                <AlertText>에어비앤비 커뮤니티 차별반대 서약</AlertText>
+                <span>{/* 1단계 중 1단계 */}</span>
               </SelectNotice>
-              <WelcomeText>
-                에어비앤비는 누구나 어디에서나 우리 집처럼 편안함을 느낄 수 있는
-                커뮤니티를 지향합니다.
-              </WelcomeText>
+              <WelcomeText>프로필 사진 추가</WelcomeText>
+              <input type="file" ref={fileRef} />
               <SelectNotice>
-                <AlertTextMiddle>
-                  이를 위해 다음에 동의해 주실 것을 부탁드립니다.
-                </AlertTextMiddle>
+                <span>
+                  얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된
+                  후에만 사진을 볼 수 있습니다.
+                </span>
               </SelectNotice>
 
-              <SelectNotice>
-                <AlertTextMiddle>
-                  인종, 종교, 출신, 국가, 민족, 피부색, 장애, 성별, 성 정체성,
-                  성적 지향, 연령 등과 관계없이 에어비앤비 커뮤니티의 모든
-                  사람을 존중하며 편견이나 선입견 없이 대하는 것에 동의합니다.
-                </AlertTextMiddle>
-                <TagA href="#">
-                  더 알아보기 <HiChevronRight />
-                </TagA>
-              </SelectNotice>
+              <LogoImg src="https://cdn-icons-png.flaticon.com/128/3421/3421814.png" />
               <Button
-                onClick={() => {
-                  setSignupMode("FORTH");
-                }}
-                background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
-                bgColor="#ff385c"
+                fontSize="12px"
+                width="100%"
+                padding="14px 20px"
+                bgColor="#191919"
                 color="white"
-                border="none"
-                fontSize="16px"
-                width="100%"
-                padding="14px"
+                onClick={onClickHandler}
               >
-                동의 및 계속하기
+                <FlexRowBetween>
+                  <ImgTag
+                    src="https://www.pngplay.com/wp-content/uploads/8/Upload-Icon-Logo-Download-Free-PNG.png"
+                    alt="e-mail"
+                    bgColor="#191919"
+                  />
+                  <FooterText>사진 업로드 하기</FooterText>
+                </FlexRowBetween>
               </Button>
-              <Button
-                onClick={() => setOnShowSignup(false)}
-                // background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
-                bgColor="#fffff"
-                border="2px solid gray"
-                fontSize="16px"
-                width="100%"
-                padding="14px"
-                fontWeight="600"
-              >
-                거절하기
+
+              <Button fontSize="12px" width="100%" padding="14px 20px">
+                <FlexRowBetween>
+                  <ImgTag
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"
+                    alt="facebook"
+                  />
+                  <FooterText>페이스북 사진 사용</FooterText>
+                </FlexRowBetween>
               </Button>
             </LoginContent>
           </LoginBody>
@@ -114,6 +119,11 @@ const SignupThird = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
     </BGBlack>
   );
 };
+const WelcomeText = styled.h3`
+  font-size: 25px;
+  font-weight: 700;
+  margin-top: 7px;
+`;
 
 const BGBlack = styled.div`
   position: fixed;
@@ -161,7 +171,6 @@ const LoginCtn = styled.div`
   position: relative;
   border: 1px solid #ebebeb;
   border-radius: 10px;
-  /* padding: 10px; */
 `;
 const CloseBtn = styled.div`
   display: flex;
@@ -181,13 +190,15 @@ const CloseBtn = styled.div`
     transform: rotate(-90deg);
   }
 `;
-const LoginHeader = styled.div`
+const LoginHeader = styled.h3`
   display: flex;
-  justify-content: flex-start;
   font-size: 16px;
-  padding-bottom: 10px;
+  border-bottom: 1px solid #ebebeb;
   margin: 0;
-  padding: 40px 24px 25px 24px;
+  padding: 10px 24px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
 `;
 const LoginContent = styled.div`
   padding: 10px 24px;
@@ -195,39 +206,40 @@ const LoginContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
-const WelcomeText = styled.h3`
-  margin: 10px 0 20px 0;
-  font-size: 26px;
-  width: 475px;
-  font-weight: 700;
+  align-items: center;
 `;
 
 const SelectNotice = styled.p`
-  font-size: 12px;
+  font-size: 17px;
+  font-weight: 500;
+  width: 400px;
+  text-align: center;
   margin-bottom: 10px;
-`;
-const TagA = styled.a`
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  text-decoration: underline;
-  font-weight: 600;
-  color: inherit;
-`;
-
-const LogoImg = styled.img`
-  width: 37px;
-  height: 37px;
-`;
-
-const AlertText = styled.span`
-  font-weight: 600;
-`;
-
-const AlertTextMiddle = styled(AlertText)`
-  font-size: 1.2rem;
   color: #717171;
 `;
 
-export default SignupThird;
+const LogoImg = styled.img`
+  width: 150px;
+  margin: 10px 0;
+`;
+
+const FlexRowBetween = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ImgTag = styled.img`
+  background-color: white;
+  width: auto;
+  height: 20px;
+`;
+const FooterText = styled.p`
+  width: 100%;
+  font-weight: 600;
+`;
+
+const FileInput = styled.input``;
+
+export default SignupFifth;
