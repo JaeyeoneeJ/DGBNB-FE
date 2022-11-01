@@ -2,37 +2,37 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  getAccomodationList: [
-    {
-      accName: "숙소 이름1",
-      accAddr: "숙소 주소1",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc1.png",
-    },
-    {
-      accName: "숙소 이름1",
-      accAddr: "숙소 주소1",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc1.png",
-    },
-    {
-      accName: "숙소 이름1",
-      accAddr: "숙소 주소1",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc1.png",
-    },
+  getAccommodationList: [
+    // {
+    //   accName: "숙소 이름1",
+    //   accAddr: "숙소 주소1",
+    //   maxPerson: 10,
+    //   bed: 3,
+    //   room: 3,
+    //   toilet: 2,
+    //   category: 1,
+    //   thumbnail: "/images/acc1.png",
+    // },
+    // {
+    //   accName: "숙소 이름1",
+    //   accAddr: "숙소 주소1",
+    //   maxPerson: 10,
+    //   bed: 3,
+    //   room: 3,
+    //   toilet: 2,
+    //   category: 1,
+    //   thumbnail: "/images/acc1.png",
+    // },
+    // {
+    //   accName: "숙소 이름1",
+    //   accAddr: "숙소 주소1",
+    //   maxPerson: 10,
+    //   bed: 3,
+    //   room: 3,
+    //   toilet: 2,
+    //   category: 1,
+    //   thumbnail: "/images/acc1.png",
+    // },
   ],
   getAccomodationFocus: {
     accName: "숙소 이름",
@@ -85,15 +85,9 @@ export const __getAccomodationList = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.get(
-        `${url}/accommodations/${payload.accId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return thunkAPI.fulfillWithValue(data.data);
+      const data = await axios.get(`${url}/accommodations`);
+      console.log("숙소 데이터__", data.data.data);
+      return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
@@ -166,43 +160,43 @@ const accomodationSlice = createSlice({
   extraReducers: {
     // post
     [__postAccomodations.pending]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__postAccomodations.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__postAccomodations.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     /// get
     [__getAccomodationList.pending]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__getAccomodationList.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      state.getAccommodationList = action.payload;
     },
     [__getAccomodationList.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     /// put
     [__putAccomodation.pending]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__putAccomodation.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__putAccomodation.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     /// delete
     [__deleteAccomodation.pending]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__deleteAccomodation.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__deleteAccomodation.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
   },
 });
