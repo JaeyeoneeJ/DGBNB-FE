@@ -29,18 +29,18 @@ const TopButton = () => {
     }, [])
     
     return showButton && (
-        <Scroll_container>
+        <ScrollContainer>
             <TopBtn
                 onClick={scrollToTop}
                 type="button"
             >
-                <VscChevronUp size={30} />
+                <VscChevronUp size="30" color='white' />
             </TopBtn>
-        </Scroll_container>
+        </ScrollContainer>
     )
 }
 
-const Scroll_container = styled.div`
+const ScrollContainer = styled.div`
     position: fixed;
     right: 3%;
     bottom: 3%;
@@ -48,14 +48,14 @@ const Scroll_container = styled.div`
 `
 const TopBtn = styled.button`
     padding: 10px;
-    background-color: rgba(20, 20, 20, 0.3);
+    background-color: rgba(240, 240, 240, 0.3);
     color:#fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: all, 0.3s;
     &:hover {
-        background-color: rgba(20, 20, 20, 0.6);
+        background-color: rgba(240, 240, 240, 0.7);
     }
 `
 
