@@ -46,6 +46,7 @@ const Header = ({onShowSignup, setOnShowSignup}) => {
               <GiHamburgerMenu size={16} />
             </MenuItem>
             <UserImg src="https://a0.muscache.com/im/pictures/user/97a6a4be-a817-410e-a1d3-211781706179.jpg?aki_policy=profile_medium" alt="userProfile" />
+            {/* <UserImg src="http://placeimg.com/200/200/person" alt="userProfile" /> */}
             <Alarm>1</Alarm>
           </Profile>
         </BoxRight>
