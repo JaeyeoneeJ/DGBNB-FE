@@ -5,8 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 const Accommodation = ({ acc }) => {
     const navigate = useNavigate()
+
+    function priceToString(price) {
+        return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
     
-    console.log(acc.AccommodationsPictures[0].thumbnail)
+    console.log(acc?.AccommodationsPictures[0].thumbnail)
     // const [thumbnail] = acc?.AccommodationsPictures
     // console.log(thumbnail)
     // const mainImg = thumbnail.thumbnail
@@ -14,7 +18,7 @@ const Accommodation = ({ acc }) => {
     return (
         <Ctn onClick={()=>navigate(`/accommodation/${acc.accId}`)}>
             <ImgBox>
-                <ImgTag src={`acc?.AccommodationsPictures[0].thumbnail`} alt={`acc.accId`} />
+                <ImgTag src={acc?.AccommodationsPictures[0].thumbnail} alt={`acc.accId`} />
             </ImgBox>
             <ContentBox>
                 <AccContent>
@@ -22,13 +26,13 @@ const Accommodation = ({ acc }) => {
                         <AccName>{acc.accName}</AccName>
                         <StarArea>
                             <FaStar />
-                            <span>{"4.8"}</span>
+                            <span>{acc.rating}</span>
                         </StarArea>
                     </AccHeader>
                     <AccText>{acc.accAddr}</AccText>
-                    <AccText>방: {acc.room}, 침대: {acc.bed}, 최대인원: {acc.maxPerson}명 </AccText>
+                    <AccText>최대 인원 {acc.maxPerson}명 · 방 {acc.room} · 침대 {acc.bed} · 욕실 {acc.bathroom}</AccText>
                 </AccContent>
-                <AccPrice><Strong>{"₩42,184"}</Strong> /박</AccPrice>
+                <AccPrice><Strong>{priceToString(acc?.price)}</Strong> /박</AccPrice>
             </ContentBox>
         </Ctn>
     )

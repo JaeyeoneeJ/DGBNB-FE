@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { FiShare, FiHeart } from "react-icons/fi";
 import { TbGridDots } from "react-icons/tb";
@@ -8,13 +8,29 @@ import { CiParking1 } from "react-icons/ci";
 import { GiAtSea } from "react-icons/gi";
 import { MdFlag } from "react-icons/md";
 import { SlStar, SlGlobe } from "react-icons/sl";
-import { useLocation } from 'react-router-dom';
+import { GiComb } from "react-icons/gi";
+
+import { useLocation, useParams } from 'react-router-dom';
+import { __getAccommodation } from '../redux/modules/accommodationSlice';
 
 const DetailAccommodation = () => {
+    const dispatch = useDispatch()
+    const {id} = useParams()
+    console.log(id)
     const {getAccommodationFocus} = useSelector((state)=>state.accommodation)
+
+    const initFacilities = {
+        drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
+        shampoo: "https://cdn-icons-png.flaticon.com/512/1848/1848239.png",
+        bath: "https://cdn-icons-png.flaticon.com/512/857/857663.png",
+        warmWater: "https://cdn-icons-png.flaticon.com/512/5322/5322512.png"
+    }
+
+    const splitFacilities = getAccommodationFocus?.accommoInfo?.facilities?.split(",")
+    console.log(splitFacilities)
     // console.log(getAccommodationFocus)
     const location = useLocation()
-
+    
     const copyLink = async (text) => {
         try {
             await navigator.clipboard.writeText(text);
@@ -25,18 +41,23 @@ const DetailAccommodation = () => {
         }
     }
     
+    function priceToString(price) {
+        return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+    console.log(getAccommodationFocus)
+    
     
     useEffect(()=> {
-        console.log(location)
+         dispatch(__getAccommodation(id))
     },[location])
 
     return (
         <Ctn>
             <DetailCtn>
                 <DetailHeader>
-                    <Font22>{getAccommodationFocus.accName}</Font22>
+                    <Font22>{getAccommodationFocus?.accommoInfo?.accName}</Font22>
                     <DetailHeaderBox>
-                        <AccAddr>{getAccommodationFocus.accAddr}</AccAddr>
+                        <AccAddr>{getAccommodationFocus?.accommoInfo?.accAddr}</AccAddr>
                         <PickArea>
                             <PickBtn onClick={()=>copyLink(`http://localhost:3000${location.pathname}`)}>
                                 <FiShare />
@@ -53,7 +74,7 @@ const DetailAccommodation = () => {
                     <MainPic>
                         <ImgTagBox>
                             <ImgTag
-                                src={getAccommodationFocus.thumbnail}
+                                src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.thumbnail}
                             />
                         </ImgTagBox>
                     </MainPic>
@@ -61,24 +82,24 @@ const DetailAccommodation = () => {
                         <OtherPicBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus.accImg[0]}
+                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image1}
                                 />
                             </ImgTagBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus.accImg[1]}
+                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image2}
                                 />
                             </ImgTagBox>
                         </OtherPicBox>
                         <OtherPicBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus.accImg[2]}
+                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image3}
                                 />
                             </ImgTagBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus.accImg[3]}
+                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image4}
                                 />
                             </ImgTagBox>
                         </OtherPicBox>
@@ -96,15 +117,16 @@ const DetailAccommodation = () => {
                         <DatailBoxHeader>
                             <DatailBoxHeader2>
                                 <Font22>
-                                    {`${'홍길동'}님이 호스팅하는 펜션`}
+                                {getAccommodationFocus?.hostInfo?.name}님이 호스팅하는 펜션
                                 </Font22>
                                 <Font16>
-                                    최대 인원 {getAccommodationFocus.maxPerson}명 · 침대 {getAccommodationFocus.bed}개 · 욕실 {getAccommodationFocus.bathroom}개
+                                    최대 인원 {getAccommodationFocus?.accommoInfo?.maxPerson}명 · 방 {getAccommodationFocus?.accommoInfo?.room} · 침대 {getAccommodationFocus?.accommoInfo?.bed}개 · 욕실 {getAccommodationFocus?.accommoInfo?.bathroom}개
                                 </Font16>
                             </DatailBoxHeader2>
                             <DatailBoxHeader2>
                                 <ProfileImg
-                                    src="https://a0.muscache.com/im/pictures/user/e4ed279c-5567-4a8e-8876-9f746b53eb7a.jpg?im_w=240" alt="userProfilePic"
+                                    src={getAccommodationFocus?.hostInfo?.memberImg}
+                                    alt="userProfilePic"
                                 >
                                 </ProfileImg>
                             </DatailBoxHeader2>
@@ -145,10 +167,7 @@ const DetailAccommodation = () => {
                             flexDir='column'
                         >
                             <Font16>
-                                오션뷰 객실을 보유하고 있는 펜션입니다.<br/><br/>
-                                <strong>숙소</strong><br/>
-                                10 평, 바다전망<br/><br/>
-                                &#91;추가인원 관련안내&#93;...
+                                {getAccommodationFocus?.accommoInfo?.description}
                             </Font16>
                             <Font16
                                 fontWeight='600'
@@ -166,21 +185,57 @@ const DetailAccommodation = () => {
                                 숙소 편의시설
                             </Font22>
                             <FlexCol gap='16px'>
-                                <FlexRow gap='10px'>
-                                    <GiAtSea size={16}/>
-                                    <Font16>바다 전망</Font16>
-                                </FlexRow>
-                                <FlexRow gap='10px'>
-                                    <GiAtSea size={16}/>
-                                    <Font16>건물 내 무료 주차</Font16>
-                                </FlexRow>
-                                <FlexRow gap='10px'>
-                                    <GiAtSea size={16}/>
-                                    <Font16>TV</Font16>
-                                </FlexRow>
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('drier') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.drier}
+                                                alt="drier"
+                                            />
+                                            <Font16>드라이어</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('shampoo') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.shampoo}
+                                                alt="shampoo"
+                                            />
+                                            <Font16>샴푸</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('bath') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.bath}
+                                                alt="bath"
+                                            />
+                                            <Font16>욕조</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('warmWater') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.warmWater}
+                                                alt="warmWater"
+                                            />
+                                            <Font16>온수</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
                             </FlexCol>
                             <NormalBtn>
-                                편의시설 16개 모두 보기
+                                편의시설 {splitFacilities?.length}개 모두 보기
                             </NormalBtn>
                         </Padding48>
                         <Liner />
@@ -203,12 +258,12 @@ const DetailAccommodation = () => {
                         <StickyArea>
                             <StickyBox>
                                 <FlexRowLeftCenter>
-                                    <Font22>₩80,667 </Font22>
+                                    <Font22>₩ {priceToString(getAccommodationFocus?.accommoInfo?.price)} </Font22>
                                     <Font16>/박</Font16>
                                 </FlexRowLeftCenter>
                                 <FlexRow>
                                     <FaStar />
-                                    <span>{"4.8"} · </span>
+                                    <span>{getAccommodationFocus?.accommoInfo?.rating} · </span>
                                     <Font14Underline>
                                         후기 {"46"}개
                                     </Font14Underline>
@@ -226,14 +281,14 @@ const DetailAccommodation = () => {
                     <FlexRow gap="10px" width="50%">
                         <FlexRow><SlStar size={24} /></FlexRow>
                         <Font16LH24>
-                            이 호스트의 다른 숙소에 대한 후기가 1개 있습니다. <a style={{fontWeight:"600", textDecoration:"underline"}}>다른 숙소 후기 보기</a>
+                            이 호스트의 다른 숙소에 대한 후기가 1개 있습니다. <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>다른 숙소 후기 보기</a>
                         </Font16LH24>
                     </FlexRow>
                     <FlexRow gap="10px" width="50%">
                         <FlexRow><SlGlobe size={24} /></FlexRow>
                         
                         <Font16LH24>
-                            여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은 <a style={{fontWeight:"600", textDecoration:"underline"}}>에어비앤비의 게스트 환불 정책</a>에 따라 보호를 받습니다.
+                            여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은 <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>에어비앤비의 게스트 환불 정책</a>에 따라 보호를 받습니다.
                             다른 숙소 후기 보기
                         </Font16LH24>
                     </FlexRow>
@@ -448,6 +503,8 @@ const Font14Underline = styled.p`
 const ProfileImg = styled.img`
     display: block;
     width: 50px;
+    height: 50px;
+    object-fit: cover;
     border-radius: 50%;
 `
 const DetailBoxRight = styled.div`
@@ -506,6 +563,11 @@ const NormalBtn = styled.button`
     background-color: transparent;
     border-radius: 10px;
     cursor: pointer;
+`
+const FacImg = styled.img`
+    width: 16px;
+    height: 16px;
+    object-fit: cover;
 `
 
 export default DetailAccommodation
