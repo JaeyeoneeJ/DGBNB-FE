@@ -38,9 +38,6 @@ const loginSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [__postLogin.pending]: (state, action) => {
-      console.log(action.payload);
-    },
     [__postLogin.fulfilled]: (state, action) => {
       state.isLogin = true;
       state.userNickname = action.payload.nickname;

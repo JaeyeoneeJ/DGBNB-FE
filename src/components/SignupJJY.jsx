@@ -274,7 +274,7 @@ const SelectInput = styled.input`
     }
   }
 `;
-const SelectNotice = styled.p`
+const SelectNotice = styled.div`
   font-size: 12px;
   margin-bottom: 10px;
 `;
@@ -296,7 +296,7 @@ const Line = styled.hr`
   background-color: #ebebeb;
   border: none;
 `;
-const Or = styled.p`
+const Or = styled.span`
   min-width: 50px;
   color: #717171;
   font-size: 10px;

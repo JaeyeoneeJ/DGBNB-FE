@@ -25,18 +25,20 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
 
   const dispatch = useDispatch();
 
-  const onClickHandler = () => {
-    const fileItem = { memberImg: fileImage };
-    setOnShowSignup(false);
-    setSignupMode("FIRST");
-    dispatch(getItems(fileItem));
-  };
-
   const XButtonOnClick = () => {
     setOnShowSignup(false);
     setSignupMode("FIRST");
   };
-
+  ///클릭시
+  const globalSignupItems = useSelector(
+    (state) => state.signup.postSignupItems
+  );
+  const onClickHandler = () => {
+    const fileItem = { memberImg: fileImage };
+    setOnShowSignup(false);
+    setSignupMode("FIRST");
+    dispatch(__postSignup({ ...globalSignupItems, ...fileItem }));
+  };
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState("");

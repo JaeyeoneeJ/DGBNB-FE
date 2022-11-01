@@ -33,9 +33,9 @@ export const __postSignup = createAsyncThunk(
       formdata.append("phoneNum", payload.phoneNum);
       formdata.append("memberImg", payload.memberImg);
 
-      for (const key of formdata.entries()) {
-        console.log(key);
-      }
+      // for (const key of formdata.entries()) {
+      //   console.log(key);
+      // }
 
       const { data } = await axios.post(`${url}/members/signup`, formdata, {
         headers: {

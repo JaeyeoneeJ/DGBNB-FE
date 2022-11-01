@@ -10,22 +10,24 @@ const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const globalIsLogin = useSelector((state) => state.login.isLogin);
   const globalnickname = useSelector((state) => state.login.userNickname);
   const globalError = useSelector((state) => state.login);
-  console.log(globalError);
+  console.log(globalError.error.message);
 
   ///
   const emailRef = useRef();
   const passwordRef = useRef();
   const dispatch = useDispatch();
   const onClickHandler = () => {
-    const loginItems = {
-      memberEmail: emailRef.current.value,
-      password: passwordRef.current.value,
-    };
-    dispatch(__postLogin(loginItems));
-    if (globalError.message === "Rejected") {
-      alert("계정이 존재하지 않습니다.");
-    } else if (globalIsLogin === true) {
-      alert(`${globalnickname}님 환영합니다.`);
+    if (window.confirm("로그인 하시겠습니까?")) {
+      const loginItems = {
+        memberEmail: emailRef.current.value,
+        password: passwordRef.current.value,
+      };
+      dispatch(__postLogin(loginItems));
+      if (globalIsLogin === false) {
+        alert("유효하지 않은 로그인 정보입니다.");
+      } else if (globalIsLogin === true) {
+        alert(`${globalnickname}님 환영합니다`);
+      }
     }
   };
   //// 기존 코드

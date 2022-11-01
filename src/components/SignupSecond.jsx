@@ -27,7 +27,7 @@ const SignupSecond = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
     };
     setSignupMode("THIRD");
     dispatch(getItems(secondItems));
-    console.log(secondItems);
+    // console.log(secondItems);
   };
 
   //// 기존 코드

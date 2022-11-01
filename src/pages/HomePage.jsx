@@ -19,14 +19,6 @@ const HomePage = () => {
   /// 모드에 따라 렌더링 모달이 달라진다.
   const [signupMode, setSignupMode] = useState("FIRST");
 
-  const globalPostSignup = useSelector((state) => state.signup.postSignupItems);
-
-  useEffect(() => {
-    if (globalPostSignup.memberImg) {
-      dispatch(__postSignup(globalPostSignup));
-    }
-  }, [globalPostSignup]);
-
   let viewLogin = null;
   if (signupMode === "FIRST") {
     viewLogin = (
