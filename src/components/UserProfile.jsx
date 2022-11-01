@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getAccomodationList } from "../redux/modules/accommodationSlice";
+import { __getAccommodationList } from "../redux/modules/accommodationSlice";
 import { __getReservationList } from "../redux/modules/reservationSlice";
 
-const UserPofile = () => {
+const UserProfile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(__getAccomodationList());
+    dispatch(__getAccommodationList());
   }, [dispatch]);
 
   useEffect(() => {
@@ -25,13 +27,25 @@ const UserPofile = () => {
 
   console.log("예약 목록__", globalReservationList);
   console.log("숙소 목록__", globalAccommodationList);
+  ///oncCLick 함수
+
+  const onClickReservation = (accId) => {
+    navigate(`/mypage/myreservation/${accId}`);
+  };
+
+  const onClickAccommodation = (accId) => {
+    navigate(`/mypage/myhosting/${accId}`);
+  };
   return (
     <>
       <WholeBox>
         <ReservationSection>
           {globalReservationList.map((item) => {
             return (
-              <ReservationBox>
+              <ReservationBox
+                key={item.resId}
+                onClick={() => onClickReservation(item.accId)}
+              >
                 <div>
                   <label>등록일</label>
                   {item.createdAt}
@@ -51,7 +65,10 @@ const UserPofile = () => {
         <AccommodationSection>
           {globalAccommodationList.map((item) => {
             return (
-              <AccommodationBox>
+              <AccommodationBox
+                key={item.accId}
+                onClick={() => onClickAccommodation(item.accId)}
+              >
                 <div>
                   <label>숙소 이름</label>
                   {item.accName}
@@ -77,27 +94,29 @@ const UserPofile = () => {
   );
 };
 
-export default UserPofile;
+export default UserProfile;
 
 const WholeBox = styled.div`
   display: flex;
   flex-direction: column;
   margin: 20px;
 `;
-const ReservationBox = styled.div`
+const ReservationBox = styled.button`
   width: 200px;
   height: 200px;
   border: 1px solid gray;
   border-radius: 20px;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
-const AccommodationBox = styled.div`
+const AccommodationBox = styled.button`
   width: 200px;
   height: 200px;
   border: 1px solid gray;
   border-radius: 20px;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const ReservationSection = styled.div`
