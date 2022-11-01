@@ -4,6 +4,7 @@ import Layout from "../components/Layout.jsx";
 import Home from "../components/Home";
 import NavBar from "../components/NavBar";
 import SignupJJY from "../components/SignupJJY";
+import Login from "../components/Login";
 import SignupSecond from "../components/SignupSecond";
 import SignupThird from "../components/SignupThird";
 import SignupForth from "../components/SignupForth";
@@ -14,6 +15,7 @@ import { __postSignup } from "../redux/modules/signupSlice";
 
 const HomePage = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
+  const [onShowLogin, setOnShowLogin] = useState(false);
   const dispatch = useDispatch();
 
   /// 모드에 따라 렌더링 모달이 달라진다.
@@ -65,7 +67,15 @@ const HomePage = () => {
   return (
     <>
       {onShowSignup && viewLogin}
-      <Header onShowSignup={onShowSignup} setOnShowSignup={setOnShowSignup} />
+      {onShowLogin &&
+        <Login
+          onShowLogin={onShowLogin}
+          setOnShowLogin={setOnShowLogin}
+      />}
+      <Header
+        onShowSignup={onShowSignup} setOnShowSignup={setOnShowSignup}
+        onShowLogin={onShowLogin} setOnShowLogin={setOnShowLogin}
+        />
       <NavBar />
 
       <Layout>

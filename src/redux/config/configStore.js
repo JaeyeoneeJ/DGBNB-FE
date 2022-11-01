@@ -3,7 +3,7 @@ import login from "../modules/loginSlice";
 import signup from "../modules/signupSlice";
 import members from "../modules/membersSlice";
 import reservation from "../modules/reservationSlice";
-import accomodation from "../modules/accomodationSlice";
+import accommodation from "../modules/accommodationSlice";
 import reviews from "../modules/reviewsSlice";
 import likes from "../modules/likedAccomodationSlice";
 
@@ -13,7 +13,7 @@ const store = configureStore({
     signup: signup,
     members: members,
     reservation: reservation,
-    accomodation: accomodation,
+    accommodation: accommodation,
     reviews: reviews,
     likes: likes,
   },

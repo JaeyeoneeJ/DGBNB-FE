@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import NavBar from "./NavBar";
 import { BiSearch } from "react-icons/bi";
@@ -9,60 +9,88 @@ import LogoTextItem from "./elements/LogoTextItem";
 import EarthItem from "./elements/EarthItem";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ onShowSignup, setOnShowSignup }) => {
-  const navigate = useNavigate();
-  return (
-    <Ctn>
-      <HeaderCtn>
-        <Box>
-          <Logo1150Up>
-            <LogoTextItem />
-          </Logo1150Up>
-          <Logo1150Down>
-            <LogoItem />
-          </Logo1150Down>
-        </Box>
-        <SearchBar>
-          <SearchBarLeft>
-            <Icon border="none">
-              <BiSearch size={20} />
-            </Icon>
-            <SearchBox>
-              <SearchTitle>어디로 여행가세요?</SearchTitle>
-              <SearchContent>
-                어디든지 • 언제든 일주일 • 게스트 추가
-              </SearchContent>
-            </SearchBox>
-          </SearchBarLeft>
-          <Icon border="1px solid #ebebeb">
-            <FilterItem />
-          </Icon>
-        </SearchBar>
-        <BoxRight>
-          <HoverBtn
-            onClick={() => {
-              navigate("/accomodation");
-            }}
-          >
-            호스트 되기
-          </HoverBtn>
-          <HoverBtn>
-            <EarthItem />
-          </HoverBtn>
-          <Profile onClick={() => setOnShowSignup(true)}>
-            <MenuItem>
-              <GiHamburgerMenu size={16} />
-            </MenuItem>
-            <UserImg
-              src="https://a0.muscache.com/im/pictures/user/97a6a4be-a817-410e-a1d3-211781706179.jpg?aki_policy=profile_medium"
-              alt="userProfile"
-            />
-            <Alarm>1</Alarm>
-          </Profile>
-        </BoxRight>
-      </HeaderCtn>
-    </Ctn>
-  );
+const Header = ({
+	onShowSignup, setOnShowSignup,
+	onShowLogin, setOnShowLogin
+}) => {
+	const navigate = useNavigate();
+	const [isShowHamburgerMenu, setIsShowHamburgerMenu] = useState(false)
+	console.log(isShowHamburgerMenu)
+
+	return (
+		<Ctn>
+			<HeaderCtn>
+				<Box>
+					<Logo1150Up>
+						<LogoTextItem />
+					</Logo1150Up>
+					<Logo1150Down>
+						<LogoItem />
+					</Logo1150Down>
+				</Box>
+				<SearchBar>
+					<SearchBarLeft>
+						<Icon border="none">
+							<BiSearch size={20} />
+						</Icon>
+						<SearchBox>
+							<SearchTitle>어디로 여행가세요?</SearchTitle>
+							<SearchContent>
+								어디든지 • 언제든 일주일 • 게스트 추가
+							</SearchContent>
+						</SearchBox>
+					</SearchBarLeft>
+					<Icon border="1px solid #ebebeb">
+						<FilterItem />
+					</Icon>
+				</SearchBar>
+				
+				{/* 로그인이 되었을 경우 */}
+				<BoxRight>
+					<HoverBtn
+						onClick={() => {
+							navigate("/accomodation");
+						}}
+					>
+						호스트 되기
+					</HoverBtn>
+					<HoverBtn>
+						<EarthItem />
+					</HoverBtn>
+					{/* <Profile onClick={() => setOnShowSignup(true)}> */}
+					<Profile onClick={() => setIsShowHamburgerMenu(!isShowHamburgerMenu)}>
+						{isShowHamburgerMenu && <HamburgerMenu>
+							<MenuBox
+								onClick={() => {
+									setIsShowHamburgerMenu(false)
+									setOnShowLogin(true)
+								}}
+							><strong>로그인</strong></MenuBox>
+							<MenuBox
+								onClick={() => {
+									setIsShowHamburgerMenu(false)
+									setOnShowSignup(true)
+								}}
+							>회원가입</MenuBox>
+							<MenuLine />
+							<MenuBox>숙소 호스트 되기</MenuBox>
+							<MenuBox>체험 호스팅 하기</MenuBox>
+							<MenuBox>도움말</MenuBox>
+						</HamburgerMenu>}
+						
+						<MenuItem>
+							<GiHamburgerMenu size={16} />
+						</MenuItem>
+						<UserImg
+							src="https://a0.muscache.com/im/pictures/user/97a6a4be-a817-410e-a1d3-211781706179.jpg?aki_policy=profile_medium"
+							alt="userProfile"
+						/>
+						<Alarm>1</Alarm>
+					</Profile>
+				</BoxRight>
+			</HeaderCtn>
+		</Ctn>
+	);
 };
 
 const Ctn = styled.div`
@@ -208,4 +236,28 @@ const Alarm = styled.div`
   width: 17px;
   height: 17px;
 `;
+const HamburgerMenu = styled.div`
+	position: absolute;
+	top: 50px;
+	padding: 8px 0;
+	right: 0;
+	border: none;
+	border-radius: 8px;
+	background-color: white;
+  	width: 200px;
+	box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
+`
+const MenuLine = styled.div`
+	width: 100%;
+	height: 1px;
+  	background-color: #ebebeb;
+	margin: 8px 0;
+`
+const MenuBox = styled.div`
+	padding: 12px;
+	&:hover {
+		background-color: #ebebeb;
+	}
+`
+
 export default Header;

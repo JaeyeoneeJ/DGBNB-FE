@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import styled from 'styled-components'
 
 const NavBar = () => {
   const [isFixed, setIsFixed] = useState(false)
   const handleShowButton = () => {
-    if (window.scrollY > 10) {
+    if (window.scrollY > 5) {
       setIsFixed(true)
     } else {
       setIsFixed(false)
     }
   }
   
-  useState(()=> {
+  useEffect(()=> {
     handleShowButton()
     window.addEventListener("scroll", handleShowButton)
         return () => {
