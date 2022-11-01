@@ -15,20 +15,19 @@ const Header = ({
 }) => {
 	const navigate = useNavigate();
 	const [isShowHamburgerMenu, setIsShowHamburgerMenu] = useState(false)
-	console.log(isShowHamburgerMenu)
 
 	return (
 		<Ctn>
 			<HeaderCtn>
 				<Box>
-					<Logo1150Up>
+					<Logo1150Up onClick={()=>navigate('/')}>
 						<LogoTextItem />
 					</Logo1150Up>
-					<Logo1150Down>
+					<Logo1150Down onClick={()=>navigate('/')}>
 						<LogoItem />
 					</Logo1150Down>
 				</Box>
-				<SearchBar>
+				<SearchBar onClick={()=>alert('"필터" 기능은 구현되지 않은 기능입니다.')}>
 					<SearchBarLeft>
 						<Icon border="none">
 							<BiSearch size={20} />
@@ -54,7 +53,7 @@ const Header = ({
 					>
 						호스트 되기
 					</HoverBtn>
-					<HoverBtn>
+					<HoverBtn onClick={()=>alert('"언어 선택" 기능은 구현되지 않은 기능입니다.')}>
 						<EarthItem />
 					</HoverBtn>
 					{/* <Profile onClick={() => setOnShowSignup(true)}> */}
@@ -128,12 +127,14 @@ const Box = styled.div`
 `;
 const Logo1150Up = styled.div`
   display: flex;
+  cursor: pointer;
   @media screen and (max-width: 1150px) {
     display: none;
   }
 `;
 const Logo1150Down = styled.div`
   display: none;
+  cursor: pointer;
   @media screen and (max-width: 1150px) {
     display: flex;
   }
@@ -190,6 +191,7 @@ const HoverBtn = styled.button`
   border: none;
   background-color: white;
   border-radius: 50px;
+  cursor: pointer;
   &:hover {
     background-color: #ebebeb;
   }

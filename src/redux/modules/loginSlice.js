@@ -37,17 +37,22 @@ export const __postLogin = createAsyncThunk(
 const loginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    resetIsLogin: (state) => {
+      state.isLogin = false;
+    }
+  },
   extraReducers: {
     [__postLogin.fulfilled]: (state, action) => {
       state.isLogin = true;
       state.userNickname = action.payload.nickname;
     },
     [__postLogin.rejected]: (state, action) => {
-      state.isLogin = false;
       state.error = action.error;
+      alert("유효하지 않은 로그인 정보입니다.");
     },
   },
 });
 
+export const { resetIsLogin } = loginSlice.actions;
 export default loginSlice.reducer;

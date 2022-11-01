@@ -10,7 +10,7 @@ const initialState = {
       maxPerson: 10,
       bed: 3,
       room: 3,
-      toilet: 2,
+      bathroom: 2,
       category: 1,
       thumbnail: "/images/acc1.png",
     },
@@ -21,7 +21,7 @@ const initialState = {
       maxPerson: 10,
       bed: 3,
       room: 3,
-      toilet: 2,
+      bathroom: 2,
       category: 1,
       thumbnail: "/images/acc2.png",
     },
@@ -32,7 +32,7 @@ const initialState = {
       maxPerson: 10,
       bed: 3,
       room: 3,
-      toilet: 2,
+      bathroom: 2,
       category: 1,
       thumbnail: "/images/acc3.png",
     },
@@ -43,7 +43,7 @@ const initialState = {
       maxPerson: 10,
       bed: 3,
       room: 3,
-      toilet: 2,
+      bathroom: 2,
       category: 1,
       thumbnail: "/images/acc4.png",
     },
@@ -54,7 +54,7 @@ const initialState = {
       maxPerson: 10,
       bed: 3,
       room: 3,
-      toilet: 2,
+      bathroom: 2,
       category: 1,
       thumbnail: "/images/acc5.png",
     },
@@ -65,7 +65,7 @@ const initialState = {
       maxPerson: 10,
       bed: 3,
       room: 3,
-      toilet: 2,
+      bathroom: 2,
       category: 1,
       thumbnail: "/images/acc6.png",
     },
@@ -76,7 +76,7 @@ const initialState = {
       maxPerson: 10,
       bed: 3,
       room: 3,
-      toilet: 2,
+      bathroom: 2,
       category: 1,
       thumbnail: "/images/acc7.png",
     },
@@ -87,7 +87,7 @@ const initialState = {
     maxPerson: 10,
     bed: 3,
     room: 3,
-    toilet: 2,
+    bathroom: 2,
     category: 1,
     thumbnail: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-684571394601112089/original/888156a5-b3ed-4d01-ba11-dfbaf97c316b.jpeg?im_w=960",
     accImg: [
@@ -108,23 +108,29 @@ export const __postAccommodations = createAsyncThunk(
       accName: payload.accName,
       accAddr: payload.accAddr,
       price: payload.price,
-      facilities: payload.facilities,
+      // facilities: payload.facilities,
       maxPerson: payload.maxPerson,
       bed: payload.bed,
       room: payload.room,
-      toilet: payload.toilet,
+      bathroom: payload.bathroom,
       accImg: payload.accImg,
       description: payload.description, // array,
     };
     const jsonAccommodation = JSON.stringify(accommodationItem);
     // const formData = new FormData();
     // formData.append(accommodationItem);
+    
     try {
+      const token = localStorage.getItem('token')
+      console.log(jsonAccommodation)
+      // console.log(data)
       const { data } = await axios.post(
         `${url}/accommodations`,
         jsonAccommodation,
-        { headers: { "Content-Type": `application/json` } }
+        { headers: { "Content-Type": `application/json`, Authorization: token } }
       );
+      
+      
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -158,7 +164,7 @@ export const __putAccommodation = createAsyncThunk(
       maxPerson: payload.maxPerson,
       bed: payload.bed,
       room: payload.room,
-      toilet: payload.toilet,
+      bathroom: payload.bathroom,
       category: payload.category,
       thumbnail: payload.thumbnail,
       accImg: payload.accImg, // imageList,

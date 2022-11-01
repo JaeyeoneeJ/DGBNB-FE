@@ -1,24 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { FiShare, FiHeart } from "react-icons/fi";
 import { TbGridDots } from "react-icons/tb";
 import { FaStar } from "react-icons/fa";
-import { HiOutlineKey } from "react-icons/hi";
 import { CiParking1 } from "react-icons/ci";
 import { GiAtSea } from "react-icons/gi";
 import { MdFlag } from "react-icons/md";
 import { SlStar, SlGlobe } from "react-icons/sl";
 
-
 const DetailAccommodation = () => {
     const {getAccommodationFocus} = useSelector((state)=>state.accommodation)
-    console.log(getAccommodationFocus)
+    // console.log(getAccommodationFocus)
+    const copyLickRef = useRef()
 
-    
     return (
         <Ctn>
-            <HeaderComponent></HeaderComponent>
             <DetailCtn>
                 <DetailHeader>
                     <Font22>{getAccommodationFocus.accName}</Font22>
@@ -256,9 +253,8 @@ const FlexCol = styled.div`
 const Ctn = styled.div`
     max-width: 1200px;
     width: 100%;
-    margin: 0 auto;
+    margin: 100px auto 0 auto;
 `
-const HeaderComponent = styled.div``
 const DetailCtn = styled.div`
     display: flex;
     flex-direction: column;
@@ -448,7 +444,7 @@ const DetailBoxRight = styled.div`
 `
 const StickyArea = styled.div`
     position: sticky;
-    top: 80px;
+    top: 120px;
     right: 0;
 `
 const StickyBox = styled.div`
