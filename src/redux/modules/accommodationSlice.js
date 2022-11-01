@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import { instance } from "../instance";
 
 const initialState = {
   getAccommodationList: [
@@ -13,72 +14,6 @@ const initialState = {
       bathroom: 2,
       category: 1,
       thumbnail: "/images/acc1.png",
-    },
-    {
-      accId: 2,
-      accName: "숙소 이름2",
-      accAddr: "숙소 주소2",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      bathroom: 2,
-      category: 1,
-      thumbnail: "/images/acc2.png",
-    },
-    {
-      accId: 3,
-      accName: "숙소 이름3",
-      accAddr: "숙소 주소3",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      bathroom: 2,
-      category: 1,
-      thumbnail: "/images/acc3.png",
-    },
-    {
-      accId: 4,
-      accName: "숙소 이름4",
-      accAddr: "숙소 주소4",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      bathroom: 2,
-      category: 1,
-      thumbnail: "/images/acc4.png",
-    },
-    {
-      accId: 5,
-      accName: "숙소 이름5",
-      accAddr: "숙소 주소5",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      bathroom: 2,
-      category: 1,
-      thumbnail: "/images/acc5.png",
-    },
-    {
-      accId: 6,
-      accName: "숙소 이름6",
-      accAddr: "숙소 주소6",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      bathroom: 2,
-      category: 1,
-      thumbnail: "/images/acc6.png",
-    },
-    {
-      accId: 7,
-      accName: "숙소 이름7",
-      accAddr: "숙소 주소7",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      bathroom: 2,
-      category: 1,
-      thumbnail: "/images/acc7.png",
     },
   ],
   getAccommodationFocus: {
@@ -104,30 +39,50 @@ const url = "http://13.209.21.117:3000";
 export const __postAccommodations = createAsyncThunk(
   "accommodation/postAccommodations",
   async (payload, thunkAPI) => {
-    const accommodationItem = {
-      accName: payload.accName,
-      accAddr: payload.accAddr,
-      price: payload.price,
-      // facilities: payload.facilities,
-      maxPerson: payload.maxPerson,
-      bed: payload.bed,
-      room: payload.room,
-      bathroom: payload.bathroom,
-      accImg: payload.accImg,
-      description: payload.description, // array,
-    };
-    const jsonAccommodation = JSON.stringify(accommodationItem);
-    // const formData = new FormData();
-    // formData.append(accommodationItem);
+    // const accommodationItem = {
+    //   accName: payload.accName,
+    //   accAddr: payload.accAddr,
+    //   price: payload.price,
+    //   facilities: payload.facilities,
+    //   maxPerson: payload.maxPerson,
+    //   bed: payload.bed,
+    //   room: payload.room,
+    //   bathroom: payload.bathroom,
+    //   accImg: payload.accImg,
+    //   description: payload.description, // array,
+    // };
+
+    const formdata = new FormData()
+    formdata.append('accName', payload.accName,)
+    formdata.append('accAddr', payload.accAddr,)
+    formdata.append('price', payload.price,)
+    formdata.append('facilities', payload.facilities,)
+    formdata.append('maxPerson', payload.maxPerson,)
+    formdata.append('bed', payload.bed,)
+    formdata.append('room', payload.room,)
+    formdata.append('bathroom', payload.bathroom,)
+    formdata.append('accImg', payload.accImg,)
+    formdata.append('description', payload.description,)
+
+		const entriesImg = Object.entries(payload.accImg)
+		console.log(entriesImg)
+		const entriesValue = entriesImg.map(item=>{
+			return item[1];
+		})
+
+		entriesValue.forEach((accImg)=>formdata.append('accImg', accImg))
+
+    // for (const key of formdata.entries()) {
+		// 	console.log(key);
+		// }
     
     try {
       const token = localStorage.getItem('token')
-      console.log(jsonAccommodation)
-      // console.log(data)
+      
       const { data } = await axios.post(
         `${url}/accommodations`,
-        jsonAccommodation,
-        { headers: { "Content-Type": `application/json`, Authorization: token } }
+        formdata,  
+        { headers: { "Content-Type": 'multipart/form-data', Authorization: token } }
       );
       
       
@@ -142,10 +97,11 @@ export const __getAccommodationList = createAsyncThunk(
   "accommodation/getAccommodationList",
   async (payload, thunkAPI) => {
     try {
-      const token = localStorage.getItem("token");
-      const data = await axios.get(`${url}/accommodations`);
-      console.log("숙소 데이터__", data.data.data);
-      return thunkAPI.fulfillWithValue(data.data.data);
+      // const token = localStorage.getItem("token");
+      const data = await instance.get(`/accommodations`);
+      console.log(data)
+      console.log("숙소 데이터__", data.data);
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
