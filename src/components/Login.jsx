@@ -3,14 +3,13 @@ import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { getItems } from "../redux/modules/signupSlice";
-import { __postLogin } from "../redux/modules/loginSlice";
+import { resetIsLogin, __postLogin } from "../redux/modules/loginSlice";
 
-const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
+const Login = ({ onShowLogin, setOnShowLogin }) => {
   const globalIsLogin = useSelector((state) => state.login.isLogin);
   const globalnickname = useSelector((state) => state.login.userNickname);
   const globalError = useSelector((state) => state.login);
-  console.log(globalError.error.message);
+  // console.log(globalError.error.message);
 
   ///
   const emailRef = useRef();
@@ -23,11 +22,6 @@ const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
         password: passwordRef.current.value,
       };
       dispatch(__postLogin(loginItems));
-      if (globalIsLogin === false) {
-        alert("유효하지 않은 로그인 정보입니다.");
-      } else if (globalIsLogin === true) {
-        alert(`${globalnickname}님 환영합니다`);
-      }
     }
   };
   //// 기존 코드
@@ -44,12 +38,20 @@ const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
 
   const modalRef = useRef(null);
 
+  useEffect(()=> {
+    if (globalIsLogin === true) {
+      alert(`${globalnickname}님 환영합니다`);
+      dispatch(resetIsLogin())
+      return window.location.replace('/')
+    }
+  }, [globalIsLogin])
+
   useEffect(() => {
     // 이벤트 핸들러 함수
     const handler = (event) => {
       // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setOnShowSignup(false);
+        setOnShowLogin(false);
       }
     };
 
@@ -68,7 +70,7 @@ const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
     <BGBlack>
       <Ctn ref={modalRef}>
         <LoginCtn>
-          <CloseBtn onClick={() => setOnShowSignup(false)}>
+          <CloseBtn onClick={() => setOnShowLogin(false)}>
             <GrClose size={16} />
           </CloseBtn>
           <LoginHeader>로그인</LoginHeader>
