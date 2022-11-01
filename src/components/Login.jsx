@@ -2,16 +2,33 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getItems } from "../redux/modules/signupSlice";
+import { __postLogin } from "../redux/modules/loginSlice";
 
-const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
+const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
+  const globalIsLogin = useSelector((state) => state.login.isLogin);
+  const globalnickname = useSelector((state) => state.login.userNickname);
+  const globalError = useSelector((state) => state.login);
+  console.log(globalError.error.message);
+
+  ///
   const emailRef = useRef();
+  const passwordRef = useRef();
   const dispatch = useDispatch();
   const onClickHandler = () => {
-    const firstItem = { memberEmail: emailRef.current.value };
-    setSignupMode("SECOND");
-    dispatch(getItems(firstItem));
+    if (window.confirm("로그인 하시겠습니까?")) {
+      const loginItems = {
+        memberEmail: emailRef.current.value,
+        password: passwordRef.current.value,
+      };
+      dispatch(__postLogin(loginItems));
+      if (globalIsLogin === false) {
+        alert("유효하지 않은 로그인 정보입니다.");
+      } else if (globalIsLogin === true) {
+        alert(`${globalnickname}님 환영합니다`);
+      }
+    }
   };
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);
@@ -54,7 +71,7 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
           <CloseBtn onClick={() => setOnShowSignup(false)}>
             <GrClose size={16} />
           </CloseBtn>
-          <LoginHeader>회원 가입</LoginHeader>
+          <LoginHeader>로그인</LoginHeader>
           <LoginBody>
             <LoginContent>
               <WelcomeText>당근비앤비에 오신 것을 환영합니다.</WelcomeText>
@@ -67,13 +84,31 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 </SelectText>
                 <SelectInput
                   type="email"
-                  value={value}
+                  ref={emailRef}
+                  //   value={value}
                   onChange={(e) => handleTextChange(e.target.value)}
                   placeholder="xxx@xxxxx.com"
-                  ref={emailRef}
                   required
                 />
               </SelectArea>
+
+              <SelectArea>
+                <SelectText
+                  className={isActive ? "Active" : ""}
+                  htmlFor="email"
+                >
+                  비밀번호
+                </SelectText>
+                <SelectInput
+                  type="password"
+                  ref={passwordRef}
+                  //   value={value}
+                  onChange={(e) => handleTextChange(e.target.value)}
+                  placeholder=""
+                  required
+                />
+              </SelectArea>
+
               <SelectNotice>
                 <span>
                   전화나 문자로 전화번호를 확인하겠습니다. 일반 문자 메시지 요금
@@ -91,7 +126,7 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 width="100%"
                 padding="14px"
               >
-                계속
+                로그인
               </Button>
             </LoginContent>
             <OrLine>
@@ -274,7 +309,7 @@ const SelectInput = styled.input`
     }
   }
 `;
-const SelectNotice = styled.div`
+const SelectNotice = styled.p`
   font-size: 12px;
   margin-bottom: 10px;
 `;
@@ -296,7 +331,7 @@ const Line = styled.hr`
   background-color: #ebebeb;
   border: none;
 `;
-const Or = styled.span`
+const Or = styled.p`
   min-width: 50px;
   color: #717171;
   font-size: 10px;
@@ -324,4 +359,4 @@ const FooterText = styled.span`
   font-weight: 600;
 `;
 
-export default SignupJJY;
+export default Login;

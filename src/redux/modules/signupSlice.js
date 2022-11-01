@@ -5,7 +5,7 @@ const initialState = {
   postSignupItems: {},
 };
 
-const url = "";
+const url = "http://13.209.21.117:3000";
 
 export const __postSignup = createAsyncThunk(
   "signup/postSignup",
@@ -16,22 +16,32 @@ export const __postSignup = createAsyncThunk(
         password: payload.password,
         nickname: payload.nickname,
         name: payload.name,
-        gender: payload.gender,
         phoneNum: payload.phoneNum,
         memberImg: payload.memberImg,
       };
 
-      const jsonSignupItems = JSON.stringify(signupItems);
+      console.log(signupItems);
 
-      const { data } = await axios.post(
-        `${url}/members/signup`,
-        jsonSignupItems,
-        {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        }
-      );
+      // const jsonSignupItems = JSON.stringify(signupItems);
+      // console.log(jsonSignupItems);
+
+      const formdata = new FormData();
+      formdata.append("memberEmail", payload.memberEmail);
+      formdata.append("password", payload.password);
+      formdata.append("nickname", payload.nickname);
+      formdata.append("name", payload.name);
+      formdata.append("phoneNum", payload.phoneNum);
+      formdata.append("memberImg", payload.memberImg);
+
+      // for (const key of formdata.entries()) {
+      //   console.log(key);
+      // }
+
+      const { data } = await axios.post(`${url}/members/signup`, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data; charset=UTF-8",
+        },
+      });
 
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {

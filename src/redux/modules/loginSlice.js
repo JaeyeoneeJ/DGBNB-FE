@@ -2,37 +2,31 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  userEmail: "user@email.com",
-  password: "password123",
+  userInfo: { memberEmail: "user@email.com", password: "password123" },
+  isLogin: false,
+  userNickname: "",
+  error: "",
 };
 
-const url = "";
+const url = "http://13.209.21.117:3000";
 
 export const __postLogin = createAsyncThunk(
   "posts/postLogin",
   async (payload, thunkAPI) => {
     const loginItems = {
-      userEmail: payload.userEmail,
+      memberEmail: payload.memberEmail,
       password: payload.password,
     };
-
-    const jsonLoginItems = JSON.stringify(loginItems);
-
     try {
-      const { data } = await axios.post(
-        `${url}/members/login`,
-        jsonLoginItems,
-        {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        }
-      );
-      const { token } = await data;
+      const { data } = await axios.post(`${url}/members/login`, loginItems, {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+      });
+      const token = data.loginData.token;
       const localSet = window.localStorage;
       localSet.setItem("token", token);
-
-      return thunkAPI.fulfillWithValue(data.data);
+      return thunkAPI.fulfillWithValue(data.loginData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -44,14 +38,13 @@ const loginSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [__postLogin.pending]: (state, action) => {
-      console.log(action.payload);
-    },
     [__postLogin.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      state.isLogin = true;
+      state.userNickname = action.payload.nickname;
     },
     [__postLogin.rejected]: (state, action) => {
-      console.log(action.payload);
+      state.isLogin = false;
+      state.error = action.error;
     },
   },
 });
