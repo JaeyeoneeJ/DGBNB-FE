@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  getLikedAccomodationList: [
+  getLikedAccommodationList: [
     {
       accId: 1,
       accAddr: "서울시 마포구...",
@@ -40,8 +40,8 @@ const initialState = {
 
 const url = "";
 
-export const __getLikedAccomodationList = createAsyncThunk(
-  "likes/getLikedAccomodationList",
+export const __getLikedAccommodationList = createAsyncThunk(
+  "likes/getLikedAccommodationList",
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.get(`${url}/likes/${payload.userId}`, {
@@ -56,8 +56,8 @@ export const __getLikedAccomodationList = createAsyncThunk(
   }
 );
 
-export const __putLikedAccomodation = createAsyncThunk(
-  "likes/putLikedAccomodationList",
+export const __putLikedAccommodation = createAsyncThunk(
+  "likes/putLikedAccommodationList",
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.put(`${url}/likes/${payload.accId}`, {
@@ -77,23 +77,23 @@ const loginSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [__getLikedAccomodationList.pending]: (state, action) => {
+    [__getLikedAccommodationList.pending]: (state, action) => {
       console.log(action.payload);
     },
-    [__getLikedAccomodationList.fulfilled]: (state, action) => {
+    [__getLikedAccommodationList.fulfilled]: (state, action) => {
       console.log(action.payload);
     },
-    [__getLikedAccomodationList.rejected]: (state, action) => {
+    [__getLikedAccommodationList.rejected]: (state, action) => {
       console.log(action.payload);
     },
     ///
-    [__putLikedAccomodation.pending]: (state, action) => {
+    [__putLikedAccommodation.pending]: (state, action) => {
       console.log(action.payload);
     },
-    [__putLikedAccomodation.fulfilled]: (state, action) => {
+    [__putLikedAccommodation.fulfilled]: (state, action) => {
       console.log(action.payload);
     },
-    [__putLikedAccomodation.rejected]: (state, action) => {
+    [__putLikedAccommodation.rejected]: (state, action) => {
       console.log(action.payload);
     },
   },

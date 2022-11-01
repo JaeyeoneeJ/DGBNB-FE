@@ -42,20 +42,18 @@ const initialState = {
   ],
 };
 
-const url = "";
+const url = "http://13.209.21.117:3000";
 
 export const __getReservationList = createAsyncThunk(
   "reservation/getReservationList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(
-        `${url}/reservations/${payload.userId}`,
-        {
-          params: {
-            userId: payload.userId,
-          },
-        }
-      );
+      const data = await axios.get(`${url}/${payload.memberId}`, {
+        params: {
+          memberId: payload.memberId,
+        },
+      });
+      console.log("예약 데이터ㅡ", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -67,11 +65,14 @@ export const __getReservation = createAsyncThunk(
   "reservation/getReservation",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${url}/reservations/${payload.accId}`, {
-        params: {
-          accId: payload.accId,
-        },
-      });
+      const { data } = await axios.get(
+        `${url}/reservations/${payload.memberId}`,
+        {
+          params: {
+            accId: payload.accId,
+          },
+        }
+      );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -149,13 +150,13 @@ const reservationSlice = createSlice({
   extraReducers: {
     /// get
     [__getReservationList.pending]: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
     },
     [__getReservationList.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      state.getReservationList = action.payload;
     },
     [__getReservationList.rejected]: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
     },
     ///focus get
     [__getReservation.pending]: (state, action) => {

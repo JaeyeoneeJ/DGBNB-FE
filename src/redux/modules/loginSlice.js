@@ -23,6 +23,7 @@ export const __postLogin = createAsyncThunk(
           "Content-Type": `application/json`,
         },
       });
+      console.log("로그인 데이터", data);
       const token = data.loginData.token;
       const localSet = window.localStorage;
       localSet.setItem("token", token);

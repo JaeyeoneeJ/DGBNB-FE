@@ -99,7 +99,7 @@ const initialState = {
   },
 };
 
-const url = "";
+const url = "http://13.209.21.117:3000";
 
 export const __postAccommodations = createAsyncThunk(
   "accommodation/postAccommodations",
@@ -113,15 +113,18 @@ export const __postAccommodations = createAsyncThunk(
       bed: payload.bed,
       room: payload.room,
       toilet: payload.toilet,
-      category: payload.category,
-      accImg: payload.accImg, // array,
+      accImg: payload.accImg,
+      description: payload.description, // array,
     };
-
-    const formData = new FormData();
-    formData.append(accommodationItem);
-
+    const jsonAccommodation = JSON.stringify(accommodationItem);
+    // const formData = new FormData();
+    // formData.append(accommodationItem);
     try {
-      const { data } = await axios.post(`${url}/accommodations`, formData);
+      const { data } = await axios.post(
+        `${url}/accommodations`,
+        jsonAccommodation,
+        { headers: { "Content-Type": `application/json` } }
+      );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -129,20 +132,14 @@ export const __postAccommodations = createAsyncThunk(
   }
 );
 
-export const __getaccommodationList = createAsyncThunk(
+export const __getAccommodationList = createAsyncThunk(
   "accommodation/getAccommodationList",
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.get(
-        `${url}/accommodations/${payload.accId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return thunkAPI.fulfillWithValue(data.data);
+      const data = await axios.get(`${url}/accommodations`);
+      console.log("숙소 데이터__", data.data.data);
+      return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
@@ -150,7 +147,7 @@ export const __getaccommodationList = createAsyncThunk(
   }
 );
 
-export const __putaccommodation = createAsyncThunk(
+export const __putAccommodation = createAsyncThunk(
   "accommodation/putAccommodation",
   async (payload, thunkAPI) => {
     const accommodationItems = {
@@ -188,8 +185,8 @@ export const __putaccommodation = createAsyncThunk(
   }
 );
 
-export const __deleteaccommodation = createAsyncThunk(
-  "accommodation/deleteaccommodation",
+export const __deleteAccommodation = createAsyncThunk(
+  "accommodation/deleteAccommodation",
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.delete(
@@ -215,43 +212,43 @@ const accommodationSlice = createSlice({
   extraReducers: {
     // post
     [__postAccommodations.pending]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__postAccommodations.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     [__postAccommodations.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.log();
     },
     /// get
-    [__getaccommodationList.pending]: (state, action) => {
-      console.log(action.payload);
+    [__getAccommodationList.pending]: (state, action) => {
+      console.log();
     },
-    [__getaccommodationList.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [__getAccommodationList.fulfilled]: (state, action) => {
+      state.getAccommodationList = action.payload;
     },
-    [__getaccommodationList.rejected]: (state, action) => {
-      console.log(action.payload);
+    [__getAccommodationList.rejected]: (state, action) => {
+      console.log();
     },
     /// put
-    [__putaccommodation.pending]: (state, action) => {
-      console.log(action.payload);
+    [__putAccommodation.pending]: (state, action) => {
+      console.log();
     },
-    [__putaccommodation.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [__putAccommodation.fulfilled]: (state, action) => {
+      console.log();
     },
-    [__putaccommodation.rejected]: (state, action) => {
-      console.log(action.payload);
+    [__putAccommodation.rejected]: (state, action) => {
+      console.log();
     },
     /// delete
-    [__deleteaccommodation.pending]: (state, action) => {
-      console.log(action.payload);
+    [__deleteAccommodation.pending]: (state, action) => {
+      console.log();
     },
-    [__deleteaccommodation.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [__deleteAccommodation.fulfilled]: (state, action) => {
+      console.log();
     },
-    [__deleteaccommodation.rejected]: (state, action) => {
-      console.log(action.payload);
+    [__deleteAccommodation.rejected]: (state, action) => {
+      console.log();
     },
   },
 });
