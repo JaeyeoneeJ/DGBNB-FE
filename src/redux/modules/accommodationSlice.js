@@ -19,23 +19,30 @@ export const __postAccommodations = createAsyncThunk(
       accName: payload.accName,
       accAddr: payload.accAddr,
       price: payload.price,
-      facilities: payload.facilities,
+      // facilities: payload.facilities,
       maxPerson: payload.maxPerson,
       bed: payload.bed,
       room: payload.room,
-      toilet: payload.toilet,
+      bathroom: payload.bathroom,
       accImg: payload.accImg,
       description: payload.description, // array,
     };
     const jsonAccommodation = JSON.stringify(accommodationItem);
     // const formData = new FormData();
     // formData.append(accommodationItem);
+
     try {
+      const token = localStorage.getItem("token");
+      console.log(jsonAccommodation);
+      // console.log(data)
       const { data } = await axios.post(
         `${url}/accommodations`,
         jsonAccommodation,
-        { headers: { "Content-Type": `application/json` } }
+        {
+          headers: { "Content-Type": `application/json`, Authorization: token },
+        }
       );
+
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -86,7 +93,7 @@ export const __putAccommodation = createAsyncThunk(
       maxPerson: payload.maxPerson,
       bed: payload.bed,
       room: payload.room,
-      toilet: payload.toilet,
+      bathroom: payload.bathroom,
       category: payload.category,
       thumbnail: payload.thumbnail,
       accImg: payload.accImg, // imageList,

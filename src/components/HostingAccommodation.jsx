@@ -2,11 +2,9 @@ import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { __postAccommodations } from "../redux/modules/accommodationSlice";
 import styled from "styled-components";
-import { GiHamburgerMenu } from "react-icons/gi";
-import LogoTextItem from "./elements/LogoTextItem";
-import LogoItem from "./elements/LogoItem";
 import { HiChevronRight } from "react-icons/hi";
 import Button from "./elements/Button";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -19,7 +17,7 @@ import Button from "./elements/Button";
 //     maxPerson: 10,
 //     bed: 3,
 //     room: 3,
-//     toilet: 2,
+//     bathroom: 2,
 //     category: 1,
 //     accImg: [
 //        "/images/acc1.png",
@@ -30,6 +28,8 @@ import Button from "./elements/Button";
 // }
 
 const HostingAccommodation = ({ setOnShowSignup }) => {
+	const navigate = useNavigate()
+	
 	const accNameRef = useRef();
 	const accAddrRef = useRef();
 	const priceRef = useRef();
@@ -37,7 +37,7 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 	const maxPersonRef = useRef();
 	const bedRef = useRef();
 	const roomRef = useRef();
-	const toiletRef = useRef();
+	const bathroomRef = useRef();
 	const accImgRef = useRef();
 	const descriptionRef = useRef();
 
@@ -53,47 +53,21 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 			accName: accNameRef.current.value,
 			accAddr: accAddrRef.current.value,
 			price: Number(priceRef.current.value),
-			facilities: facilitiesRef.current,
+			// facilities: facilitiesRef.current,
 			maxPerson: Number(maxPersonRef.current.value),
 			bed: Number(bedRef.current.value),
 			room: Number(roomRef.current.value),
-			toilet: Number(toiletRef.current.value),
+			bathroom: Number(bathroomRef.current.value),
 			facilities: facilityItems,
-			accImg: accImgRef.current.value,
+			// accImg: accImgRef.current.value,
+			accImg: accImgRef.current.files,
 			description: descriptionRef.current.value,
 		};
+		console.log(accImgRef.current.files)
 		dispatch(__postAccommodations(postAccommodationItems));
 	};
 	return (
 		<>
-			{/* 헤더 영역(fixed) 시작 */}
-			<HeaderCtn>
-				<Header>
-					<Box>
-						<Logo1150Up>
-							<LogoTextItem />
-						</Logo1150Up>
-						<Logo1150Down>
-							<LogoItem />
-						</Logo1150Down>
-					</Box>
-
-					{/* 차후에 프로필 영역은 컴포넌트로 따로 빼야할 듯함 */}
-					<Profile onClick={() => setOnShowSignup(true)}>
-						<MenuItem>
-							<GiHamburgerMenu size={16} />
-						</MenuItem>
-						<UserImg
-							src="https://a0.muscache.com/defaults/user_pic-225x225.png?v=3"
-							alt="userProfile"
-						/>
-						<Alarm>1</Alarm>
-					</Profile>
-
-				</Header>
-			</HeaderCtn>
-			{/* 헤더 영역(fixed) 끝 */}
-
 			{/* 컨텐츠 영역 시작 */}
 			<ContentCtn>
 				<FlexCol gap='10px'>
@@ -228,8 +202,8 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 						<Text fontSize='16px' fontWeight='600'>화장실</Text>
 						<InputArea
 							type="text"
-							name="toilet"
-							ref={toiletRef}
+							name="bathroom"
+							ref={bathroomRef}
 							placeholder='00개'
 							required
 						/>
@@ -324,6 +298,7 @@ const Box = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  cursor: pointer;
 `;
 const Logo1150Up = styled.div`
   display: flex;
