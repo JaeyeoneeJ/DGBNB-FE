@@ -3,85 +3,38 @@ import axios from "axios";
 
 const initialState = {
   getAccommodationList: [
-    {
-      accId: 1,
-      accName: "숙소 이름1",
-      accAddr: "숙소 주소1",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc1.png",
-    },
-    {
-      accId: 2,
-      accName: "숙소 이름2",
-      accAddr: "숙소 주소2",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc2.png",
-    },
-    {
-      accId: 3,
-      accName: "숙소 이름3",
-      accAddr: "숙소 주소3",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc3.png",
-    },
-    {
-      accId: 4,
-      accName: "숙소 이름4",
-      accAddr: "숙소 주소4",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc4.png",
-    },
-    {
-      accId: 5,
-      accName: "숙소 이름5",
-      accAddr: "숙소 주소5",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc5.png",
-    },
-    {
-      accId: 6,
-      accName: "숙소 이름6",
-      accAddr: "숙소 주소6",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc6.png",
-    },
-    {
-      accId: 7,
-      accName: "숙소 이름7",
-      accAddr: "숙소 주소7",
-      maxPerson: 10,
-      bed: 3,
-      room: 3,
-      toilet: 2,
-      category: 1,
-      thumbnail: "/images/acc7.png",
-    },
+    // {
+    //   accName: "숙소 이름1",
+    //   accAddr: "숙소 주소1",
+    //   maxPerson: 10,
+    //   bed: 3,
+    //   room: 3,
+    //   toilet: 2,
+    //   category: 1,
+    //   thumbnail: "/images/acc1.png",
+    // },
+    // {
+    //   accName: "숙소 이름1",
+    //   accAddr: "숙소 주소1",
+    //   maxPerson: 10,
+    //   bed: 3,
+    //   room: 3,
+    //   toilet: 2,
+    //   category: 1,
+    //   thumbnail: "/images/acc1.png",
+    // },
+    // {
+    //   accName: "숙소 이름1",
+    //   accAddr: "숙소 주소1",
+    //   maxPerson: 10,
+    //   bed: 3,
+    //   room: 3,
+    //   toilet: 2,
+    //   category: 1,
+    //   thumbnail: "/images/acc1.png",
+    // },
   ],
-  getAccommodationFocus: {
+  getAccomodationFocus: {
     accName: "숙소 이름",
     accAddr: "숙소 주소",
     maxPerson: 10,
@@ -89,20 +42,15 @@ const initialState = {
     room: 3,
     toilet: 2,
     category: 1,
-    thumbnail: "https://a0.muscache.com/im/pictures/prohost-api/Hosting-684571394601112089/original/888156a5-b3ed-4d01-ba11-dfbaf97c316b.jpeg?im_w=960",
-    accImg: [
-      "https://a0.muscache.com/im/pictures/prohost-api/Hosting-684571394601112089/original/e3690203-a2da-475b-94d6-6991c144ad3c.jpeg?im_w=1200",
-      "https://a0.muscache.com/im/pictures/prohost-api/Hosting-684571394601112089/original/0ca0188c-530b-44d7-8811-eff6b298502c.jpeg?im_w=1200",
-      "https://a0.muscache.com/im/pictures/prohost-api/Hosting-684571394601112089/original/9eb1b66a-7801-423f-bad6-61ef34680173.jpeg?im_w=1200",
-      "https://a0.muscache.com/im/pictures/prohost-api/Hosting-684571394601112089/original/933001c7-a150-47cb-8131-9128965925d4.jpeg?im_w=1200"
-    ],
+    thumbnail: "/images/acc1.png",
+    accImg: ["/images/acc2.png", "/images/acc3.png", "/images/acc4.png"],
   },
 };
 
-const url = "";
+const url = "http://13.209.21.117:3000";
 
-export const __postAccommodations = createAsyncThunk(
-  "accommodation/postAccommodations",
+export const __postAccomodations = createAsyncThunk(
+  "accommodation/postAccomodations",
   async (payload, thunkAPI) => {
     const accommodationItem = {
       accName: payload.accName,
@@ -113,15 +61,18 @@ export const __postAccommodations = createAsyncThunk(
       bed: payload.bed,
       room: payload.room,
       toilet: payload.toilet,
-      category: payload.category,
-      accImg: payload.accImg, // array,
+      accImg: payload.accImg,
+      description: payload.description, // array,
     };
-
-    const formData = new FormData();
-    formData.append(accommodationItem);
-
+    const jsonAccomodation = JSON.stringify(accommodationItem);
+    // const formData = new FormData();
+    // formData.append(accomodationItem);
     try {
-      const { data } = await axios.post(`${url}/accommodations`, formData);
+      const { data } = await axios.post(
+        `${url}/accommodations`,
+        jsonAccomodation,
+        { headers: { "Content-Type": `application/json` } }
+      );
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -129,20 +80,14 @@ export const __postAccommodations = createAsyncThunk(
   }
 );
 
-export const __getaccommodationList = createAsyncThunk(
-  "accommodation/getAccommodationList",
+export const __getAccomodationList = createAsyncThunk(
+  "accommodation/getAccomodationList",
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.get(
-        `${url}/accommodations/${payload.accId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return thunkAPI.fulfillWithValue(data.data);
+      const data = await axios.get(`${url}/accommodations`);
+      console.log("숙소 데이터__", data.data.data);
+      return thunkAPI.fulfillWithValue(data.data.data);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
@@ -150,10 +95,10 @@ export const __getaccommodationList = createAsyncThunk(
   }
 );
 
-export const __putaccommodation = createAsyncThunk(
-  "accommodation/putAccommodation",
+export const __putAccomodation = createAsyncThunk(
+  "accommodation/putAccomodation",
   async (payload, thunkAPI) => {
-    const accommodationItems = {
+    const accomodationItems = {
       accName: payload.accName,
       accAddr: payload.accAddr,
       lat: payload.lat, //null
@@ -167,7 +112,7 @@ export const __putaccommodation = createAsyncThunk(
       accImg: payload.accImg, // imageList,
     };
     const formData = new FormData();
-    formData.append(accommodationItems);
+    formData.append(accomodationItems);
     try {
       const { data } = await axios.put(
         `${url}/accommodations/${payload.accId}`,
@@ -188,8 +133,8 @@ export const __putaccommodation = createAsyncThunk(
   }
 );
 
-export const __deleteaccommodation = createAsyncThunk(
-  "accommodation/deleteaccommodation",
+export const __deleteAccomodation = createAsyncThunk(
+  "accommodation/deleteAccomodation",
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.delete(
@@ -208,52 +153,52 @@ export const __deleteaccommodation = createAsyncThunk(
   }
 );
 
-const accommodationSlice = createSlice({
+const accomodationSlice = createSlice({
   name: "accommodation",
   initialState,
   reducers: {},
   extraReducers: {
     // post
-    [__postAccommodations.pending]: (state, action) => {
-      console.log(action.payload);
+    [__postAccomodations.pending]: (state, action) => {
+      console.log();
     },
-    [__postAccommodations.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [__postAccomodations.fulfilled]: (state, action) => {
+      console.log();
     },
-    [__postAccommodations.rejected]: (state, action) => {
-      console.log(action.payload);
+    [__postAccomodations.rejected]: (state, action) => {
+      console.log();
     },
     /// get
-    [__getaccommodationList.pending]: (state, action) => {
-      console.log(action.payload);
+    [__getAccomodationList.pending]: (state, action) => {
+      console.log();
     },
-    [__getaccommodationList.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [__getAccomodationList.fulfilled]: (state, action) => {
+      state.getAccommodationList = action.payload;
     },
-    [__getaccommodationList.rejected]: (state, action) => {
-      console.log(action.payload);
+    [__getAccomodationList.rejected]: (state, action) => {
+      console.log();
     },
     /// put
-    [__putaccommodation.pending]: (state, action) => {
-      console.log(action.payload);
+    [__putAccomodation.pending]: (state, action) => {
+      console.log();
     },
-    [__putaccommodation.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [__putAccomodation.fulfilled]: (state, action) => {
+      console.log();
     },
-    [__putaccommodation.rejected]: (state, action) => {
-      console.log(action.payload);
+    [__putAccomodation.rejected]: (state, action) => {
+      console.log();
     },
     /// delete
-    [__deleteaccommodation.pending]: (state, action) => {
-      console.log(action.payload);
+    [__deleteAccomodation.pending]: (state, action) => {
+      console.log();
     },
-    [__deleteaccommodation.fulfilled]: (state, action) => {
-      console.log(action.payload);
+    [__deleteAccomodation.fulfilled]: (state, action) => {
+      console.log();
     },
-    [__deleteaccommodation.rejected]: (state, action) => {
-      console.log(action.payload);
+    [__deleteAccomodation.rejected]: (state, action) => {
+      console.log();
     },
   },
 });
 
-export default accommodationSlice.reducer;
+export default accomodationSlice.reducer;

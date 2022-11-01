@@ -10,7 +10,7 @@ import SignupThird from "../components/SignupThird";
 import SignupForth from "../components/SignupForth";
 import SignupFifth from "../components/SginupFifth";
 import { useDispatch, useSelector } from "react-redux";
-import { __postAccomodations } from "../redux/modules/accomodationSlice";
+import { __postAccomodations } from "../redux/modules/accommodationSlice";
 import { __postSignup } from "../redux/modules/signupSlice";
 
 const HomePage = () => {
@@ -67,15 +67,15 @@ const HomePage = () => {
   return (
     <>
       {onShowSignup && viewLogin}
-      {onShowLogin &&
-        <Login
-          onShowLogin={onShowLogin}
-          setOnShowLogin={setOnShowLogin}
-      />}
+      {onShowLogin && (
+        <Login onShowLogin={onShowLogin} setOnShowLogin={setOnShowLogin} />
+      )}
       <Header
-        onShowSignup={onShowSignup} setOnShowSignup={setOnShowSignup}
-        onShowLogin={onShowLogin} setOnShowLogin={setOnShowLogin}
-        />
+        onShowSignup={onShowSignup}
+        setOnShowSignup={setOnShowSignup}
+        onShowLogin={onShowLogin}
+        setOnShowLogin={setOnShowLogin}
+      />
       <NavBar />
 
       <Layout>

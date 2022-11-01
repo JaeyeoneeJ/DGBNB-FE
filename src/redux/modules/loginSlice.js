@@ -27,6 +27,7 @@ export const __postLogin = createAsyncThunk(
       const token = data.loginData.token;
       const localSet = window.localStorage;
       localSet.setItem("token", token);
+      // localSet.setItem("memberId", memberId);
       return thunkAPI.fulfillWithValue(data.loginData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

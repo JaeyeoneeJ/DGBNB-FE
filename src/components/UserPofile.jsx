@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { __getAccomodationList } from "../redux/modules/accomodationSlice";
+import { __getAccomodationList } from "../redux/modules/accommodationSlice";
 import { __getReservationList } from "../redux/modules/reservationSlice";
 
 const UserPofile = () => {

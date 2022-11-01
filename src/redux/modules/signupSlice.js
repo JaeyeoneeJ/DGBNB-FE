@@ -39,7 +39,7 @@ export const __postSignup = createAsyncThunk(
 
       const { data } = await axios.post(`${url}/members/signup`, formdata, {
         headers: {
-          "Content-Type": "multipart/form-data; charset=UTF-8",
+          "Content-Type": "multipart/form-data",
         },
       });
 
