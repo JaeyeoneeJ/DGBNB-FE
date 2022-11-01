@@ -64,6 +64,10 @@ const UserPofile = () => {
                   <label>숙소 가격</label>
                   {item.price}
                 </div>
+                <div>
+                  <label>숙소 이미지</label>
+                  {item.accImg}
+                </div>
               </AccommodationBox>
             );
           })}
