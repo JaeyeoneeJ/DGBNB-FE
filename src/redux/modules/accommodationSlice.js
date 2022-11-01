@@ -27,13 +27,13 @@ export const __postAccommodations = createAsyncThunk(
       accImg: payload.accImg,
       description: payload.description, // array,
     };
-    const jsonAccomodation = JSON.stringify(accommodationItem);
+    const jsonAccommodation = JSON.stringify(accommodationItem);
     // const formData = new FormData();
-    // formData.append(accomodationItem);
+    // formData.append(accommodationItem);
     try {
       const { data } = await axios.post(
         `${url}/accommodations`,
-        jsonAccomodation,
+        jsonAccommodation,
         { headers: { "Content-Type": `application/json` } }
       );
       return thunkAPI.fulfillWithValue(data.data);
@@ -114,7 +114,7 @@ export const __putAccommodation = createAsyncThunk(
 );
 
 export const __deleteAccommodation = createAsyncThunk(
-  "accommodation/deleteAccomodation",
+  "accommodation/deleteAccommodation",
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.delete(

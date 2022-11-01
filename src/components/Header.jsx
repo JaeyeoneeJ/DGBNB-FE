@@ -49,7 +49,7 @@ const Header = ({
 				<BoxRight>
 					<HoverBtn
 						onClick={() => {
-							navigate("/accomodation");
+							navigate("/accommodation");
 						}}
 					>
 						호스트 되기

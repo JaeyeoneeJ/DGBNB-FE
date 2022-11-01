@@ -5,7 +5,7 @@ import members from "../modules/membersSlice";
 import reservation from "../modules/reservationSlice";
 import accommodation from "../modules/accommodationSlice";
 import reviews from "../modules/reviewsSlice";
-import likes from "../modules/likedAccomodationSlice";
+import likes from "../modules/likedAccommodationSlice";
 
 const store = configureStore({
   reducer: {

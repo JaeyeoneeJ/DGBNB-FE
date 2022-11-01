@@ -10,7 +10,7 @@ import SignupThird from "../components/SignupThird";
 import SignupForth from "../components/SignupForth";
 import SignupFifth from "../components/SginupFifth";
 import { useDispatch, useSelector } from "react-redux";
-import { __postAccomodations } from "../redux/modules/accommodationSlice";
+import { __postAccommodations } from "../redux/modules/accommodationSlice";
 import { __postSignup } from "../redux/modules/signupSlice";
 
 const HomePage = () => {
