@@ -11,6 +11,7 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   //파일 미리볼 url을 저장해줄 state
   const [fileImage, setFileImage] = useState("");
   const [fileImageUpload, setfileImageUpload] = useState("");
+  const fileRef = useRef();
 
   // 파일 저장
   const saveFileImage = (e) => {
@@ -33,8 +34,10 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const globalSignupItems = useSelector(
     (state) => state.signup.postSignupItems
   );
+
+  // 업로드하기 버튼 클릭시
   const onClickHandler = () => {
-    const fileItem = { memberImg: fileImage };
+    const fileItem = { memberImg: fileRef.current.files[0] };
     setOnShowSignup(false);
     setSignupMode("FIRST");
     dispatch(__postSignup({ ...globalSignupItems, ...fileItem }));
@@ -96,6 +99,7 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 accept="image/*"
                 multiple
                 onChange={saveFileImage}
+                ref={fileRef}
               />
               <button
                 style={{
