@@ -4,6 +4,7 @@ import signup from "../modules/signupSlice";
 import members from "../modules/membersSlice";
 import reservation from "../modules/reservationSlice";
 import accommodation from "../modules/accomodationSlice";
+import accommodation from "../modules/accommodationSlice";
 import reviews from "../modules/reviewsSlice";
 import likes from "../modules/likedAccomodationSlice";
 
