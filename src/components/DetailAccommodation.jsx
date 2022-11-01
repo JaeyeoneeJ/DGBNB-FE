@@ -8,11 +8,27 @@ import { CiParking1 } from "react-icons/ci";
 import { GiAtSea } from "react-icons/gi";
 import { MdFlag } from "react-icons/md";
 import { SlStar, SlGlobe } from "react-icons/sl";
+import { useLocation } from 'react-router-dom';
 
 const DetailAccommodation = () => {
     const {getAccommodationFocus} = useSelector((state)=>state.accommodation)
     // console.log(getAccommodationFocus)
-    const copyLickRef = useRef()
+    const location = useLocation()
+
+    const copyLink = async (text) => {
+        try {
+            await navigator.clipboard.writeText(text);
+
+            alert('url이 복사되었습니다.')
+        } catch (e) {
+            alert('url 복사가 실패하였습니다.')
+        }
+    }
+    
+    
+    useEffect(()=> {
+        console.log(location)
+    },[location])
 
     return (
         <Ctn>
@@ -22,7 +38,7 @@ const DetailAccommodation = () => {
                     <DetailHeaderBox>
                         <AccAddr>{getAccommodationFocus.accAddr}</AccAddr>
                         <PickArea>
-                            <PickBtn>
+                            <PickBtn onClick={()=>copyLink(`http://localhost:3000${location.pathname}`)}>
                                 <FiShare />
                                 공유하기
                             </PickBtn>
@@ -83,7 +99,7 @@ const DetailAccommodation = () => {
                                     {`${'홍길동'}님이 호스팅하는 펜션`}
                                 </Font22>
                                 <Font16>
-                                    최대 인원 {getAccommodationFocus.maxPerson}명 · 침대 {getAccommodationFocus.bed}개 · 욕실 {getAccommodationFocus.toilet}개
+                                    최대 인원 {getAccommodationFocus.maxPerson}명 · 침대 {getAccommodationFocus.bed}개 · 욕실 {getAccommodationFocus.bathroom}개
                                 </Font16>
                             </DatailBoxHeader2>
                             <DatailBoxHeader2>

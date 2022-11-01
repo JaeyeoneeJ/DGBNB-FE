@@ -6,11 +6,15 @@ import { useNavigate } from 'react-router-dom';
 const Accommodation = ({ acc }) => {
     const navigate = useNavigate()
     
-    // console.log(acc)
+    console.log(acc.AccommodationsPictures[0].thumbnail)
+    // const [thumbnail] = acc?.AccommodationsPictures
+    // console.log(thumbnail)
+    // const mainImg = thumbnail.thumbnail
+    // console.log(mainImg)
     return (
         <Ctn onClick={()=>navigate(`/accommodation/${acc.accId}`)}>
             <ImgBox>
-                <ImgTag src='https://a0.muscache.com/im/pictures/658a9058-3441-4af9-a56b-e7b56bf07c5e.jpg?im_w=720' alt={`acc.accId`} />
+                <ImgTag src={`acc?.AccommodationsPictures[0].thumbnail`} alt={`acc.accId`} />
             </ImgBox>
             <ContentBox>
                 <AccContent>
