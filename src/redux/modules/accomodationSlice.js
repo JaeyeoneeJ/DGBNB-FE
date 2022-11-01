@@ -47,12 +47,12 @@ const initialState = {
   },
 };
 
-const url = "";
+const url = "http://13.209.21.117:3000";
 
 export const __postAccomodations = createAsyncThunk(
-  "accomodation/postAccomodations",
+  "accommodation/postAccomodations",
   async (payload, thunkAPI) => {
-    const accomodationItem = {
+    const accommodationItem = {
       accName: payload.accName,
       accAddr: payload.accAddr,
       price: payload.price,
@@ -61,29 +61,32 @@ export const __postAccomodations = createAsyncThunk(
       bed: payload.bed,
       room: payload.room,
       toilet: payload.toilet,
-      category: payload.category,
-      accImg: payload.accImg, // array,
+      accImg: payload.accImg,
+      description: payload.description, // array,
     };
-
+    const jsonAccomodation = JSON.stringify(accommodationItem);
     // const formData = new FormData();
     // formData.append(accomodationItem);
-
-    // try {
-    //   const { data } = await axios.post(`${url}/accomodations`, formData);
-    //   return thunkAPI.fulfillWithValue(data.data);
-    // } catch (error) {
-    //   return thunkAPI.rejectWithValue(error);
-    // }
+    try {
+      const { data } = await axios.post(
+        `${url}/accommodations`,
+        jsonAccomodation,
+        { headers: { "Content-Type": `application/json` } }
+      );
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
 );
 
 export const __getAccomodationList = createAsyncThunk(
-  "accomodation/getAccomodationList",
+  "accommodation/getAccomodationList",
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
       const { data } = await axios.get(
-        `${url}/accomodations/${payload.accId}`,
+        `${url}/accommodations/${payload.accId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -99,7 +102,7 @@ export const __getAccomodationList = createAsyncThunk(
 );
 
 export const __putAccomodation = createAsyncThunk(
-  "accomodation/putAccomodation",
+  "accommodation/putAccomodation",
   async (payload, thunkAPI) => {
     const accomodationItems = {
       accName: payload.accName,
@@ -118,7 +121,7 @@ export const __putAccomodation = createAsyncThunk(
     formData.append(accomodationItems);
     try {
       const { data } = await axios.put(
-        `${url}/accomodations/${payload.accId}`,
+        `${url}/accommodations/${payload.accId}`,
         {
           params: {
             accId: payload.accId,
@@ -137,11 +140,11 @@ export const __putAccomodation = createAsyncThunk(
 );
 
 export const __deleteAccomodation = createAsyncThunk(
-  "accomodation/deleteAccomodation",
+  "accommodation/deleteAccomodation",
   async (payload, thunkAPI) => {
     try {
       const { data } = await axios.delete(
-        `${url}/accomodations/${payload.accId}`,
+        `${url}/accommodations/${payload.accId}`,
         {
           params: {
             accId: payload.accId,
@@ -157,7 +160,7 @@ export const __deleteAccomodation = createAsyncThunk(
 );
 
 const accomodationSlice = createSlice({
-  name: "accomodation",
+  name: "accommodation",
   initialState,
   reducers: {},
   extraReducers: {

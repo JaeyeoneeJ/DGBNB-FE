@@ -2,11 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getItems } from "../redux/modules/signupSlice";
 import { __postLogin } from "../redux/modules/loginSlice";
 
 const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
+  const globalIsLogin = useSelector((state) => state.login.isLogin);
+  const globalnickname = useSelector((state) => state.login.userNickname);
+  const globalError = useSelector((state) => state.login);
+  console.log(globalError);
+
+  ///
   const emailRef = useRef();
   const passwordRef = useRef();
   const dispatch = useDispatch();
@@ -16,6 +22,11 @@ const Login = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
       password: passwordRef.current.value,
     };
     dispatch(__postLogin(loginItems));
+    if (globalError.message === "Rejected") {
+      alert("계정이 존재하지 않습니다.");
+    } else if (globalIsLogin === true) {
+      alert(`${globalnickname}님 환영합니다.`);
+    }
   };
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);

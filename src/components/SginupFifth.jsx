@@ -8,12 +8,25 @@ import logoImg from "../components/airbnb_logo.png";
 import { __postSignup } from "../redux/modules/signupSlice";
 
 const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
-  //   console.log("회원정보", globalPostSignup);
+  //파일 미리볼 url을 저장해줄 state
+  const [fileImage, setFileImage] = useState("");
+  const [fileImageUpload, setfileImageUpload] = useState("");
+
+  // 파일 저장
+  const saveFileImage = (e) => {
+    setFileImage(URL.createObjectURL(e.target.files[0]));
+  };
+
+  // 파일 삭제
+  const deleteFileImage = () => {
+    URL.revokeObjectURL(fileImage);
+    setFileImage("");
+  };
+
   const dispatch = useDispatch();
-  const fileRef = useRef();
 
   const onClickHandler = () => {
-    const fileItem = { memberImg: fileRef.current.value };
+    const fileItem = { memberImg: fileImage };
     setOnShowSignup(false);
     setSignupMode("FIRST");
     dispatch(getItems(fileItem));
@@ -75,7 +88,23 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 <span>{/* 1단계 중 1단계 */}</span>
               </SelectNotice>
               <WelcomeText>프로필 사진 추가</WelcomeText>
-              <input type="file" ref={fileRef} />
+              <input
+                name="imgUpload"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={saveFileImage}
+              />
+              <button
+                style={{
+                  backgroundColor: "gray",
+                  color: "white",
+                  width: "55px",
+                  height: "40px",
+                  cursor: "pointer",
+                }}
+                onClick={() => deleteFileImage()}
+              ></button>
               <SelectNotice>
                 <span>
                   얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된
@@ -83,7 +112,14 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 </span>
               </SelectNotice>
 
-              <LogoImg src="https://cdn-icons-png.flaticon.com/128/3421/3421814.png" />
+              {fileImage && (
+                <img
+                  alt="sample"
+                  src={fileImage}
+                  style={{ width: "200px", margin: "auto" }}
+                />
+              )}
+
               <Button
                 fontSize="12px"
                 width="100%"

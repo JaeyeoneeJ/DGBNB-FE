@@ -2,8 +2,10 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  memberEmail: "user@email.com",
-  password: "password123",
+  userInfo: { memberEmail: "user@email.com", password: "password123" },
+  isLogin: false,
+  userNickname: "",
+  error: "",
 };
 
 const url = "http://13.209.21.117:3000";
@@ -15,21 +17,16 @@ export const __postLogin = createAsyncThunk(
       memberEmail: payload.memberEmail,
       password: payload.password,
     };
-
-    // const jsonLoginItems = JSON.stringify(loginItems);
-
     try {
       const { data } = await axios.post(`${url}/members/login`, loginItems, {
         headers: {
           "Content-Type": `application/json`,
         },
       });
-      console.log(data);
-      // const { token } = await data;
-      // const localSet = window.localStorage;
-      // localSet.setItem("token", token);
-
-      return thunkAPI.fulfillWithValue(data.data);
+      const token = data.loginData.token;
+      const localSet = window.localStorage;
+      localSet.setItem("token", token);
+      return thunkAPI.fulfillWithValue(data.loginData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -45,10 +42,12 @@ const loginSlice = createSlice({
       console.log(action.payload);
     },
     [__postLogin.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      state.isLogin = true;
+      state.userNickname = action.payload.nickname;
     },
     [__postLogin.rejected]: (state, action) => {
-      console.log(action.payload);
+      state.isLogin = false;
+      state.error = action.error;
     },
   },
 });

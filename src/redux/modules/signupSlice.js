@@ -20,11 +20,28 @@ export const __postSignup = createAsyncThunk(
         memberImg: payload.memberImg,
       };
 
-      const jsonSignupItems = JSON.stringify(signupItems);
-      // const formdata = new FormData();
-      // formdata.append(jsonSignupItems);
+      console.log(signupItems);
 
-      const { data } = await axios.post(`${url}/members/signup`, signupItems);
+      // const jsonSignupItems = JSON.stringify(signupItems);
+      // console.log(jsonSignupItems);
+
+      const formdata = new FormData();
+      formdata.append("memberEmail", payload.memberEmail);
+      formdata.append("password", payload.password);
+      formdata.append("nickname", payload.nickname);
+      formdata.append("name", payload.name);
+      formdata.append("phoneNum", payload.phoneNum);
+      formdata.append("memberImg", payload.memberImg);
+
+      for (const key of formdata.entries()) {
+        console.log(key);
+      }
+
+      const { data } = await axios.post(`${url}/members/signup`, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data; charset=UTF-8",
+        },
+      });
 
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
