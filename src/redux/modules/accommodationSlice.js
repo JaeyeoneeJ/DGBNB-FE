@@ -13,7 +13,11 @@ const initialState = {
       room: 3,
       bathroom: 2,
       category: 1,
-      thumbnail: "/images/acc1.png",
+      AccommodationsPictures: [
+        {
+          thumbnail: "/images/acc1.png",
+        }
+      ],
     },
   ],
   getAccommodationFocus: {
@@ -109,6 +113,22 @@ export const __getAccommodationList = createAsyncThunk(
   }
 );
 
+export const __getAccommodation = createAsyncThunk(
+  "accommodation/getAccommodation",
+  async (payload, thunkAPI) => {
+    try {
+      // const token = localStorage.getItem("token");
+      const data = await instance.get(`/accommodations/${payload}`);
+      console.log(data)
+      console.log("숙소 상세 데이터__", data.data);
+      return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const __putAccommodation = createAsyncThunk(
   "accommodation/putAccommodation",
   async (payload, thunkAPI) => {
@@ -190,6 +210,16 @@ const accommodationSlice = createSlice({
       state.getAccommodationList = action.payload;
     },
     [__getAccommodationList.rejected]: (state, action) => {
+      console.log();
+    },
+    /// __getAccommodation
+    [__getAccommodation.pending]: (state, action) => {
+      console.log();
+    },
+    [__getAccommodation.fulfilled]: (state, action) => {
+      state.getAccommodationFocus = action.payload;
+    },
+    [__getAccommodation.rejected]: (state, action) => {
       console.log();
     },
     /// put
