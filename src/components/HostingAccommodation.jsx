@@ -64,7 +64,9 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 
   const deleteFileImage = () => {
     URL.revokeObjectURL(fileImage);
-    setFileImage("");
+    setFileImage(fileImage.map(img=>
+      "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
+      ))
   };
 
   return (
@@ -239,57 +241,41 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
               </Button>
             </FlexRow>
 
-            {fileImage &&
-              fileImage.map((item) => {
-                return (
-                  <img
-                    alt="sample"
-                    src={item}
-                    style={{ width: "200px", margin: "auto" }}
-                  />
-                );
-              })} */}
-            /////////////////
             <AccPictureBox>
               <MainPic>
                 <ImgTagBox>
-                  <ImgTag src={fileImage ? fileImage[0] : null} />
+                  <ImgTag 
+                    src={fileImage ? fileImage[0] : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"}
+                  />
                 </ImgTagBox>
               </MainPic>
               <OtherPic>
                 <OtherPicBox>
                   <ImgTagBox>
-                    <ImgTag src={fileImage ? fileImage[1] : null} />
+                  <ImgTag 
+                    src={fileImage ? fileImage[1] : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"}
+                  />
                   </ImgTagBox>
                   <ImgTagBox>
-                    <ImgTag src={fileImage ? fileImage[2] : null} />
+                  <ImgTag 
+                    src={fileImage ? fileImage[2] : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"}
+                  />
                   </ImgTagBox>
                 </OtherPicBox>
                 <OtherPicBox>
                   <ImgTagBox>
-                    <ImgTag src={fileImage ? fileImage[3] : null} />
+                  <ImgTag 
+                    src={fileImage ? fileImage[3] : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"}
+                  />
                   </ImgTagBox>
                   <ImgTagBox>
-                    <ImgTag src={fileImage ? fileImage[4] : null} />
+                  <ImgTag 
+                    src={fileImage ? fileImage[4] : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"}
+                  />
                   </ImgTagBox>
                 </OtherPicBox>
               </OtherPic>
-              <PicBtn fontSize="14px">
-                <TbGridDots />
-                사진 모두 보기
-              </PicBtn>
             </AccPictureBox>
-            //////////////////
-            <button
-              style={{
-                backgroundColor: "gray",
-                color: "white",
-                width: "55px",
-                height: "40px",
-                cursor: "pointer",
-              }}
-              onClick={() => deleteFileImage()}
-            ></button>
             <InputArea
               type="file"
               id="input-file"
@@ -326,7 +312,10 @@ const AccPictureBox = styled.div`
   gap: 5px;
   box-sizing: border-box;
   border-radius: 10px;
-  overflow: hidden;
+  
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 const MainPic = styled.div`
   width: 50%;
@@ -340,7 +329,7 @@ const OtherPic = styled.div`
   gap: 5px;
   width: 50%;
   @media screen and (max-width: 800px) {
-    display: none;
+    width: 100%;
   }
 `;
 const OtherPicBox = styled.div`
@@ -349,7 +338,7 @@ const OtherPicBox = styled.div`
   gap: 5px;
   width: 50%;
   @media screen and (max-width: 800px) {
-    display: none;
+    width: 100%;
   }
 `;
 
@@ -357,7 +346,7 @@ const ImgTagBox = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: white;
 `;
 const ImgTag = styled.img`
   display: block;
@@ -366,6 +355,7 @@ const ImgTag = styled.img`
   height: 100%;
   aspect-ratio: 4/3;
   object-fit: cover;
+  border: 1px solid #ebebeb;
   transition: all, 0.3s;
   cursor: pointer;
   &:hover {
