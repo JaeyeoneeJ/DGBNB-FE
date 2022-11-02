@@ -28,6 +28,7 @@ const UserProfile = () => {
   return (
     <>
       <WholeBox>
+        <MyHostingText>나의 호스팅</MyHostingText>
         <ReservationSection>
           {globalAccommodationList
             .filter(
@@ -40,19 +41,19 @@ const UserProfile = () => {
                   key={item.resId}
                   onClick={() => onClickAccommodationFocus(item.accId)}
                 >
-                  <div>
-                    <div>
+                  <AccommodationCtn>
+                    <ImgSection>
                       <img
                         src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-50405823/original/6c046816-602a-47f7-93fe-d64dcdf7e16b.jpeg?im_w=720"
                         width="200px"
                       />
-                    </div>
-                    <div>
-                      <div>{item.accAddr}</div>
-                      <div>{item.accName}</div>
-                      <div>{item.description}</div>
-                    </div>
-                  </div>
+                    </ImgSection>
+                    <ContentsSection>
+                      <Addr>{item.accAddr}</Addr>
+                      <Name>{item.accName}</Name>
+                      <Desc>{item.description}</Desc>
+                    </ContentsSection>
+                  </AccommodationCtn>
                 </AccommodationBox>
               );
             })}
@@ -64,19 +65,60 @@ const UserProfile = () => {
 
 export default UserProfile;
 
+const Name = styled.div`
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
+const Addr = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+`;
+
+const Desc = styled.div`
+  margin-bottom: 10px;
+`;
+
+const ImgSection = styled.div`
+  & img {
+    border-radius: 10px;
+  }
+`;
+
+const ContentsSection = styled.div`
+  margin-left: 20px;
+`;
+
+const MyHostingText = styled.div`
+  font-size: 30px;
+  font-weight: 600;
+`;
+
 const WholeBox = styled.div`
-  margin-top: 98px;
+  margin-top: 120px;
   display: flex;
   flex-direction: column;
+  padding: 0 30px;
 `;
 
 const AccommodationBox = styled.button`
-  width: 200px;
+  box-sizing: border-box;
+  width: 100%;
   height: 200px;
-  border: 1px solid gray;
-  border-radius: 20px;
+  border: none;
+  border-bottom: 1px solid lightgrey;
+  background-color: transparent;
   margin-right: 10px;
+  display: flex;
   cursor: pointer;
+`;
+
+const AccommodationCtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 `;
 
 const ReservationSection = styled.div`
