@@ -49,21 +49,43 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 		);
 		const selectedElArray = Array.prototype.slice.call(selectedEl);
 		const facilityItems = selectedElArray.map((item) => item.id);
+		
+		
+
+
+		
+		
+		// formDataImg.append('accImg', accImgs)
+
+		
+
+		
+		
 		const postAccommodationItems = {
 			accName: accNameRef.current.value,
 			accAddr: accAddrRef.current.value,
 			price: Number(priceRef.current.value),
-			// facilities: facilitiesRef.current,
+			facilities: facilitiesRef.current,
 			maxPerson: Number(maxPersonRef.current.value),
 			bed: Number(bedRef.current.value),
 			room: Number(roomRef.current.value),
 			bathroom: Number(bathroomRef.current.value),
 			facilities: facilityItems,
-			// accImg: accImgRef.current.value,
 			accImg: accImgRef.current.files,
+			// accImg: formDataImg,
 			description: descriptionRef.current.value,
 		};
-		console.log(accImgRef.current.files)
+		
+		
+	
+		
+		// accImgs.map(accImg=>{
+		// 	formDataImg.append(accImg)
+		// })
+		
+
+		
+		
 		dispatch(__postAccommodations(postAccommodationItems));
 	};
 	return (
@@ -214,8 +236,10 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 						<Text fontSize='14px' color="#B0B0B0">사진을 최소 5장 선택해주세요.</Text>
 						<InputArea
 							type="file"
+							id="input-file"
 							accept="image/*"
 							ref={accImgRef}
+							// onChange={accImghandleChange}
 							multiple
 							required
 						/>

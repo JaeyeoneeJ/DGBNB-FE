@@ -19,7 +19,7 @@ import Header from "../components/Header";
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
   const [onShowLogin, setOnShowLogin] = useState(false);
-  console.log(onShowLogin);
+  // console.log(onShowLogin)
   const dispatch = useDispatch();
 
   /// 모드에 따라 렌더링 모달이 달라진다.

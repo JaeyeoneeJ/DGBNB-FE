@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import { instance } from "../instance";
 
 const initialState = {
   getAccommodationList: [],
@@ -15,43 +16,52 @@ const url = "http://13.209.21.117:3000";
 export const __postAccommodations = createAsyncThunk(
   "accommodation/postAccomodations",
   async (payload, thunkAPI) => {
-    const accommodationItem = {
-      accName: payload.accName,
-      accAddr: payload.accAddr,
-      price: payload.price,
-      facilities: payload.facilities,
-      maxPerson: payload.maxPerson,
-      bed: payload.bed,
-      room: payload.room,
-      bathroom: payload.bathroom,
-      accImg: payload.accImg,
-      description: payload.description, // array,
-    };
-    const formData = new FormData();
+    // const accommodationItem = {
+    //   accName: payload.accName,
+    //   accAddr: payload.accAddr,
+    //   price: payload.price,
+    //   facilities: payload.facilities,
+    //   maxPerson: payload.maxPerson,
+    //   bed: payload.bed,
+    //   room: payload.room,
+    //   bathroom: payload.bathroom,
+    //   accImg: payload.accImg,
+    //   description: payload.description, // array,
+    // };
 
-    ////
+    const formdata = new FormData();
+    formdata.append("accName", payload.accName);
+    formdata.append("accAddr", payload.accAddr);
+    formdata.append("price", payload.price);
+    formdata.append("facilities", payload.facilities);
+    formdata.append("maxPerson", payload.maxPerson);
+    formdata.append("bed", payload.bed);
+    formdata.append("room", payload.room);
+    formdata.append("bathroom", payload.bathroom);
+    formdata.append("accImg", payload.accImg);
+    formdata.append("description", payload.description);
+
     const entriesImg = Object.entries(payload.accImg);
     console.log(entriesImg);
-    const entriesFiles = entriesImg.map((item) => {
+    const entriesValue = entriesImg.map((item) => {
       return item[1];
     });
-    /////
-    entriesFiles.forEach((item) => {
-      return formData.append("image", item);
-    });
-    console.log(formData);
-    const jsonAccommodation = JSON.stringify(accommodationItem);
+
+    entriesValue.forEach((accImg) => formdata.append("accImg", accImg));
+
+    // for (const key of formdata.entries()) {
+    // 	console.log(key);
+    // }
 
     try {
       const token = localStorage.getItem("token");
-      console.log(jsonAccommodation);
-      const { data } = await axios.post(
-        `${url}/accommodations`,
-        accommodationItem,
-        {
-          headers: { "Content-Type": `application/json`, Authorization: token },
-        }
-      );
+
+      const { data } = await axios.post(`${url}/accommodations`, formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: token,
+        },
+      });
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -183,6 +193,16 @@ const accommodationSlice = createSlice({
       state.getAccommodationList = action.payload;
     },
     [__getAccommodationList.rejected]: (state, action) => {
+      console.log();
+    },
+    /// __getAccommodation
+    [__getAccommodation.pending]: (state, action) => {
+      console.log();
+    },
+    [__getAccommodation.fulfilled]: (state, action) => {
+      state.getAccommodationFocus = action.payload;
+    },
+    [__getAccommodation.rejected]: (state, action) => {
       console.log();
     },
     /// put

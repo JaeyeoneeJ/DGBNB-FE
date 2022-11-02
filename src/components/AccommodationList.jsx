@@ -8,14 +8,15 @@ import Accommodation from './Accommodation'
 const AccommodationList = () => {
     const dispatch = useDispatch()
     const {getAccommodationList} = useSelector((state)=>state.accommodation)
+    console.log(getAccommodationList)
 
     useEffect(() => {
-        // dispatch(__getAccommodationList())
-    })
+        dispatch(__getAccommodationList())
+    },[dispatch])
 
     return (
         <Ctn>
-            {getAccommodationList.map((acc)=>(
+            {getAccommodationList.slice(0).reverse().map((acc)=>(
                 <Accommodation key={acc.accId} acc={acc}/>
             ))}
         </Ctn>
