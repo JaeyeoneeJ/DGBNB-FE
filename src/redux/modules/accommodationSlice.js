@@ -138,12 +138,17 @@ export const __putAccommodation = createAsyncThunk(
 export const __deleteAccommodation = createAsyncThunk(
   "accommodation/deleteAccommodation",
   async (payload, thunkAPI) => {
+    const token = localStorage.getItem("token");
+    const NumberAccId = Number(payload);
     try {
       const { data } = await axios.delete(
-        `${url}/accommodations/${payload.accId}`,
+        `${url}/accommodations/${NumberAccId}`,
         {
           params: {
-            accId: payload.accId,
+            accId: NumberAccId,
+          },
+          headers: {
+            Authorization: `${token}`,
           },
         }
       );
@@ -199,14 +204,12 @@ const accommodationSlice = createSlice({
       console.log();
     },
     /// delete
-    [__deleteAccommodation.pending]: (state, action) => {
-      console.log();
-    },
+    [__deleteAccommodation.pending]: (state, action) => {},
     [__deleteAccommodation.fulfilled]: (state, action) => {
-      console.log();
+      alert(action.payload, "삭제가 완료되었습니다.");
     },
     [__deleteAccommodation.rejected]: (state, action) => {
-      console.log();
+      alert(action.payload, "삭제권한이 없습니다");
     },
   },
 });

@@ -99,11 +99,11 @@ const Router = () => {
           element={<PostAccommodation />}
         />
         {/* 계정 => 유저 상세 */}
-        <Route path="/mypage" element={<UserProfile />} />
         <Route
-          path="/mypage/myreservation/:id"
-          element={<UserProfileReservation />}
+          path="/account-setting/myhostinglist"
+          element={<UserProfile />}
         />
+        <Route path="" element={<UserProfileReservation />} />
         {/*  */}
         <Route path="/accommodation/:id" element={<DetailAccPage />} />
         <Route path="/account-setting" element={<AccountSettingPage />} />

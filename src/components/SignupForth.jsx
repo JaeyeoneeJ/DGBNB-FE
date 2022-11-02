@@ -4,7 +4,7 @@ import { getItems } from "../redux/modules/signupSlice";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
-import logoImg from "../components/airbnb_logo.png";
+import logoImg from "../components/assets/img/airbnb_logo.png";
 
 const SignupForth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const onClickHandler = () => {

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { FiShare, FiHeart } from "react-icons/fi";
 import { TbGridDots } from "react-icons/tb";
 import { FaStar } from "react-icons/fa";
@@ -8,29 +8,44 @@ import { CiParking1 } from "react-icons/ci";
 import { MdFlag } from "react-icons/md";
 import { SlStar, SlGlobe } from "react-icons/sl";
 import { FiChevronDown } from "react-icons/fi";
-import { useLocation, useParams } from 'react-router-dom';
-import { __getAccommodation } from '../redux/modules/accommodationSlice';
-import Button from './elements/Button'
-import { ClearIsSuccess, __putLikedAccommodation } from '../redux/modules/likedAccommodationSlice';
+import { useLocation, useParams } from "react-router-dom";
+import { __getAccommodation } from "../redux/modules/accommodationSlice";
+import { __deleteAccommodation } from "../redux/modules/accommodationSlice";
+import Button from "./elements/Button";
 
 const DetailAccommodation = () => {
-    const dispatch = useDispatch()
-    const {id} = useParams()
-    const location = useLocation()
-    const {getAccommodationFocus} = useSelector((state)=>state.accommodation)
-    const {isSuccess, isLoading} = useSelector((state)=>state.likes)
-    console.log(isSuccess)
-    const initFacilities = {
-        drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
-        shampoo: "https://cdn-icons-png.flaticon.com/512/1848/1848239.png",
-        bath: "https://cdn-icons-png.flaticon.com/512/857/857663.png",
-        warmWater: "https://cdn-icons-png.flaticon.com/512/5322/5322512.png",
-        airConditioner: "https://cdn-icons-png.flaticon.com/512/5907/5907476.png",
-        heating: "https://cdn-icons-png.flaticon.com/512/1684/1684324.png",
-        wifi: "https://cdn-icons-png.flaticon.com/512/2696/2696335.png",
-        refrigerator: "https://cdn-icons-png.flaticon.com/512/7259/7259784.png",
-        parking: "https://cdn-icons-png.flaticon.com/512/846/846338.png",
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  console.log(id);
+  const { getAccommodationFocus } = useSelector((state) => state.accommodation);
+
+  const initFacilities = {
+    drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
+    shampoo: "https://cdn-icons-png.flaticon.com/512/1848/1848239.png",
+    bath: "https://cdn-icons-png.flaticon.com/512/857/857663.png",
+    warmWater: "https://cdn-icons-png.flaticon.com/512/5322/5322512.png",
+    airConditioner: "https://cdn-icons-png.flaticon.com/512/5907/5907476.png",
+    heating: "https://cdn-icons-png.flaticon.com/512/1684/1684324.png",
+    wifi: "https://cdn-icons-png.flaticon.com/512/2696/2696335.png",
+    refrigerator: "https://cdn-icons-png.flaticon.com/512/7259/7259784.png",
+    parking: "https://cdn-icons-png.flaticon.com/512/846/846338.png",
+  };
+
+  const splitFacilities =
+    getAccommodationFocus?.accommoInfo?.facilities?.split(",");
+  console.log(splitFacilities);
+  // console.log(getAccommodationFocus)
+  const location = useLocation();
+
+  const copyLink = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+
+      alert("url이 복사되었습니다.");
+    } catch (e) {
+      alert("url 복사가 실패하였습니다.");
     }
+  };
 
     const splitFacilities = getAccommodationFocus?.accommoInfo?.facilities?.split(",")
     console.log(splitFacilities)
@@ -40,10 +55,14 @@ const DetailAccommodation = () => {
         try {
             await navigator.clipboard.writeText(text);
 
-            alert('url이 복사되었습니다.')
-        } catch (e) {
-            alert('url 복사가 실패하였습니다.')
-        }
+  useEffect(() => {
+    dispatch(__getAccommodation(id));
+  }, [location]);
+  ///
+
+  const deleteHostingDispatch = (accId) => {
+    if (window.confirm("호스팅을 삭제하시겠습니까?")) {
+      dispatch(__deleteAccommodation(accId));
     }
     
     function priceToString(price) {
@@ -460,234 +479,252 @@ const DetailAccommodation = () => {
                 </DetailBody>
                 <Liner />
 
-                {/* 아래 영역 시작 */}
-                <Padding48 gap='50px' width="100%">
-                    <FlexRow gap="10px" width="50%">
-                        <FlexRow gap="10px">
-                            <SlStar size={24} />
-                            <Font16LH24>
-                                이 호스트의 다른 숙소에 대한 후기가 1개 있습니다. <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>다른 숙소 후기 보기</a>
-                            </Font16LH24>
-                        </FlexRow>
-                    </FlexRow>
-                    <FlexRow gap="10px" width="50%">
-                        <FlexRow gap="10px">
-                            <SlGlobe size={24} />
-                            <Font16LH24>
-                                여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은 <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>에어비앤비의 게스트 환불 정책</a>에 따라 보호를 받습니다.
-                                다른 숙소 후기 보기
-                            </Font16LH24>
-                        </FlexRow>
-                    </FlexRow>
-                </Padding48>
-                <Padding48>
-                    
-                </Padding48>
-            </DetailCtn>
-        </Ctn>
-    )
-}
+        {/* 아래 영역 시작 */}
+        <Padding48 gap="50px" width="100%">
+          <FlexRow gap="10px" width="50%">
+            <FlexRow>
+              <SlStar size={24} />
+            </FlexRow>
+            <Font16LH24>
+              이 호스트의 다른 숙소에 대한 후기가 1개 있습니다.{" "}
+              <a
+                href="#"
+                style={{ fontWeight: "600", textDecoration: "underline" }}
+              >
+                다른 숙소 후기 보기
+              </a>
+            </Font16LH24>
+          </FlexRow>
+          <FlexRow gap="10px" width="50%">
+            <FlexRow>
+              <SlGlobe size={24} />
+            </FlexRow>
+
+            <Font16LH24>
+              여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은{" "}
+              <a
+                href="#"
+                style={{ fontWeight: "600", textDecoration: "underline" }}
+              >
+                에어비앤비의 게스트 환불 정책
+              </a>
+              에 따라 보호를 받습니다. 다른 숙소 후기 보기
+            </Font16LH24>
+            <button
+              onClick={() => {
+                deleteHostingDispatch(id);
+              }}
+            >
+              저는 호스팅 삭제 버튼입니다
+            </button>
+          </FlexRow>
+        </Padding48>
+        <Padding48></Padding48>
+      </DetailCtn>
+    </Ctn>
+  );
+};
 
 const FlexRowLeftCenter = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: center;
-    gap: 5px;
-`
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 5px;
+`;
 const FlexRow = styled.div`
-    width: ${props=>props.width};
-    display: flex;
-    flex-direction: row;
-    /* align-items: center; */
-    gap: ${props=>props.gap};
-    align-items: ${props=>props.alignItem};
-    justify-content: ${props=>props.justifyContent};
-    border: ${props=>props.border};
-    border-bottom: ${props=>props.borderBottom};
-    
-    padding: ${props=>props.padding};
-    border-radius: ${props=>props.borderRadius};
-    width: 100%;
-`
+  width: ${(props) => props.width};
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  gap: ${(props) => props.gap};
+  align-items: ${(props) => props.alignItem};
+  justify-content: ${(props) => props.justifyContent};
+  border: ${(props) => props.border};
+  border-bottom: ${(props) => props.borderBottom};
+
+  padding: ${(props) => props.padding};
+  border-radius: ${(props) => props.borderRadius};
+  width: 100%;
+`;
 const FlexCol = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${props=>props.gap};
-    justify-content: ${props=>props.justifyContent};
-    border-left: ${props=>props.borderLeft};
-    border: ${props=>props.border};
-    padding: ${props=>props.padding};
-    border-radius: ${props=>props.borderRadius};
-    max-height: ${props=>props.maxHeight};
-    box-sizing: border-box;
-    overflow: hidden;
-    width: 100%;
-`
+  display: flex;
+  flex-direction: column;
+  gap: ${(props) => props.gap};
+  justify-content: ${(props) => props.justifyContent};
+  border-left: ${(props) => props.borderLeft};
+  border: ${(props) => props.border};
+  padding: ${(props) => props.padding};
+  border-radius: ${(props) => props.borderRadius};
+  max-height: ${(props) => props.maxHeight};
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+`;
 const Ctn = styled.div`
-    max-width: 1200px;
-    width: 100%;
-    margin: 100px auto 0 auto;
-`
+  max-width: 1200px;
+  width: 100%;
+  margin: 100px auto 0 auto;
+`;
 const DetailCtn = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-`
-const DetailHeader = styled.div``
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+const DetailHeader = styled.div``;
 const AccAddr = styled.p`
-    font-weight: 600;
-    text-decoration: underline;
-`
+  font-weight: 600;
+  text-decoration: underline;
+`;
 const DetailHeaderBox = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 const PickArea = styled.div`
-    display: flex;
-    gap: 5px;
-`
+  display: flex;
+  gap: 5px;
+`;
 const PickBtn = styled.button`
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    font-size: 14px;
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-    background-color: transparent;
-    text-decoration: underline;
-    font-weight: 600;
-    cursor: pointer;
-    &:hover {
-        background-color: #ebebeb;
-    }
-`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 14px;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background-color: #ebebeb;
+  }
+`;
 const AccPictureBox = styled.div`
-    position: relative;
-    display: flex;
-    gap: 5px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    overflow: hidden;
-`
+  position: relative;
+  display: flex;
+  gap: 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+`;
 const MainPic = styled.div`
-    width: 50%;
-    box-sizing: border-box;
-    @media screen and (max-width: 800px) {
-        width: 100%;
-    }
-`
+  width: 50%;
+  box-sizing: border-box;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
+`;
 const OtherPic = styled.div`
-    display: flex;
-    gap: 5px;
-    width: 50%;
-    @media screen and (max-width: 800px) {
-        display: none;
-    }
-`
-const OtherPicBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 50%;
-    @media screen and (max-width: 800px) {
-        display: none;
-    }
-`
-const ImgTagBox = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-`
-const ImgTag = styled.img`
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 4/3;
-    object-fit: cover;
-    transition: all, 0.3s;
-    cursor: pointer;
-    &:hover {
-        opacity: 0.8;
-    }
-`
-const ImgCalenDar = styled.img`
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    @media screen and (max-width: 800px){
-        display: none;
-    }
-`
-const ImgCalenDar2 = styled.img`
+  display: flex;
+  gap: 5px;
+  width: 50%;
+  @media screen and (max-width: 800px) {
     display: none;
-    box-sizing: border-box;
-    width: 100%;
-    @media screen and (max-width: 800px){
-        display: block;
-    }
-`
+  }
+`;
+const OtherPicBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 50%;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+const ImgTagBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+`;
+const ImgTag = styled.img`
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  transition: all, 0.3s;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+const ImgCalenDar = styled.img`
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+const ImgCalenDar2 = styled.img`
+  display: none;
+  box-sizing: border-box;
+  width: 100%;
+  @media screen and (max-width: 800px) {
+    display: block;
+  }
+`;
 const PicBtn = styled.button`
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: white;
-    padding: 7px 15px;
-    font-weight: 600;
-    border: 1px solid #222;
-    border-radius: 5px;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    cursor: pointer;
-    &:hover {
-        background-color: #ebebeb;
-    }
-    @media screen and (max-width: 800px) {
-        display: none;
-    }
-`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  padding: 7px 15px;
+  font-weight: 600;
+  border: 1px solid #222;
+  border-radius: 5px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #ebebeb;
+  }
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
 const DetailBody = styled.div`
-    position: relative;
-    margin-top: 30px;
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-`
+  position: relative;
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+`;
 const DetailBox = styled.div`
-    display: flex;
-    width: 58.333333333333336%;    
-    /* border: 1px solid red; */
-    flex-direction: column;
-    @media screen and (max-width: 800px) {
-        width: 100%;
-    }
-`
-const DatailBoxHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  width: 58.333333333333336%;
+  /* border: 1px solid red; */
+  flex-direction: column;
+  @media screen and (max-width: 800px) {
     width: 100%;
-    padding-bottom: 24px;
-`
+  }
+`;
+const DatailBoxHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 24px;
+`;
 const DatailBoxHeader2 = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
 const Font22 = styled.h3`
-    font-size: 22px;
-    font-weight: 600;
-`
+  font-size: 22px;
+  font-weight: 600;
+`;
 const Font16 = styled.p`
-    font-size: 16px;
-    font-weight: ${props=>props.fontWeight};
-    text-decoration: ${props=>props.textDecoration};
-`
+  font-size: 16px;
+  font-weight: ${(props) => props.fontWeight};
+  text-decoration: ${(props) => props.textDecoration};
+`;
 const Font16LH24 = styled.p`
     width: 100%;
     font-size: 16px;
@@ -696,96 +733,96 @@ const Font16LH24 = styled.p`
     line-height: 24px;
 `
 const Font14 = styled.p`
-    font-size: 14px;
-    color: #717171;
-`
+  font-size: 14px;
+  color: #717171;
+`;
 const Font14Underline = styled.p`
-    font-size: 14px;
-    text-decoration: underline;
-    color: #717171;
-`
+  font-size: 14px;
+  text-decoration: underline;
+  color: #717171;
+`;
 const ProfileImg = styled.img`
-    display: block;
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-`
+  display: block;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+`;
 const DetailBoxRight = styled.div`
-    width: 33.33333333%;
-    position: relative;
-    /* border: 1px solid green; */
-    @media screen and (max-width: 800px){
-        display: none;
-    }
-`
+  width: 33.33333333%;
+  position: relative;
+  /* border: 1px solid green; */
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
 const StickyArea = styled.div`
-    position: sticky;
-    top: 120px;
-    right: 0;
-    margin-bottom: 50px;
-`
+  position: sticky;
+  top: 120px;
+  right: 0;
+  margin-bottom: 50px;
+`;
 const StickyBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 24px;
-    margin-bottom: 20px;
-    border: 1px solid #ebebeb;
-    border-radius: 12px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
-`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+`;
 const Liner = styled.div`
-    width: 100%;
-    height: 1px;
-    background-color: #ebebeb;
-`
+  width: 100%;
+  height: 1px;
+  background-color: #ebebeb;
+`;
 const Padding24 = styled.div`
-    padding: 24px 0;
-    display: flex;
-    flex-direction: ${props=>props.flexDir};
-    gap: ${props=>props.gap};
-    width: ${props=>props.width};
-`
+  padding: 24px 0;
+  display: flex;
+  flex-direction: ${(props) => props.flexDir};
+  gap: ${(props) => props.gap};
+  width: ${(props) => props.width};
+`;
 const Padding48 = styled.div`
-    padding: 48px 0;
-    display: flex;
-    flex-direction: ${props=>props.flexDir};
-    gap: ${props=>props.gap};
-    width: ${props=>props.width};
-`
+  padding: 48px 0;
+  display: flex;
+  flex-direction: ${(props) => props.flexDir};
+  gap: ${(props) => props.gap};
+  width: ${(props) => props.width};
+`;
 const AirCover = styled.img`
-    width: 95px;
-    height: auto;
-`
+  width: 95px;
+  height: auto;
+`;
 const NormalBtn = styled.button`
-    padding: 13px 23px;
-    font-size: 16px;
-    font-weight: 600;
-    border: 1px solid #222;
-    width: 210px;
-    background-color: transparent;
-    border-radius: 10px;
-    cursor: pointer;
-`
+  padding: 13px 23px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid #222;
+  width: 210px;
+  background-color: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+`;
 const FacImg = styled.img`
-    width: 16px;
-    height: 16px;
-    object-fit: cover;
-`
-const BorderBox = styled.div``
+  width: 16px;
+  height: 16px;
+  object-fit: cover;
+`;
+const BorderBox = styled.div``;
 const Text = styled.p`
-    font-size: ${props=>props.fontSize};
-    font-weight: ${props=>props.fontWeight};
-    color: ${props=>props.color};
-    display: flex;
-    justify-content: ${props=>props.justifyContent};
-    text-align: ${props=>props.textAlign};
-    text-decoration: ${props=>props.textDecoration};
-`
+  font-size: ${(props) => props.fontSize};
+  font-weight: ${(props) => props.fontWeight};
+  color: ${(props) => props.color};
+  display: flex;
+  justify-content: ${(props) => props.justifyContent};
+  text-align: ${(props) => props.textAlign};
+  text-decoration: ${(props) => props.textDecoration};
+`;
 const IconBox = styled.div`
-    padding: ${props=>props.padding};
-    margin: ${props=>props.margin};
-`
+  padding: ${(props) => props.padding};
+  margin: ${(props) => props.margin};
+`;
 
-export default DetailAccommodation
+export default DetailAccommodation;
