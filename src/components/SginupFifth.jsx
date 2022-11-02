@@ -4,7 +4,6 @@ import { getItems } from "../redux/modules/signupSlice";
 import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./elements/Button";
-import logoImg from "../components/airbnb_logo.png";
 import { __postSignup } from "../redux/modules/signupSlice";
 
 const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
@@ -92,7 +91,13 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 <span>{/* 1단계 중 1단계 */}</span>
               </SelectNotice>
               <WelcomeText>프로필 사진 추가</WelcomeText>
-              <input
+              <SelectNotice>
+                <span>
+                  얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된
+                  후에만 사진을 볼 수 있습니다.
+                </span>
+              </SelectNotice>
+              <InputFile
                 name="imgUpload"
                 type="file"
                 accept="image/*"
@@ -100,37 +105,34 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                 onChange={saveFileImage}
                 ref={fileRef}
               />
-              <button
-                style={{
-                  backgroundColor: "gray",
-                  color: "white",
-                  width: "55px",
-                  height: "40px",
-                  cursor: "pointer",
-                }}
-                onClick={() => deleteFileImage()}
-              ></button>
-              <SelectNotice>
-                <span>
-                  얼굴이 보이는 이미지를 선택하세요. 호스트는 예약이 확정된
-                  후에만 사진을 볼 수 있습니다.
-                </span>
-              </SelectNotice>
 
-              {fileImage && (
+              {fileImage ? (
                 <img
                   alt="sample"
                   src={fileImage}
+                  style={{
+                    width: "200px",
+                    margin: "auto",
+                    borderRadius: "20px",
+                  }}
+                />
+              ) : (
+                <img
+                  alt="sample"
+                  src="https://www.dojangtong.com/theme/djt_responsive/img/register/person_icon.png"
                   style={{ width: "200px", margin: "auto" }}
                 />
               )}
+              <ButtonReset onClick={() => deleteFileImage()}>
+                Reset to picture
+              </ButtonReset>
 
               <Button
                 fontSize="12px"
                 width="100%"
                 padding="14px 20px"
-                bgColor="#191919"
-                color="white"
+                // bgColor="#FF385C"
+                color="#fff"
                 onClick={onClickHandler}
               >
                 <FlexRowBetween>
@@ -139,7 +141,7 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                     alt="e-mail"
                     bgColor="#191919"
                   />
-                  <FooterText>사진 업로드 하기</FooterText>
+                  <FooterText>사진 등록하기</FooterText>
                 </FlexRowBetween>
               </Button>
 
@@ -159,6 +161,22 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
     </BGBlack>
   );
 };
+const ButtonReset = styled.button`
+  color: tomato;
+  background-color: transparent;
+  border: 1px solid #b0b0b0;
+  padding: 7px 20px;
+  border-radius: 15px;
+`;
+const InputFile = styled.input`
+  border: 1px solid #b0b0b0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 5px;
+  padding: 7px 10px;
+  border-radius: 10px;
+`;
 const WelcomeText = styled.h3`
   font-size: 25px;
   font-weight: 700;

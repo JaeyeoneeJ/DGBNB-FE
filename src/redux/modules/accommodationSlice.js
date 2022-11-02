@@ -88,8 +88,7 @@ export const __getAccommodation = createAsyncThunk(
   "accommodation/getAccommodation",
   async (payload, thunkAPI) => {
     try {
-      const data = await instance.get(`/accommodations/${payload}`, {
-      });
+      const data = await instance.get(`/accommodations/${payload}`, {});
       console.log("숙소 상세 데이터_", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
