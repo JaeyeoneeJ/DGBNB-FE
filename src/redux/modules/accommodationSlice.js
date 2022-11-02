@@ -88,13 +88,9 @@ export const __getAccommodation = createAsyncThunk(
   "accommodation/getAccommodation",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${url}/accommodations/${Number(payload)}`, {
-        params: {
-          accId: Number(payload),
-        },
-      });
-      console.log("숙소 상세 데이터_", data.data.data);
-      return thunkAPI.fulfillWithValue(data.data.data);
+      const data = await instance.get(`/accommodations/${payload}`, {});
+      console.log("숙소 상세 데이터_", data.data);
+      return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -172,17 +168,6 @@ const accommodationSlice = createSlice({
       console.log();
     },
     [__postAccommodations.rejected]: (state, action) => {
-      console.log();
-    },
-    ///
-    [__getAccommodation.pending]: (state, action) => {
-      console.log();
-    },
-    [__getAccommodation.fulfilled]: (state, action) => {
-      state.accommoInfo = action.payload.accommoInfo;
-      state.hostInfo = action.payload.hostInfo;
-    },
-    [__getAccommodation.rejected]: (state, action) => {
       console.log();
     },
     /// get
