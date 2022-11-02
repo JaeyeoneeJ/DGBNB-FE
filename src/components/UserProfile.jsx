@@ -14,58 +14,49 @@ const UserProfile = () => {
     dispatch(__getAccommodationList());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   dispatch(__getReservationList());
-  // }, [dispatch]);
-
-  // const globalReservationList = useSelector(
-  //   (state) => state.reservation.getReservationList
-  // );
-
   const globalAccommodationList = useSelector(
     (state) => state.accommodation.getAccommodationList
   );
 
-  // console.log("예약 목록__", globalReservationList);
   console.log("숙소 목록__", globalAccommodationList);
   ///oncCLick 함수
 
-  // const onClickReservation = (memberId) => {
-  //   navigate(`/mypage/myreservation/${memberId}`);
-  // };
-
-  // const onClickAccommodation = (accId) => {
-  //   navigate(`/mypage/myhosting/${accId}`);
-  // };
-  let contents = null;
-  if (globalAccommodationList.memberId === localStorage.getItem("memberId")) {
-    contents = globalAccommodationList?.map((item) => {
-      return (
-        <ReservationBox
-          key={item.resId}
-          // onClick={() => onClickReservation(memberId)}
-        >
-          <div>
-            <label>등록일</label>
-            {item.createdAt}
-          </div>
-          <div>
-            <label>체크인</label>
-            {item.resCheckin}
-          </div>
-          <div>
-            <label>체크아웃</label>
-            {item.resCheckOut}
-          </div>
-        </ReservationBox>
-      );
-    });
-  }
+  const onClickAccommodationFocus = (accId) => {
+    navigate(`/accommodation/${accId}`);
+  };
 
   return (
     <>
       <WholeBox>
-        <ReservationSection>{contents}</ReservationSection>
+        <ReservationSection>
+          {globalAccommodationList
+            .filter(
+              (data) =>
+                data.memberId === Number(localStorage.getItem("memberId"))
+            )
+            .map((item) => {
+              return (
+                <AccommodationBox
+                  key={item.resId}
+                  onClick={() => onClickAccommodationFocus(item.accId)}
+                >
+                  <div>
+                    <div>
+                      <img
+                        src="https://a0.muscache.com/im/pictures/prohost-api/Hosting-50405823/original/6c046816-602a-47f7-93fe-d64dcdf7e16b.jpeg?im_w=720"
+                        width="200px"
+                      />
+                    </div>
+                    <div>
+                      <div>{item.accAddr}</div>
+                      <div>{item.accName}</div>
+                      <div>{item.description}</div>
+                    </div>
+                  </div>
+                </AccommodationBox>
+              );
+            })}
+        </ReservationSection>
       </WholeBox>
     </>
   );
@@ -77,14 +68,6 @@ const WholeBox = styled.div`
   margin-top: 98px;
   display: flex;
   flex-direction: column;
-`;
-const ReservationBox = styled.button`
-  width: 200px;
-  height: 200px;
-  border: 1px solid gray;
-  border-radius: 20px;
-  margin-right: 10px;
-  cursor: pointer;
 `;
 
 const AccommodationBox = styled.button`
@@ -100,71 +83,3 @@ const ReservationSection = styled.div`
   display: flex;
   margin: 20px 0;
 `;
-
-const AccommodationSection = styled.div`
-  display: flex;
-`;
-// //예약 목록
-// [
-//   {
-//     accId: 1,
-//     accName: "숙소 이름11",
-//     accAddr: "숙소 주소11",
-//     price: 80000,
-//     rating: 8.12,
-//     maxPerson: 5,
-//     bed: 3,
-//     room: 3,
-//     accImg: "/images/acc1.png",
-//   },
-//   {
-//     accId: 2,
-//     accName: "숙소 이름22",
-//     accAddr: "숙소 주소22",
-//     price: 200000,
-//     rating: 9.54,
-//     maxPerson: 10,
-//     bed: 4,
-//     room: 4,
-//     accImg:
-//       "/images/acc1.png, /images/acc2.png, /images/acc3.png, /images/acc4.png",
-//   },
-//   {
-//     accId: 3,
-//     accName: "숙소 이름33",
-//     accAddr: "숙소 주소33",
-//     price: 150000,
-//     rating: 8.85,
-//     maxPerson: 7,
-//     bed: 4,
-//     room: 5,
-//     accImg:
-//       "/images/acc1.png, /images/acc2.png, /images/acc3.png, /images/acc4.png",
-//   },
-// ];
-
-// //숙소 목록
-// [
-//     {
-//     "resId" : 10,
-//     "accId" : 1,
-//     "memberId" : 1,
-//     "personNum" : 4,
-//     "resCheckin : "2022-10-28",
-//     "resCheckOut: "2022-10-29",
-//     "createdAt" : "2022-10-28",
-//     "updatedAt" : "2022-10-28",
-//     "deletedAt" : "2022-10-28"
-//     },
-//     {
-//     "resId" : 9,
-//     "accId" : 2,
-//     "memberId" : 2,
-//     "personNum" : 3,
-//     "resCheckin : "2022-10-28",
-//     "resCheckOut: "2022-10-29",
-//     "createdAt" : "2022-10-28",
-//     "updatedAt" : "2022-10-28",
-//     "deletedAt" : "2022-10-28”
-//     }
-//     ]

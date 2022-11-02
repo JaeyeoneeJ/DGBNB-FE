@@ -6,7 +6,6 @@ import HomePage from "../pages/HomePage";
 import PostAccommodation from "../components/HostingAccommodation";
 import Login from "../components/Login";
 import UserProfile from "../components/UserProfile";
-import UserProfileHosting from "../components/UserProfileHosting";
 import UserProfileReservation from "../components/UserProfileReservation";
 import SignupSecond from "../components/SignupSecond";
 import SignupThird from "../components/SignupThird";
@@ -94,16 +93,18 @@ const Router = () => {
         <Route path="/accommodation" element={<PostAccommodation />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/mypage" element={<UserProfile />} />
-        <Route
-          path="/mypage/myreservation/:id"
-          element={<UserProfileReservation />}
-        />
-        <Route path="/mypage/myhosting/:id" element={<UserProfileHosting />} />
+
         <Route
           path="/account-setting/hosting"
           element={<PostAccommodation />}
         />
+        {/* 계정 => 유저 상세 */}
         <Route path="/mypage" element={<UserProfile />} />
+        <Route
+          path="/mypage/myreservation/:id"
+          element={<UserProfileReservation />}
+        />
+        {/*  */}
         <Route path="/accommodation/:id" element={<DetailAccPage />} />
         <Route path="/account-setting" element={<AccountSettingPage />} />
       </Routes>
