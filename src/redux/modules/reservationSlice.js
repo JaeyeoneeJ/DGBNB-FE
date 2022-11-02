@@ -2,30 +2,7 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  getReservationList: [
-    {
-      resId: 10,
-      accId: 1,
-      memberId: 1,
-      personNum: 4,
-      resCheckin: "2022-10-28",
-      resCheckOut: "2022-10-29",
-      createdAt: "2022-10-28",
-      updatedAt: "2022-10-28",
-      deletedAt: "2022-10-28",
-    },
-    {
-      resId: 9,
-      accId: 2,
-      memberId: 2,
-      personNum: 3,
-      resCheckin: "2022-10-28",
-      resCheckOut: "2022-10-29",
-      createdAt: "2022-10-28",
-      updatedAt: "2022-10-28",
-      deletedAt: "2022-10-28",
-    },
-  ],
+  getReservationList: [],
   getReservationFocus: [
     {
       //숙소 내용들 추가될 예정
@@ -48,12 +25,12 @@ export const __getReservationList = createAsyncThunk(
   "reservation/getReservationList",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${url}/${payload.memberId}`, {
+      const data = await axios.get(`${url}/reservations/length/${payload}`, {
         params: {
-          memberId: payload.memberId,
+          memberId: payload,
         },
       });
-      console.log("예약 데이터ㅡ", data.data);
+      console.log("예약 데이터ㅡ", data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -65,14 +42,11 @@ export const __getReservation = createAsyncThunk(
   "reservation/getReservation",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(
-        `${url}/reservations/${payload.memberId}`,
-        {
-          params: {
-            accId: payload.accId,
-          },
-        }
-      );
+      const { data } = await axios.get(`${url}/reservations/${payload}`, {
+        params: {
+          accId: payload,
+        },
+      });
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

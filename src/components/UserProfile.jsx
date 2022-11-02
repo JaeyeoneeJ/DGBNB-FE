@@ -1,37 +1,40 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { __getAccommodationList } from "../redux/modules/accommodationSlice";
 import { __getReservationList } from "../redux/modules/reservationSlice";
 
-const UserPofile = () => {
+const UserProfile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
-    dispatch(__getAccommodationList());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(__getReservationList());
+    dispatch(__getReservationList(memberId));
   }, [dispatch]);
 
   const globalReservationList = useSelector(
     (state) => state.reservation.getReservationList
   );
 
-  const globalAccommodationList = useSelector(
-    (state) => state.accommodation.getAccommodationList
-  );
-
   console.log("예약 목록__", globalReservationList);
-  console.log("숙소 목록__", globalAccommodationList);
+  ///oncCLick 함수
+
+  const onClickReservation = (memberId) => {
+    navigate(`/mypage/myreservation/${memberId}`);
+  };
+
   return (
     <>
       <WholeBox>
         <ReservationSection>
-          {globalReservationList.map((item) => {
+          {globalReservationList?.map((item) => {
             return (
-              <ReservationBox>
+              <ReservationBox
+                key={item.resId}
+                onClick={() => onClickReservation(memberId)}
+              >
                 <div>
                   <label>등록일</label>
                   {item.createdAt}
@@ -48,56 +51,34 @@ const UserPofile = () => {
             );
           })}
         </ReservationSection>
-        <AccommodationSection>
-          {globalAccommodationList.map((item) => {
-            return (
-              <AccommodationBox>
-                <div>
-                  <label>숙소 이름</label>
-                  {item.accName}
-                </div>
-                <div>
-                  <label>숙소 주소</label>
-                  {item.accAddr}
-                </div>
-                <div>
-                  <label>숙소 가격</label>
-                  {item.price}
-                </div>
-                <div>
-                  <label>숙소 이미지</label>
-                  {item.accImg}
-                </div>
-              </AccommodationBox>
-            );
-          })}
-        </AccommodationSection>
       </WholeBox>
     </>
   );
 };
 
-export default UserPofile;
+export default UserProfile;
 
 const WholeBox = styled.div`
+  margin-top: 98px;
   display: flex;
   flex-direction: column;
-  margin: 20px;
 `;
-const ReservationBox = styled.div`
+const ReservationBox = styled.button`
   width: 200px;
   height: 200px;
   border: 1px solid gray;
   border-radius: 20px;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
-const AccommodationBox = styled.div`
+const AccommodationBox = styled.button`
   width: 200px;
   height: 200px;
   border: 1px solid gray;
   border-radius: 20px;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const ReservationSection = styled.div`

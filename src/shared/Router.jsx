@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignupJJY from "../components/SignupJJY";
 import DetailAccPage from "../pages/DetailAccPage";
 import HomePage from "../pages/HomePage";
 import PostAccommodation from "../components/HostingAccommodation";
-import UserPofile from "../components/UserPofile";
 import Login from "../components/Login";
+import UserProfile from "../components/UserProfile";
+import UserProfileHosting from "../components/UserProfileHosting";
+import UserProfileReservation from "../components/UserProfileReservation";
 import SignupSecond from "../components/SignupSecond";
 import SignupThird from "../components/SignupThird";
 import SignupForth from "../components/SignupForth";
 import SignupFifth from "../components/SginupFifth";
-import { useDispatch, useSelector } from "react-redux";
+import SignupCheck from "../components/SignupCheck";
+import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import AccountSettingPage from "../pages/AccountSettingPage";
 
@@ -64,24 +67,43 @@ const Router = () => {
         setSignupMode={setSignupMode}
       />
     );
+  } else if (signupMode === "CHECK") {
+    viewSignup = (
+      <SignupCheck
+        onShowSignup={onShowSignup}
+        setOnShowSignup={setOnShowSignup}
+        setSignupMode={setSignupMode}
+      />
+    );
   }
-  
+
   return (
     <BrowserRouter>
       {onShowSignup && viewSignup}
-      {onShowLogin &&
-        <Login
-          onShowLogin={onShowLogin}
-          setOnShowLogin={setOnShowLogin}
-      />}
+      {onShowLogin && (
+        <Login onShowLogin={onShowLogin} setOnShowLogin={setOnShowLogin} />
+      )}
       <Header
-        onShowSignup={onShowSignup} setOnShowSignup={setOnShowSignup}
-        onShowLogin={onShowLogin} setOnShowLogin={setOnShowLogin}
-        />
+        onShowSignup={onShowSignup}
+        setOnShowSignup={setOnShowSignup}
+        onShowLogin={onShowLogin}
+        setOnShowLogin={setOnShowLogin}
+      />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/account-setting/hosting" element={<PostAccommodation />} />
-        <Route path="/mypage" element={<UserPofile />} />
+        <Route path="/accommodation" element={<PostAccommodation />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/mypage" element={<UserProfile />} />
+        <Route
+          path="/mypage/myreservation/:id"
+          element={<UserProfileReservation />}
+        />
+        <Route path="/mypage/myhosting/:id" element={<UserProfileHosting />} />
+        <Route
+          path="/account-setting/hosting"
+          element={<PostAccommodation />}
+        />
+        <Route path="/mypage" element={<UserProfile />} />
         <Route path="/accommodation/:id" element={<DetailAccPage />} />
         <Route path="/account-setting" element={<AccountSettingPage />} />
       </Routes>
