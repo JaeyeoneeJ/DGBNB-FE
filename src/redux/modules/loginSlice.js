@@ -62,16 +62,15 @@ export const __getLoginInfo = createAsyncThunk(
 	"login/getLoginInfo",
 	async (payload, thunkAPI) => {
 		try {
-			console.log("찍히나?")
 			const token = localStorage.getItem('token')
 			const { data } = await instance.get(`/members/loginInfo`, {
 				headers: {
 					Authorization: token
 				},
 			});
-			console.log("로그인 유저 정보", data);
+			// console.log("로그인 유저 정보", data.data);
 
-			return thunkAPI.fulfillWithValue(data);
+			return thunkAPI.fulfillWithValue(data.data);
 		} catch (error) {
 			return thunkAPI.rejectWithValue(error);
 		}
