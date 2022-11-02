@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import NavBar from "./NavBar";
 import { BiSearch } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import FilterItem from "./elements/FilterItem";
@@ -10,86 +9,188 @@ import EarthItem from "./elements/EarthItem";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({
-	onShowSignup, setOnShowSignup,
-	onShowLogin, setOnShowLogin
+  onShowSignup,
+  setOnShowSignup,
+  onShowLogin,
+  setOnShowLogin,
 }) => {
-	const navigate = useNavigate();
-	const [isShowHamburgerMenu, setIsShowHamburgerMenu] = useState(false)
+  const navigate = useNavigate();
+  const [isShowHamburgerMenu, setIsShowHamburgerMenu] = useState(false);
+  const isLogin = localStorage.getItem("token");
 
-	return (
-		<Ctn>
-			<HeaderCtn>
-				<Box>
-					<Logo1150Up onClick={()=>navigate('/')}>
-						<LogoTextItem />
-					</Logo1150Up>
-					<Logo1150Down onClick={()=>navigate('/')}>
-						<LogoItem />
-					</Logo1150Down>
-				</Box>
-				<SearchBar onClick={()=>alert('"필터" 기능은 구현되지 않은 기능입니다.')}>
-					<SearchBarLeft>
-						<Icon border="none">
-							<BiSearch size={20} />
-						</Icon>
-						<SearchBox>
-							<SearchTitle>어디로 여행가세요?</SearchTitle>
-							<SearchContent>
-								어디든지 • 언제든 일주일 • 게스트 추가
-							</SearchContent>
-						</SearchBox>
-					</SearchBarLeft>
-					<Icon border="1px solid #ebebeb">
-						<FilterItem />
-					</Icon>
-				</SearchBar>
-				
-				{/* 로그인이 되었을 경우 */}
-				<BoxRight>
-					<HoverBtn
-						onClick={() => {
-							navigate("/accommodation");
-						}}
-					>
-						호스트 되기
-					</HoverBtn>
-					<HoverBtn onClick={()=>alert('"언어 선택" 기능은 구현되지 않은 기능입니다.')}>
-						<EarthItem />
-					</HoverBtn>
-					{/* <Profile onClick={() => setOnShowSignup(true)}> */}
-					<Profile onClick={() => setIsShowHamburgerMenu(!isShowHamburgerMenu)}>
-						{isShowHamburgerMenu && <HamburgerMenu>
-							<MenuBox
-								onClick={() => {
-									setIsShowHamburgerMenu(false)
-									setOnShowLogin(true)
-								}}
-							><strong>로그인</strong></MenuBox>
-							<MenuBox
-								onClick={() => {
-									setIsShowHamburgerMenu(false)
-									setOnShowSignup(true)
-								}}
-							>회원가입</MenuBox>
-							<MenuLine />
-							<MenuBox>숙소 호스트 되기</MenuBox>
-							<MenuBox>체험 호스팅 하기</MenuBox>
-							<MenuBox>도움말</MenuBox>
-						</HamburgerMenu>}
-						
-						<MenuItem>
-							<GiHamburgerMenu size={16} />
-						</MenuItem>
-						<UserImg
-							src="https://a0.muscache.com/im/pictures/user/97a6a4be-a817-410e-a1d3-211781706179.jpg?aki_policy=profile_medium"
-							alt="userProfile"
-						/>
-						<Alarm>1</Alarm>
-					</Profile>
-				</BoxRight>
-			</HeaderCtn>
-		</Ctn>
-	);
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    // 이벤트 핸들러 함수
+    const handler = (event) => {
+      // mousedown 이벤트가 발생한 영역이 모달창이 아닐 때, 모달창 제거 처리
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsShowHamburgerMenu(false);
+      }
+    };
+
+    // 이벤트 핸들러 등록
+    document.addEventListener("mousedown", handler);
+    // document.addEventListener('touchstart', handler); // 모바일 대응
+
+    return () => {
+      // 이벤트 핸들러 해제
+      document.removeEventListener("mousedown", handler);
+      // document.removeEventListener('touchstart', handler); // 모바일 대응
+    };
+  });
+
+  return (
+    <Ctn>
+      <HeaderCtn>
+        <Box>
+          <Logo1150Up onClick={() => navigate("/")}>
+            <LogoTextItem />
+          </Logo1150Up>
+          <Logo1150Down onClick={() => navigate("/")}>
+            <LogoItem />
+          </Logo1150Down>
+        </Box>
+        <SearchBar
+          onClick={() => alert('"필터" 기능은 구현되지 않은 기능입니다.')}
+        >
+          <SearchBarLeft>
+            <Icon border="none">
+              <BiSearch size={20} />
+            </Icon>
+            <SearchBox>
+              <SearchTitle>어디로 여행가세요?</SearchTitle>
+              <SearchContent>
+                어디든지 • 언제든 일주일 • 게스트 추가
+              </SearchContent>
+            </SearchBox>
+          </SearchBarLeft>
+          <Icon border="1px solid #ebebeb">
+            <FilterItem />
+          </Icon>
+        </SearchBar>
+
+        {/* 로그인이 되었을 경우 */}
+        {isLogin ? (
+          <BoxRight>
+            <HoverBtn
+              onClick={() => {
+                navigate("/account-setting/hosting/");
+              }}
+            >
+              호스트 되기
+            </HoverBtn>
+            <HoverBtn
+              onClick={() =>
+                alert('"언어 선택" 기능은 구현되지 않은 기능입니다.')
+              }
+            >
+              <EarthItem />
+            </HoverBtn>
+            {/* <Profile onClick={() => setOnShowSignup(true)}> */}
+            <Profile
+              ref={modalRef}
+              onClick={() => setIsShowHamburgerMenu(!isShowHamburgerMenu)}
+            >
+              {isShowHamburgerMenu && (
+                <HamburgerMenu>
+                  <MenuBox><strong>메세지</strong></MenuBox>
+                  <MenuBox><strong>위시리스트</strong></MenuBox>
+                  
+                  <MenuLine />
+                  <MenuBox
+                  >숙소 호스트 되기</MenuBox>
+                  <MenuBox
+                    onClick={()=>navigate('/account-setting')}
+                  >계정</MenuBox>
+                  <MenuLine />
+                  <MenuBox>도움말</MenuBox>
+                  <MenuBox
+                    onClick={() => {
+                      setIsShowHamburgerMenu(false);
+                      if (window.confirm("로그아웃 하시겠습니까?")) {
+                        localStorage.clear();
+                        window.location.reload("/");
+                      }
+                    }}
+                  >
+                    로그아웃
+                  </MenuBox>
+                </HamburgerMenu>
+              )}
+              <MenuItem>
+                <GiHamburgerMenu size={16} />
+              </MenuItem>
+              <UserImg
+                src={localStorage.getItem('memberImg')}
+                alt="userProfile"
+              />
+              <Alarm>1</Alarm>
+            </Profile>
+          </BoxRight>
+        ) : (
+          <BoxRight>
+            <HoverBtn
+              onClick={() =>
+                alert('"언어 선택" 기능은 구현되지 않은 기능입니다.')
+              }
+            >
+              <EarthItem />
+            </HoverBtn>
+            {/* <Profile onClick={() => setOnShowSignup(true)}> */}
+            <Profile
+              ref={modalRef}
+              onClick={() => setIsShowHamburgerMenu(!isShowHamburgerMenu)}
+            >
+              {isShowHamburgerMenu && (
+                <HamburgerMenu>
+                  <MenuBox
+                    onClick={() => {
+                      setIsShowHamburgerMenu(false);
+                      setOnShowLogin(true);
+                    }}
+                  >
+                    <strong>로그인</strong>
+                  </MenuBox>
+                  <MenuBox
+                    onClick={() => {
+                      setIsShowHamburgerMenu(false);
+                      setOnShowSignup(true);
+                    }}
+                  >
+                    회원가입
+                  </MenuBox>
+                  <MenuLine />
+                  <MenuBox
+                    onClick={() => {
+                      window.confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?') && 
+                      setOnShowLogin(true);
+                      setIsShowHamburgerMenu(false);
+                    }}
+                  >숙소 호스트 되기</MenuBox>
+                  <MenuBox
+                    onClick={() => {
+                    window.confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?') && 
+                    setOnShowLogin(true);
+                    setIsShowHamburgerMenu(false);
+                  }}
+                  >체험 호스팅 하기</MenuBox>
+                  <MenuBox>도움말</MenuBox>
+                </HamburgerMenu>
+              )}
+              <MenuItem>
+                <GiHamburgerMenu size={16} />
+              </MenuItem>
+              <UserImg
+                src="https://a0.muscache.com/defaults/user_pic-50x50.png?v=3"
+                alt="userProfile"
+              />
+            </Profile>
+          </BoxRight>
+        )}
+      </HeaderCtn>
+    </Ctn >
+  );
 };
 
 const Ctn = styled.div`
@@ -144,6 +245,7 @@ const BoxRight = styled.div`
   gap: 10px;
   min-width: 216px;
   align-items: center;
+  justify-content: right;
   @media screen and (max-width: 800px) {
     display: none;
   }
@@ -215,7 +317,8 @@ const Profile = styled.div`
 `;
 const UserImg = styled.img`
   width: 30px;
-  height: auto;
+  height: 30px;
+  object-fit: cover;
   border-radius: 50%;
 `;
 const MenuItem = styled.div`
@@ -239,27 +342,27 @@ const Alarm = styled.div`
   height: 17px;
 `;
 const HamburgerMenu = styled.div`
-	position: absolute;
-	top: 50px;
-	padding: 8px 0;
-	right: 0;
-	border: none;
-	border-radius: 8px;
-	background-color: white;
-  	width: 200px;
-	box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
-`
+  position: absolute;
+  top: 50px;
+  padding: 8px 0;
+  right: 0;
+  border: none;
+  border-radius: 8px;
+  background-color: white;
+  width: 200px;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
+`;
 const MenuLine = styled.div`
-	width: 100%;
-	height: 1px;
-  	background-color: #ebebeb;
-	margin: 8px 0;
-`
+  width: 100%;
+  height: 1px;
+  background-color: #ebebeb;
+  margin: 8px 0;
+`;
 const MenuBox = styled.div`
-	padding: 12px;
-	&:hover {
-		background-color: #ebebeb;
-	}
-`
+  padding: 12px;
+  &:hover {
+    background-color: #ebebeb;
+  }
+`;
 
 export default Header;

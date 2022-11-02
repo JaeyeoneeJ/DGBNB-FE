@@ -5,13 +5,12 @@ import { FiShare, FiHeart } from "react-icons/fi";
 import { TbGridDots } from "react-icons/tb";
 import { FaStar } from "react-icons/fa";
 import { CiParking1 } from "react-icons/ci";
-import { GiAtSea } from "react-icons/gi";
 import { MdFlag } from "react-icons/md";
 import { SlStar, SlGlobe } from "react-icons/sl";
-import { GiComb } from "react-icons/gi";
-
+import { FiChevronDown } from "react-icons/fi";
 import { useLocation, useParams } from 'react-router-dom';
 import { __getAccommodation } from '../redux/modules/accommodationSlice';
+import Button from './elements/Button'
 
 const DetailAccommodation = () => {
     const dispatch = useDispatch()
@@ -45,7 +44,8 @@ const DetailAccommodation = () => {
         return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
     console.log(getAccommodationFocus)
-    
+    const initTotal = getAccommodationFocus?.accommoInfo?.price*5
+    const vatTotal = initTotal*0.15
     
     useEffect(()=> {
          dispatch(__getAccommodation(id))
@@ -254,19 +254,122 @@ const DetailAccommodation = () => {
                         </Padding48>
                     </DetailBox>
 
+                    {/* stickyBox 시작 */}
                     <DetailBoxRight>
                         <StickyArea>
                             <StickyBox>
-                                <FlexRowLeftCenter>
-                                    <Font22>₩ {priceToString(getAccommodationFocus?.accommoInfo?.price)} </Font22>
-                                    <Font16>/박</Font16>
-                                </FlexRowLeftCenter>
-                                <FlexRow>
-                                    <FaStar />
-                                    <span>{getAccommodationFocus?.accommoInfo?.rating} · </span>
-                                    <Font14Underline>
-                                        후기 {"46"}개
-                                    </Font14Underline>
+                                <FlexCol gap="5px">
+                                    <FlexRowLeftCenter>
+                                        <Font22>₩{priceToString(getAccommodationFocus?.accommoInfo?.price)} </Font22>
+                                        <Font16>/박</Font16>
+                                    </FlexRowLeftCenter>
+                                    <FlexRow>
+                                        <FaStar />
+                                        <span>{getAccommodationFocus?.accommoInfo?.rating} · </span>
+                                        <Font14Underline>
+                                            후기 {"46"}개
+                                        </Font14Underline>
+                                    </FlexRow>
+                                </FlexCol>
+                                <BorderBox>
+                                    <FlexCol>
+                                        <FlexRow
+                                            border="1px solid #B0B0B0"
+                                            borderRadius="8px 8px 0 0"
+                                            borderBottom="none"
+                                        >
+                                            <FlexCol
+                                                gap='5px'
+                                                padding="10px"
+                                            >
+                                                <Text
+                                                    fontSize="10px"
+                                                    fontWeight="600"
+                                                >체크인</Text>
+                                                <Text
+                                                    fontSize="14px"
+                                                >2022.11.05</Text>
+                                            </FlexCol>
+                                            <FlexCol
+                                                gap='5px'
+                                                borderLeft="1px solid #B0B0B0"
+                                                padding="10px"
+                                            >
+                                                <Text
+                                                    fontSize="10px"
+                                                    fontWeight="600"
+                                                >체크아웃</Text>
+                                                <Text
+                                                    fontSize="14px"
+                                                >2022.11.09</Text>
+                                            </FlexCol>
+                                        </FlexRow>
+                                        <FlexRow
+                                            border="1px solid #B0B0B0"
+                                            borderRadius="0 0 8px 8px"
+                                            alignItem="center"
+                                        >
+                                            <FlexCol
+                                                gap='5px'
+                                                padding="10px"
+                                            >
+                                                <Text
+                                                    fontSize="10px"
+                                                    fontWeight="600"
+                                                >인원</Text>
+                                                <Text
+                                                    fontSize="14px"
+                                                >게스트 1명</Text>
+                                            </FlexCol>
+                                            <IconBox
+                                                padding="10px"
+                                            ><FiChevronDown size={20}/></IconBox>
+                                        </FlexRow>
+                                    </FlexCol>
+                                </BorderBox>
+                                <FlexCol>
+                                    <Button
+                                        borderRadius='8px'
+                                        border='none'
+                                        background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
+                                        color='white'
+                                        fontWeight='600'
+                                        padding='14px'
+                                        width='100%'
+                                        fontSize='16px'
+                                    >예약하기</Button>
+                                </FlexCol>
+                                <FlexCol>
+                                    <Text fontSize="12px" justifyContent="center" textAlign="center">
+                                        예약 확정 전에는 요금이 청구되지 않습니다.
+                                    </Text>
+                                </FlexCol>
+                                <FlexCol gap="10px">
+                                    <FlexRow justifyContent="space-between">
+                                        <Text fontSize="14px" textDecoration="underline">
+                                            ₩{priceToString(getAccommodationFocus?.accommoInfo?.price)} × 5박
+                                        </Text>
+                                        <Text fontSize="14px">
+                                            ₩{priceToString(initTotal)}
+                                        </Text>
+                                    </FlexRow>
+                                    <FlexRow justifyContent="space-between">
+                                        <Text fontSize="14px" textDecoration="underline">
+                                            서비스 수수료
+                                        </Text>
+                                        <Text fontSize="14px">
+                                            ₩{priceToString(vatTotal)}
+                                        </Text>
+                                    </FlexRow>
+                                </FlexCol>
+                                <Liner />
+                                <FlexRow justifyContent="space-between">
+                                    <Text fontSize="14px" fontWeight="600">
+                                        총 합계
+                                    </Text>
+                                    <Text fontSize="14px" fontWeight="600">
+                                        ₩{priceToString(initTotal+vatTotal)}
+                                    </Text>
                                 </FlexRow>
                             </StickyBox>
                             <FlexRow justifyContent="center" gap="10px">
@@ -277,6 +380,8 @@ const DetailAccommodation = () => {
                     </DetailBoxRight>
                 </DetailBody>
                 <Liner />
+
+                {/* 아래 영역 시작 */}
                 <Padding48 gap='50px' width="100%">
                     <FlexRow gap="10px" width="50%">
                         <FlexRow><SlStar size={24} /></FlexRow>
@@ -314,12 +419,25 @@ const FlexRow = styled.div`
     flex-direction: row;
     /* align-items: center; */
     gap: ${props=>props.gap};
+    align-items: ${props=>props.alignItem};
     justify-content: ${props=>props.justifyContent};
+    border: ${props=>props.border};
+    border-bottom: ${props=>props.borderBottom};
+    
+    padding: ${props=>props.padding};
+    border-radius: ${props=>props.borderRadius};
+    width: 100%;
 `
 const FlexCol = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${props=>props.gap};
+    justify-content: ${props=>props.justifyContent};
+    border-left: ${props=>props.borderLeft};
+    border: ${props=>props.border};
+    padding: ${props=>props.padding};
+    border-radius: ${props=>props.borderRadius};
+    width: 100%;
 `
 const Ctn = styled.div`
     max-width: 1200px;
@@ -519,14 +637,14 @@ const StickyArea = styled.div`
     position: sticky;
     top: 120px;
     right: 0;
+    margin-bottom: 50px;
 `
 const StickyBox = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 20px;
     padding: 24px;
     margin-bottom: 20px;
-    height: 500px;
     border: 1px solid #ebebeb;
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
@@ -568,6 +686,20 @@ const FacImg = styled.img`
     width: 16px;
     height: 16px;
     object-fit: cover;
+`
+const BorderBox = styled.div``
+const Text = styled.p`
+    font-size: ${props=>props.fontSize};
+    font-weight: ${props=>props.fontWeight};
+    color: ${props=>props.color};
+    display: flex;
+    justify-content: ${props=>props.justifyContent};
+    text-align: ${props=>props.textAlign};
+    text-decoration: ${props=>props.textDecoration};
+`
+const IconBox = styled.div`
+    padding: ${props=>props.padding};
+    margin: ${props=>props.margin};
 `
 
 export default DetailAccommodation

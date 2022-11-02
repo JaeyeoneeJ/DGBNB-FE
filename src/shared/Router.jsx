@@ -12,6 +12,7 @@ import SignupForth from "../components/SignupForth";
 import SignupFifth from "../components/SginupFifth";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
+import AccountSettingPage from "../pages/AccountSettingPage";
 
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
@@ -79,9 +80,10 @@ const Router = () => {
         />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/accommodation" element={<PostAccommodation />} />
+        <Route path="/account-setting/hosting" element={<PostAccommodation />} />
         <Route path="/mypage" element={<UserPofile />} />
         <Route path="/accommodation/:id" element={<DetailAccPage />} />
+        <Route path="/account-setting" element={<AccountSettingPage />} />
       </Routes>
     </BrowserRouter>
   );

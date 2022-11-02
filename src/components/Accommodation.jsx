@@ -26,13 +26,15 @@ const Accommodation = ({ acc }) => {
                         <AccName>{acc.accName}</AccName>
                         <StarArea>
                             <FaStar />
-                            <span>{acc.rating}</span>
+                            <span>{
+                                (acc.rating===null) ? "NEW" : acc.rating
+                            }</span>
                         </StarArea>
                     </AccHeader>
                     <AccText>{acc.accAddr}</AccText>
                     <AccText>최대 인원 {acc.maxPerson}명 · 방 {acc.room} · 침대 {acc.bed} · 욕실 {acc.bathroom}</AccText>
                 </AccContent>
-                <AccPrice><Strong>{priceToString(acc?.price)}</Strong> /박</AccPrice>
+                <AccPrice><Strong>₩{priceToString(acc?.price)}</Strong> /박</AccPrice>
             </ContentBox>
         </Ctn>
     )
