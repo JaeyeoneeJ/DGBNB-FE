@@ -10,7 +10,7 @@ const Accommodation = ({ acc }) => {
         return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
     
-    console.log(acc?.AccommodationsPictures[0].thumbnail)
+    console.log(acc?.AccommodationsPictures[0]?.thumbnail)
     // const [thumbnail] = acc?.AccommodationsPictures
     // console.log(thumbnail)
     // const mainImg = thumbnail.thumbnail
@@ -18,7 +18,7 @@ const Accommodation = ({ acc }) => {
     return (
         <Ctn onClick={()=>navigate(`/accommodation/${acc.accId}`)}>
             <ImgBox>
-                <ImgTag src={acc?.AccommodationsPictures[0].thumbnail} alt={`acc.accId`} />
+                <ImgTag src={acc?.AccommodationsPictures[0]?.thumbnail} alt={`acc.accId`} />
             </ImgBox>
             <ContentBox>
                 <AccContent>

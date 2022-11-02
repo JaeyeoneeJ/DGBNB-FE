@@ -40,14 +40,12 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
       bathroom: Number(bathroomRef.current.value),
       facilities: facilityItems,
       accImg: accImgRef.current.files,
-      // accImg: formDataImg,
       description: descriptionRef.current.value,
     };
-    // accImgs.map(accImg=>{
-    // 	formDataImg.append(accImg)
-    // })
+    
     dispatch(__postAccommodations(postAccommodationItems));
   };
+
   ///// 이미지프리뷰
   const [fileImage, setFileImage] = useState("");
 

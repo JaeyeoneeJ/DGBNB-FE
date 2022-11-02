@@ -7,7 +7,8 @@ import LogoItem from "./elements/LogoItem";
 import LogoTextItem from "./elements/LogoTextItem";
 import EarthItem from "./elements/EarthItem";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { __getLoginInfo } from "../redux/modules/loginSlice";
 
 const Header = ({
   onShowSignup,
@@ -16,6 +17,7 @@ const Header = ({
   setOnShowLogin,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [isShowHamburgerMenu, setIsShowHamburgerMenu] = useState(false);
   const isLogin = localStorage.getItem("token");
 
@@ -40,6 +42,10 @@ const Header = ({
       // document.removeEventListener('touchstart', handler); // 모바일 대응
     };
   });
+
+  useEffect(()=> {
+    isLogin && dispatch(__getLoginInfo())
+  },[dispatch])
 
   return (
     <Ctn>
