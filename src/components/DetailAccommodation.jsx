@@ -463,18 +463,21 @@ const DetailAccommodation = () => {
                 {/* 아래 영역 시작 */}
                 <Padding48 gap='50px' width="100%">
                     <FlexRow gap="10px" width="50%">
-                        <FlexRow><SlStar size={24} /></FlexRow>
-                        <Font16LH24>
-                            이 호스트의 다른 숙소에 대한 후기가 1개 있습니다. <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>다른 숙소 후기 보기</a>
-                        </Font16LH24>
+                        <FlexRow gap="10px">
+                            <SlStar size={24} />
+                            <Font16LH24>
+                                이 호스트의 다른 숙소에 대한 후기가 1개 있습니다. <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>다른 숙소 후기 보기</a>
+                            </Font16LH24>
+                        </FlexRow>
                     </FlexRow>
                     <FlexRow gap="10px" width="50%">
-                        <FlexRow><SlGlobe size={24} /></FlexRow>
-                        
-                        <Font16LH24>
-                            여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은 <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>에어비앤비의 게스트 환불 정책</a>에 따라 보호를 받습니다.
-                            다른 숙소 후기 보기
-                        </Font16LH24>
+                        <FlexRow gap="10px">
+                            <SlGlobe size={24} />
+                            <Font16LH24>
+                                여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은 <a href='#' style={{fontWeight:"600", textDecoration:"underline"}}>에어비앤비의 게스트 환불 정책</a>에 따라 보호를 받습니다.
+                                다른 숙소 후기 보기
+                            </Font16LH24>
+                        </FlexRow>
                     </FlexRow>
                 </Padding48>
                 <Padding48>
@@ -686,6 +689,7 @@ const Font16 = styled.p`
     text-decoration: ${props=>props.textDecoration};
 `
 const Font16LH24 = styled.p`
+    width: 100%;
     font-size: 16px;
     font-weight: ${props=>props.fontWeight};
     text-decoration: ${props=>props.textDecoration};
