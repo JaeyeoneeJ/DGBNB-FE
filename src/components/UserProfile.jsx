@@ -38,60 +38,61 @@ const UserProfile = () => {
     navigate(`/mypage/myhosting/${accId}`);
   };
   return (
-    <>
-      <WholeBox>
-        <ReservationSection>
-          {globalReservationList?.map((item) => {
-            return (
-              <ReservationBox
-                key={item.resId}
-                onClick={() => onClickReservation(memberId)}
-              >
-                <div>
-                  <label>등록일</label>
-                  {item.createdAt}
-                </div>
-                <div>
-                  <label>체크인</label>
-                  {item.resCheckin}
-                </div>
-                <div>
-                  <label>체크아웃</label>
-                  {item.resCheckOut}
-                </div>
-              </ReservationBox>
-            );
-          })}
-        </ReservationSection>
-        <AccommodationSection>
-          {globalAccommodationList?.map((item) => {
-            return (
-              <AccommodationBox
-                key={item.accId}
-                onClick={() => onClickAccommodation(item.accId)}
-              >
-                <div>
-                  <label>숙소 이름</label>
-                  {item.accName}
-                </div>
-                <div>
-                  <label>숙소 주소</label>
-                  {item.accAddr}
-                </div>
-                <div>
-                  <label>숙소 가격</label>
-                  {item.price}
-                </div>
-                <div>
-                  <label>숙소 이미지</label>
-                  {item.accImg}
-                </div>
-              </AccommodationBox>
-            );
-          })}
-        </AccommodationSection>
-      </WholeBox>
-    </>
+    <></>
+    // <>
+    //   <WholeBox>
+    //     <ReservationSection>
+    //       {globalReservationList?.map((item) => {
+    //         return (
+    //           <ReservationBox
+    //             key={item.resId}
+    //             onClick={() => onClickReservation(memberId)}
+    //           >
+    //             <div>
+    //               <label>등록일</label>
+    //               {item.createdAt}
+    //             </div>
+    //             <div>
+    //               <label>체크인</label>
+    //               {item.resCheckin}
+    //             </div>
+    //             <div>
+    //               <label>체크아웃</label>
+    //               {item.resCheckOut}
+    //             </div>
+    //           </ReservationBox>
+    //         );
+    //       })}
+    //     </ReservationSection>
+    //     <AccommodationSection>
+    //       {globalAccommodationList?.map((item) => {
+    //         return (
+    //           <AccommodationBox
+    //             key={item.accId}
+    //             onClick={() => onClickAccommodation(item.accId)}
+    //           >
+    //             <div>
+    //               <label>숙소 이름</label>
+    //               {item.accName}
+    //             </div>
+    //             <div>
+    //               <label>숙소 주소</label>
+    //               {item.accAddr}
+    //             </div>
+    //             <div>
+    //               <label>숙소 가격</label>
+    //               {item.price}
+    //             </div>
+    //             <div>
+    //               <label>숙소 이미지</label>
+    //               {item.accImg}
+    //             </div>
+    //           </AccommodationBox>
+    //         );
+    //       })}
+    //     </AccommodationSection>
+    //   </WholeBox>
+    // </>
   );
 };
 
