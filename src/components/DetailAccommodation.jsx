@@ -341,9 +341,10 @@ const DetailAccommodation = () => {
                                         <Font22>₩{priceToString(getAccommodationFocus?.accommoInfo?.price)} </Font22>
                                         <Font16>/박</Font16>
                                     </FlexRowLeftCenter>
-                                    <FlexRow>
+                                    <FlexRow gap="5px">
                                         <FaStar />
-                                        <span>{getAccommodationFocus?.accommoInfo?.rating} · </span>
+                                        <span>
+                                        {(getAccommodationFocus?.accommoInfo?.rating===null) ? "NEW" : getAccommodationFocus?.accommoInfo?.rating}</span>
                                         <Font14Underline>
                                             후기 {"46"}개
                                         </Font14Underline>
