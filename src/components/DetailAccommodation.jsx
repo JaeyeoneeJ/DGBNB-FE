@@ -12,78 +12,74 @@ import { useLocation, useParams } from "react-router-dom";
 import { __getAccommodation } from "../redux/modules/accommodationSlice";
 import { __deleteAccommodation } from "../redux/modules/accommodationSlice";
 import Button from "./elements/Button";
+import { ClearIsSuccess, __putLikedAccommodation } from "../redux/modules/likedAccommodationSlice";
 
 const DetailAccommodation = () => {
-  const dispatch = useDispatch();
-  const { id } = useParams();
-  console.log(id);
-  const { getAccommodationFocus } = useSelector((state) => state.accommodation);
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    console.log(id);
+    const { getAccommodationFocus } = useSelector((state) => state.accommodation);
+    const {isSuccess} = useSelector((state)=>state.likes)
 
-  const initFacilities = {
-    drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
-    shampoo: "https://cdn-icons-png.flaticon.com/512/1848/1848239.png",
-    bath: "https://cdn-icons-png.flaticon.com/512/857/857663.png",
-    warmWater: "https://cdn-icons-png.flaticon.com/512/5322/5322512.png",
-    airConditioner: "https://cdn-icons-png.flaticon.com/512/5907/5907476.png",
-    heating: "https://cdn-icons-png.flaticon.com/512/1684/1684324.png",
-    wifi: "https://cdn-icons-png.flaticon.com/512/2696/2696335.png",
-    refrigerator: "https://cdn-icons-png.flaticon.com/512/7259/7259784.png",
-    parking: "https://cdn-icons-png.flaticon.com/512/846/846338.png",
-  };
+    const initFacilities = {
+        drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
+        shampoo: "https://cdn-icons-png.flaticon.com/512/1848/1848239.png",
+        bath: "https://cdn-icons-png.flaticon.com/512/857/857663.png",
+        warmWater: "https://cdn-icons-png.flaticon.com/512/5322/5322512.png",
+        airConditioner: "https://cdn-icons-png.flaticon.com/512/5907/5907476.png",
+        heating: "https://cdn-icons-png.flaticon.com/512/1684/1684324.png",
+        wifi: "https://cdn-icons-png.flaticon.com/512/2696/2696335.png",
+        refrigerator: "https://cdn-icons-png.flaticon.com/512/7259/7259784.png",
+        parking: "https://cdn-icons-png.flaticon.com/512/846/846338.png",
+    };
 
-  const splitFacilities =
-    getAccommodationFocus?.accommoInfo?.facilities?.split(",");
-  console.log(splitFacilities);
-  // console.log(getAccommodationFocus)
-  const location = useLocation();
-
-  const copyLink = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-
-      alert("url이 복사되었습니다.");
-    } catch (e) {
-      alert("url 복사가 실패하였습니다.");
-    }
-  };
-
-    const splitFacilities = getAccommodationFocus?.accommoInfo?.facilities?.split(",")
-    console.log(splitFacilities)
+    const splitFacilities =
+        getAccommodationFocus?.accommoInfo?.facilities?.split(",");
+    console.log(splitFacilities);
     // console.log(getAccommodationFocus)
-        
+    const location = useLocation();
+
     const copyLink = async (text) => {
         try {
             await navigator.clipboard.writeText(text);
 
-  useEffect(() => {
-    dispatch(__getAccommodation(id));
-  }, [location]);
-  ///
+            alert("url이 복사되었습니다.");
+        } catch (e) {
+            alert("url 복사가 실패하였습니다.");
+        }
+    };
 
-  const deleteHostingDispatch = (accId) => {
-    if (window.confirm("호스팅을 삭제하시겠습니까?")) {
-      dispatch(__deleteAccommodation(accId));
+
+    useEffect(() => {
+        dispatch(__getAccommodation(id));
+    }, [location]);
+    ///
+
+    const deleteHostingDispatch = (accId) => {
+        if (window.confirm("호스팅을 삭제하시겠습니까?")) {
+            dispatch(__deleteAccommodation(accId));
+        }
     }
-    
+
     function priceToString(price) {
         return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
-    const initTotal = getAccommodationFocus?.accommoInfo?.price*5
-    const vatTotal = initTotal*0.15
-    
+    const initTotal = getAccommodationFocus?.accommoInfo?.price * 5
+    const vatTotal = initTotal * 0.15
+
     const onClickLiked = () => {
         return window.confirm('이 숙소를 위시리스트에 저장하시겠습니까?') ? dispatch(__putLikedAccommodation(id)) : null
     }
 
     // useEffect(()=> {
-        
+
     // },[location])
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(__getAccommodation(id))
         isSuccess && alert('숙소가 위시리스트에 저장되었습니다.')
         dispatch(ClearIsSuccess())
-    },[isSuccess])
+    }, [isSuccess])
 
     return (
         <Ctn>
@@ -93,11 +89,11 @@ const DetailAccommodation = () => {
                     <DetailHeaderBox>
                         <AccAddr>{getAccommodationFocus?.accommoInfo?.accAddr}</AccAddr>
                         <PickArea>
-                            <PickBtn onClick={()=>copyLink(`http://localhost:3000${location.pathname}`)}>
+                            <PickBtn onClick={() => copyLink(`http://localhost:3000${location.pathname}`)}>
                                 <FiShare />
                                 공유하기
                             </PickBtn>
-                            <PickBtn onClick={()=>onClickLiked()}>
+                            <PickBtn onClick={() => onClickLiked()}>
                                 <FiHeart />
                                 저장
                             </PickBtn>
@@ -151,7 +147,7 @@ const DetailAccommodation = () => {
                         <DatailBoxHeader>
                             <DatailBoxHeader2>
                                 <Font22>
-                                {getAccommodationFocus?.hostInfo?.name}님이 호스팅하는 펜션
+                                    {getAccommodationFocus?.hostInfo?.name}님이 호스팅하는 펜션
                                 </Font22>
                                 <Font16>
                                     최대 인원 {getAccommodationFocus?.accommoInfo?.maxPerson}명 · 방 {getAccommodationFocus?.accommoInfo?.room} · 침대 {getAccommodationFocus?.accommoInfo?.bed}개 · 욕실 {getAccommodationFocus?.accommoInfo?.bathroom}개
@@ -169,7 +165,7 @@ const DetailAccommodation = () => {
                         <Padding24
                             gap='5px'
                         >
-                            <CiParking1 size={24}/>
+                            <CiParking1 size={24} />
                             <FlexCol>
                                 <Font16 fontWeight="600">
                                     무료 주차 혜택을 누리세요
@@ -184,7 +180,7 @@ const DetailAccommodation = () => {
                             gap='20px'
                             flexDir='column'
                         >
-                            <AirCover src='https://a0.muscache.com/im/pictures/51a7f002-b223-4e05-a2af-0d4838411d92.jpg'/>
+                            <AirCover src='https://a0.muscache.com/im/pictures/51a7f002-b223-4e05-a2af-0d4838411d92.jpg' />
                             <Font16>
                                 모든 예약에는 호스트가 예약을 취소하거나 숙소 정보가 정확하지 않은 경우 또는 체크인에 문제가 있는 상황에 대비한 무료 보호 프로그램이 포함됩니다.
                             </Font16>
@@ -223,7 +219,7 @@ const DetailAccommodation = () => {
                                 maxHeight="160px"
                             >
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('drier') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -235,7 +231,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('shampoo') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -247,7 +243,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('bath') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -259,7 +255,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('warmWater') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -271,7 +267,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('airConditioner') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -283,7 +279,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('heating') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -295,7 +291,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('wifi') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -307,7 +303,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('refrigerator') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -319,7 +315,7 @@ const DetailAccommodation = () => {
                                     ))
                                 }
                                 {
-                                    splitFacilities?.map((item)=>(
+                                    splitFacilities?.map((item) => (
                                         item.includes('parking') &&
                                         <FlexRow gap='10px'>
                                             <FacImg
@@ -363,7 +359,7 @@ const DetailAccommodation = () => {
                                     <FlexRow gap="5px">
                                         <FaStar />
                                         <span>
-                                        {(getAccommodationFocus?.accommoInfo?.rating===null) ? "NEW" : getAccommodationFocus?.accommoInfo?.rating}</span>
+                                            {(getAccommodationFocus?.accommoInfo?.rating === null) ? "NEW" : getAccommodationFocus?.accommoInfo?.rating}</span>
                                         <Font14Underline>
                                             후기 {"46"}개
                                         </Font14Underline>
@@ -421,7 +417,7 @@ const DetailAccommodation = () => {
                                             </FlexCol>
                                             <IconBox
                                                 padding="10px"
-                                            ><FiChevronDown size={20}/></IconBox>
+                                            ><FiChevronDown size={20} /></IconBox>
                                         </FlexRow>
                                     </FlexCol>
                                 </BorderBox>
@@ -466,12 +462,12 @@ const DetailAccommodation = () => {
                                         총 합계
                                     </Text>
                                     <Text fontSize="14px" fontWeight="600">
-                                        ₩{priceToString(initTotal+vatTotal)}
+                                        ₩{priceToString(initTotal + vatTotal)}
                                     </Text>
                                 </FlexRow>
                             </StickyBox>
                             <FlexRow justifyContent="center" gap="10px">
-                                <MdFlag size={14} color="#717171"/>
+                                <MdFlag size={14} color="#717171" />
                                 <Font14>숙소 신고하기</Font14>
                             </FlexRow>
                         </StickyArea>
@@ -479,50 +475,50 @@ const DetailAccommodation = () => {
                 </DetailBody>
                 <Liner />
 
-        {/* 아래 영역 시작 */}
-        <Padding48 gap="50px" width="100%">
-          <FlexRow gap="10px" width="50%">
-            <FlexRow>
-              <SlStar size={24} />
-            </FlexRow>
-            <Font16LH24>
-              이 호스트의 다른 숙소에 대한 후기가 1개 있습니다.{" "}
-              <a
-                href="#"
-                style={{ fontWeight: "600", textDecoration: "underline" }}
-              >
-                다른 숙소 후기 보기
-              </a>
-            </Font16LH24>
-          </FlexRow>
-          <FlexRow gap="10px" width="50%">
-            <FlexRow>
-              <SlGlobe size={24} />
-            </FlexRow>
+                {/* 아래 영역 시작 */}
+                <Padding48 gap="50px" width="100%">
+                    <FlexRow gap="10px" width="50%">
+                        <FlexRow>
+                            <SlStar size={24} />
+                        </FlexRow>
+                        <Font16LH24>
+                            이 호스트의 다른 숙소에 대한 후기가 1개 있습니다.{" "}
+                            <a
+                                href="#"
+                                style={{ fontWeight: "600", textDecoration: "underline" }}
+                            >
+                                다른 숙소 후기 보기
+                            </a>
+                        </Font16LH24>
+                    </FlexRow>
+                    <FlexRow gap="10px" width="50%">
+                        <FlexRow>
+                            <SlGlobe size={24} />
+                        </FlexRow>
 
-            <Font16LH24>
-              여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은{" "}
-              <a
-                href="#"
-                style={{ fontWeight: "600", textDecoration: "underline" }}
-              >
-                에어비앤비의 게스트 환불 정책
-              </a>
-              에 따라 보호를 받습니다. 다른 숙소 후기 보기
-            </Font16LH24>
-            <button
-              onClick={() => {
-                deleteHostingDispatch(id);
-              }}
-            >
-              저는 호스팅 삭제 버튼입니다
-            </button>
-          </FlexRow>
-        </Padding48>
-        <Padding48></Padding48>
-      </DetailCtn>
-    </Ctn>
-  );
+                        <Font16LH24>
+                            여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은{" "}
+                            <a
+                                href="#"
+                                style={{ fontWeight: "600", textDecoration: "underline" }}
+                            >
+                                에어비앤비의 게스트 환불 정책
+                            </a>
+                            에 따라 보호를 받습니다. 다른 숙소 후기 보기
+                        </Font16LH24>
+                        <button
+                            onClick={() => {
+                                deleteHostingDispatch(id);
+                            }}
+                        >
+                            저는 호스팅 삭제 버튼입니다
+                        </button>
+                    </FlexRow>
+                </Padding48>
+                <Padding48></Padding48>
+            </DetailCtn>
+        </Ctn>
+    );
 };
 
 const FlexRowLeftCenter = styled.div`
@@ -728,8 +724,8 @@ const Font16 = styled.p`
 const Font16LH24 = styled.p`
     width: 100%;
     font-size: 16px;
-    font-weight: ${props=>props.fontWeight};
-    text-decoration: ${props=>props.textDecoration};
+    font-weight: ${props => props.fontWeight};
+    text-decoration: ${props => props.textDecoration};
     line-height: 24px;
 `
 const Font14 = styled.p`
