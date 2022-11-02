@@ -40,9 +40,10 @@ const Login = ({ onShowLogin, setOnShowLogin }) => {
 
   useEffect(() => {
     if (globalIsLogin === true) {
-      alert(`${globalnickname}님 환영합니다`);
       dispatch(resetIsLogin());
-      return window.location.replace("/");
+      setOnShowLogin(false);
+      return alert(`${globalnickname}님 환영합니다`);
+      // window.location.replace('/')
     }
   }, [globalIsLogin]);
 
