@@ -37,9 +37,9 @@ const initialState = {
       deletedAt: null,
     },
   ],
-  isSuccess : false,
-  isLoading : false,
-  error : null,
+  isSuccess: false,
+  isLoading: false,
+  error: null,
 };
 
 // const url = "";
@@ -70,7 +70,7 @@ export const __putLikedAccommodation = createAsyncThunk(
           Authorization: token,
         },
       });
-      console.log(data)
+      console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -83,8 +83,8 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     ClearIsSuccess: (state, action) => {
-      state.isSuccess = false
-    }
+      state.isSuccess = false;
+    },
   },
   extraReducers: {
     [__getLikedAccommodationList.pending]: (state, action) => {
