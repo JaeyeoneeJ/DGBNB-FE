@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { HiChevronRight } from "react-icons/hi";
 import Button from "./elements/Button";
-import logoImg from "../components/airbnb_logo.png";
+import logoImg from "../components/assets/img/airbnb_logo.png";
 
 const SignupThird = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   //// 기존 코드
