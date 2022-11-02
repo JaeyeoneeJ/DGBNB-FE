@@ -49,18 +49,7 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 		);
 		const selectedElArray = Array.prototype.slice.call(selectedEl);
 		const facilityItems = selectedElArray.map((item) => item.id);
-		
-		
 
-
-		
-		
-		// formDataImg.append('accImg', accImgs)
-
-		
-
-		
-		
 		const postAccommodationItems = {
 			accName: accNameRef.current.value,
 			accAddr: accAddrRef.current.value,
@@ -150,7 +139,7 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 					<FlexCol gap='10px'>
 						<Text fontSize='16px' fontWeight='600'>제공하는 편의시설을 골라주세요</Text>
 						<BorderBox>
-							<FlexRow gap='10px' flexWrap="wrap" justifyContent="space-between">
+							<FlexRow gap='20px' flexWrap="wrap" justifyContent="space-around">
 								<CheckBoxItem>
 									<InputArea
 										type="checkbox"
@@ -182,6 +171,46 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 										name="facilities"
 									/>
 									<TextLabel htmlFor="warmWater">온수</TextLabel>
+								</CheckBoxItem>
+								<CheckBoxItem>
+									<InputArea
+										type="checkbox"
+										id="airConditioner"
+										name="facilities"
+									/>
+									<TextLabel htmlFor="airConditioner">냉방</TextLabel>
+								</CheckBoxItem>
+								<CheckBoxItem>
+									<InputArea
+										type="checkbox"
+										id="heating"
+										name="facilities"
+									/>
+									<TextLabel htmlFor="heating">난방</TextLabel>
+								</CheckBoxItem>
+								<CheckBoxItem>
+									<InputArea
+										type="checkbox"
+										id="wifi"
+										name="facilities"
+									/>
+									<TextLabel htmlFor="heating">무선 인터넷</TextLabel>
+								</CheckBoxItem>
+								<CheckBoxItem>
+									<InputArea
+										type="checkbox"
+										id="refrigerator"
+										name="facilities"
+									/>
+									<TextLabel htmlFor="heating">냉장고</TextLabel>
+								</CheckBoxItem>
+								<CheckBoxItem>
+									<InputArea
+										type="checkbox"
+										id="parking"
+										name="facilities"
+									/>
+									<TextLabel htmlFor="heating">주차</TextLabel>
 								</CheckBoxItem>
 							</FlexRow>
 						</BorderBox>

@@ -22,7 +22,12 @@ const DetailAccommodation = () => {
         drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
         shampoo: "https://cdn-icons-png.flaticon.com/512/1848/1848239.png",
         bath: "https://cdn-icons-png.flaticon.com/512/857/857663.png",
-        warmWater: "https://cdn-icons-png.flaticon.com/512/5322/5322512.png"
+        warmWater: "https://cdn-icons-png.flaticon.com/512/5322/5322512.png",
+        airConditioner: "https://cdn-icons-png.flaticon.com/512/5907/5907476.png",
+        heating: "https://cdn-icons-png.flaticon.com/512/1684/1684324.png",
+        wifi: "https://cdn-icons-png.flaticon.com/512/2696/2696335.png",
+        refrigerator: "https://cdn-icons-png.flaticon.com/512/7259/7259784.png",
+        parking: "https://cdn-icons-png.flaticon.com/512/846/846338.png",
     }
 
     const splitFacilities = getAccommodationFocus?.accommoInfo?.facilities?.split(",")
@@ -184,7 +189,10 @@ const DetailAccommodation = () => {
                             <Font22>
                                 숙소 편의시설
                             </Font22>
-                            <FlexCol gap='16px'>
+                            <FlexCol
+                                gap='16px'
+                                maxHeight="160px"
+                            >
                                 {
                                     splitFacilities?.map((item)=>(
                                         item.includes('drier') &&
@@ -230,6 +238,66 @@ const DetailAccommodation = () => {
                                                 alt="warmWater"
                                             />
                                             <Font16>온수</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('airConditioner') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.airConditioner}
+                                                alt="airConditioner"
+                                            />
+                                            <Font16>냉방</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('heating') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.heating}
+                                                alt="heating"
+                                            />
+                                            <Font16>난방</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('wifi') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.wifi}
+                                                alt="wifi"
+                                            />
+                                            <Font16>무선 인터넷</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('refrigerator') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.refrigerator}
+                                                alt="refrigerator"
+                                            />
+                                            <Font16>냉장고</Font16>
+                                        </FlexRow>
+                                    ))
+                                }
+                                {
+                                    splitFacilities?.map((item)=>(
+                                        item.includes('parking') &&
+                                        <FlexRow gap='10px'>
+                                            <FacImg
+                                                src={initFacilities?.parking}
+                                                alt="parking"
+                                            />
+                                            <Font16>주차</Font16>
                                         </FlexRow>
                                     ))
                                 }
@@ -437,6 +505,9 @@ const FlexCol = styled.div`
     border: ${props=>props.border};
     padding: ${props=>props.padding};
     border-radius: ${props=>props.borderRadius};
+    max-height: ${props=>props.maxHeight};
+    box-sizing: border-box;
+    overflow: hidden;
     width: 100%;
 `
 const Ctn = styled.div`
