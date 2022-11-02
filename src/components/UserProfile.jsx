@@ -8,6 +8,7 @@ import { __getReservationList } from "../redux/modules/reservationSlice";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
     dispatch(__getAccommodationList());
@@ -29,8 +30,8 @@ const UserProfile = () => {
   console.log("숙소 목록__", globalAccommodationList);
   ///oncCLick 함수
 
-  const onClickReservation = (accId) => {
-    navigate(`/mypage/myreservation/${accId}`);
+  const onClickReservation = (memberId) => {
+    navigate(`/mypage/myreservation/${memberId}`);
   };
 
   const onClickAccommodation = (accId) => {
@@ -40,11 +41,11 @@ const UserProfile = () => {
     <>
       <WholeBox>
         <ReservationSection>
-          {globalReservationList.map((item) => {
+          {globalReservationList?.map((item) => {
             return (
               <ReservationBox
                 key={item.resId}
-                onClick={() => onClickReservation(item.accId)}
+                onClick={() => onClickReservation(memberId)}
               >
                 <div>
                   <label>등록일</label>
@@ -63,7 +64,7 @@ const UserProfile = () => {
           })}
         </ReservationSection>
         <AccommodationSection>
-          {globalAccommodationList.map((item) => {
+          {globalAccommodationList?.map((item) => {
             return (
               <AccommodationBox
                 key={item.accId}
@@ -97,9 +98,9 @@ const UserProfile = () => {
 export default UserProfile;
 
 const WholeBox = styled.div`
+  margin-top: 98px;
   display: flex;
   flex-direction: column;
-  margin: 20px;
 `;
 const ReservationBox = styled.button`
   width: 200px;

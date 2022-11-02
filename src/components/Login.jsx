@@ -38,13 +38,13 @@ const Login = ({ onShowLogin, setOnShowLogin }) => {
 
   const modalRef = useRef(null);
 
-  useEffect(()=> {
+  useEffect(() => {
     if (globalIsLogin === true) {
       alert(`${globalnickname}님 환영합니다`);
-      dispatch(resetIsLogin())
-      return window.location.replace('/')
+      dispatch(resetIsLogin());
+      return window.location.replace("/");
     }
-  }, [globalIsLogin])
+  }, [globalIsLogin]);
 
   useEffect(() => {
     // 이벤트 핸들러 함수

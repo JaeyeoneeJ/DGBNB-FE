@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignupJJY from "../components/SignupJJY";
 import DetailAccPage from "../pages/DetailAccPage";
@@ -8,11 +8,11 @@ import Login from "../components/Login";
 import UserProfile from "../components/UserProfile";
 import UserProfileHosting from "../components/UserProfileHosting";
 import UserProfileReservation from "../components/UserProfileReservation";
-import Login from "../components/Login";
 import SignupSecond from "../components/SignupSecond";
 import SignupThird from "../components/SignupThird";
 import SignupForth from "../components/SignupForth";
 import SignupFifth from "../components/SginupFifth";
+import SignupCheck from "../components/SignupCheck";
 import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 
@@ -61,6 +61,14 @@ const Router = () => {
   } else if (signupMode === "FIFTH") {
     viewSignup = (
       <SignupFifth
+        onShowSignup={onShowSignup}
+        setOnShowSignup={setOnShowSignup}
+        setSignupMode={setSignupMode}
+      />
+    );
+  } else if (signupMode === "CHECK") {
+    viewSignup = (
+      <SignupCheck
         onShowSignup={onShowSignup}
         setOnShowSignup={setOnShowSignup}
         setSignupMode={setSignupMode}

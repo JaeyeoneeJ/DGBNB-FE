@@ -24,10 +24,15 @@ export const __postLogin = createAsyncThunk(
         },
       });
       console.log("로그인 데이터", data);
-      const token = data.loginData.token;
       const localSet = window.localStorage;
+      const token = data.loginData.token;
+      const memberImg = data.loginData.memberImg;
+      const memberId = data.loginData.memberId;
+      const nickname = data.loginData.nickname;
       localSet.setItem("token", token);
-      // localSet.setItem("memberId", memberId);
+      localSet.setItem("memberImg", memberImg);
+      localSet.setItem("memberId", memberId);
+      localSet.setItem("nickname", nickname);
       return thunkAPI.fulfillWithValue(data.loginData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -41,7 +46,7 @@ const loginSlice = createSlice({
   reducers: {
     resetIsLogin: (state) => {
       state.isLogin = false;
-    }
+    },
   },
   extraReducers: {
     [__postLogin.fulfilled]: (state, action) => {
