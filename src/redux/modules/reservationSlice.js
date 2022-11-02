@@ -19,7 +19,7 @@ const initialState = {
   ],
 };
 
-const url = "http://13.209.21.117:3000";
+const url = process.env.REACT_APP_API_URL;
 
 export const __getReservationList = createAsyncThunk(
   "reservation/getReservationList",

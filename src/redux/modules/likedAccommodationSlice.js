@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
-import {instance} from '../instance'
+import { instance } from "../instance";
 
 const initialState = {
   getLikedAccommodationList: [
@@ -37,12 +37,11 @@ const initialState = {
       deletedAt: null,
     },
   ],
-  isSuccess : false,
-  isLoading : false,
-  error : null,
+  isSuccess: false,
+  isLoading: false,
+  error: null,
 };
-
-const url = "";
+const url = process.env.REACT_APP_API_URL;
 
 export const __getLikedAccommodationList = createAsyncThunk(
   "likes/getLikedAccommodationList",
@@ -70,7 +69,7 @@ export const __putLikedAccommodation = createAsyncThunk(
           Authorization: token,
         },
       });
-      console.log(data)
+      console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -83,8 +82,8 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     ClearIsSuccess: (state, action) => {
-      state.isSuccess = false
-    }
+      state.isSuccess = false;
+    },
   },
   extraReducers: {
     [__getLikedAccommodationList.pending]: (state, action) => {

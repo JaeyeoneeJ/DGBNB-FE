@@ -11,7 +11,7 @@ const initialState = {
   //예약 상세 정보
 };
 
-const url = "http://13.209.21.117:3000";
+const url = process.env.REACT_APP_API_URL;
 
 export const __postAccommodations = createAsyncThunk(
   "accommodation/postAccomodations",

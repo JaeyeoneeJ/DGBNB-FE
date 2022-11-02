@@ -7,7 +7,7 @@ const initialState = {
   isSignup: false,
 };
 
-const url = "http://13.209.21.117:3000";
+const url = process.env.REACT_APP_API_URL;
 
 export const __postSignup = createAsyncThunk(
   "signup/postSignup",

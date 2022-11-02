@@ -66,7 +66,7 @@ const initialState = {
   },
 };
 
-const url = "";
+const url = process.env.REACT_APP_API_URL;
 
 export const __getReviewsList = createAsyncThunk(
   "reservation/getReservationList",

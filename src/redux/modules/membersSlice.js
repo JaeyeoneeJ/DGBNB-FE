@@ -12,7 +12,7 @@ const initialState = {
   },
 };
 
-const url = "";
+const url = process.env.REACT_APP_API_URL;
 
 export const __getMembers = createAsyncThunk(
   "members/getMembers",
