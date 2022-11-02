@@ -304,6 +304,9 @@ const SearchTitle = styled.h4``;
 const SearchContent = styled.p`
   font-size: 12px;
   color: #717171;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 const HoverBtn = styled.button`
   padding: 10px;

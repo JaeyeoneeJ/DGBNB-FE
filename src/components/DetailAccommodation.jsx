@@ -89,7 +89,7 @@ const DetailAccommodation = () => {
                     <DetailHeaderBox>
                         <AccAddr>{getAccommodationFocus?.accommoInfo?.accAddr}</AccAddr>
                         <PickArea>
-                            <PickBtn onClick={() => copyLink(`http://localhost:3000${location.pathname}`)}>
+                            <PickBtn onClick={() => copyLink(`https://dgbnb-jayquqae9-jaeyeoneej.vercel.app${location.pathname}`)}>
                                 <FiShare />
                                 공유하기
                             </PickBtn>

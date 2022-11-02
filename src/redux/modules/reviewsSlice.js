@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
+import { instance } from "../instance";
 
 const initialState = {
   getReviewsList: [
@@ -66,13 +67,13 @@ const initialState = {
   },
 };
 
-const url = "";
+// const url = "";
 
 export const __getReviewsList = createAsyncThunk(
   "reservation/getReservationList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${url}/reviews/${payload.accId}`, {
+      const { data } = await instance.get(`/reviews/${payload.accId}`, {
         params: {
           accId: payload.accId,
         },
@@ -88,8 +89,8 @@ export const __getReview = createAsyncThunk(
   "reservation/getReview",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(
-        `${url}/reviews/${payload.accId}/${payload.revId}`,
+      const { data } = await instance.get(
+        `/reviews/${payload.accId}/${payload.revId}`,
         {
           params: {
             revId: payload.revId,
@@ -123,7 +124,7 @@ export const __postReview = createAsyncThunk(
     const formData = new FormData();
     formData.append(reviewItems);
     try {
-      const { data } = await axios.post(`${url}/reviews/${payload.accId}`, {
+      const { data } = await instance.post(`/reviews/${payload.accId}`, {
         params: {
           accId: payload.accId,
         },
@@ -148,7 +149,7 @@ export const __putReview = createAsyncThunk(
     const formData = new FormData();
     formData.append(reviewItems);
     try {
-      const { data } = await axios.put(`${url}/reviews/${payload.revId}`, {
+      const { data } = await instance.put(`/reviews/${payload.revId}`, {
         params: {
           accId: payload.accId,
         },
@@ -167,7 +168,7 @@ export const __deleteReview = createAsyncThunk(
   "reviews/deleteReview",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.delete(`${url}reviews/${payload.revId}`, {
+      const { data } = await instance.delete(`/reviews/${payload.revId}`, {
         params: {
           revId: payload.revId,
         },

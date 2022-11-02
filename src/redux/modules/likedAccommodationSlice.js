@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
 import {instance} from '../instance'
 
 const initialState = {
@@ -42,13 +42,13 @@ const initialState = {
   error : null,
 };
 
-const url = "";
+// const url = "";
 
 export const __getLikedAccommodationList = createAsyncThunk(
   "likes/getLikedAccommodationList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${url}/likes/${payload.userId}`, {
+      const { data } = await instance.get(`/likes/${payload.userId}`, {
         params: {
           userId: payload.userId,
         },

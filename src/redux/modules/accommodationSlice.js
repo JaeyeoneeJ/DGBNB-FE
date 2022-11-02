@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
 import { instance } from "../instance";
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
   //예약 상세 정보
 };
 
-const url = "http://13.209.21.117:3000";
+// const url = "http://13.209.21.117:3000";
 
 export const __postAccommodations = createAsyncThunk(
   "accommodation/postAccomodations",
@@ -56,7 +56,7 @@ export const __postAccommodations = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
 
-      const { data } = await axios.post(`${url}/accommodations`, formdata, {
+      const { data } = await instance.post(`/accommodations`, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: token,
@@ -74,7 +74,7 @@ export const __getAccommodationList = createAsyncThunk(
   "accommodation/getAccommodationList",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${url}/accommodations`);
+      const data = await instance.get(`/accommodations`);
 
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -116,8 +116,8 @@ export const __putAccommodation = createAsyncThunk(
     const formData = new FormData();
     formData.append(accomodationItems);
     try {
-      const { data } = await axios.put(
-        `${url}/accommodations/${payload.accId}`,
+      const { data } = await instance.put(
+        `/accommodations/${payload.accId}`,
         {
           params: {
             accId: payload.accId,
@@ -141,8 +141,8 @@ export const __deleteAccommodation = createAsyncThunk(
     const token = localStorage.getItem("token");
     const NumberAccId = Number(payload);
     try {
-      const { data } = await axios.delete(
-        `${url}/accommodations/${NumberAccId}`,
+      const { data } = await instance.delete(
+        `/accommodations/${NumberAccId}`,
         {
           params: {
             accId: NumberAccId,
