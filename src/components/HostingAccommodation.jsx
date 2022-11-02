@@ -5,26 +5,7 @@ import styled from "styled-components";
 import { HiChevronRight } from "react-icons/hi";
 import Button from "./elements/Button";
 import { useNavigate } from "react-router-dom";
-
-// req.body ( formData에 담아서)
-// {
-//     accName: "숙소 이름",
-//     accAddr: “숙소 주소”,
-//     price: 80000,
-//     facilities: [’드라이기’, ‘수영장’],
-//     maxPerson: 10,
-//     bed: 3,
-//     room: 3,
-//     bathroom: 2,
-//     category: 1,
-//     accImg: [
-//        "/images/acc1.png",
-//        "/images/acc2.png",
-//        "/images/acc3.png",
-//        "/images/acc4.png"
-//     ]
-// }
-
+import { TbGridDots } from "react-icons/tb";
 const HostingAccommodation = ({ setOnShowSignup }) => {
   const navigate = useNavigate();
 
@@ -69,7 +50,6 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
   };
   ///// 이미지프리뷰
   const [fileImage, setFileImage] = useState("");
-  const fileRef = useRef();
 
   ///files 변환
 
@@ -247,8 +227,7 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
             <Text fontSize="14px" color="#B0B0B0">
               사진을 최소 5장 선택해주세요.
             </Text>
-
-            {fileImage &&
+            {/* {fileImage &&
               fileImage.map((item) => {
                 return (
                   <img
@@ -257,8 +236,38 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
                     style={{ width: "200px", margin: "auto" }}
                   />
                 );
-              })}
-
+              })} */}
+            /////////////////
+            <AccPictureBox>
+              <MainPic>
+                <ImgTagBox>
+                  <ImgTag src={fileImage ? fileImage[0] : null} />
+                </ImgTagBox>
+              </MainPic>
+              <OtherPic>
+                <OtherPicBox>
+                  <ImgTagBox>
+                    <ImgTag src={fileImage ? fileImage[1] : null} />
+                  </ImgTagBox>
+                  <ImgTagBox>
+                    <ImgTag src={fileImage ? fileImage[2] : null} />
+                  </ImgTagBox>
+                </OtherPicBox>
+                <OtherPicBox>
+                  <ImgTagBox>
+                    <ImgTag src={fileImage ? fileImage[3] : null} />
+                  </ImgTagBox>
+                  <ImgTagBox>
+                    <ImgTag src={fileImage ? fileImage[4] : null} />
+                  </ImgTagBox>
+                </OtherPicBox>
+              </OtherPic>
+              <PicBtn fontSize="14px">
+                <TbGridDots />
+                사진 모두 보기
+              </PicBtn>
+            </AccPictureBox>
+            //////////////////
             <button
               style={{
                 backgroundColor: "gray",
@@ -298,7 +307,80 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
     </>
   );
 };
+/////
+const AccPictureBox = styled.div`
+  position: relative;
+  display: flex;
+  gap: 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+const MainPic = styled.div`
+  width: 50%;
+  box-sizing: border-box;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
+`;
+const OtherPic = styled.div`
+  display: flex;
+  gap: 5px;
+  width: 50%;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+const OtherPicBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 50%;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
 
+const ImgTagBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+`;
+const ImgTag = styled.img`
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  transition: all, 0.3s;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+const PicBtn = styled.button`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  padding: 7px 15px;
+  font-weight: 600;
+  border: 1px solid #222;
+  border-radius: 5px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #ebebeb;
+  }
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+/////
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;

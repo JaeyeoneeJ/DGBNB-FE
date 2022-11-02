@@ -11,46 +11,61 @@ const UserProfile = () => {
   const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
-    dispatch(__getReservationList(memberId));
+    dispatch(__getAccommodationList());
   }, [dispatch]);
 
-  const globalReservationList = useSelector(
-    (state) => state.reservation.getReservationList
+  // useEffect(() => {
+  //   dispatch(__getReservationList());
+  // }, [dispatch]);
+
+  // const globalReservationList = useSelector(
+  //   (state) => state.reservation.getReservationList
+  // );
+
+  const globalAccommodationList = useSelector(
+    (state) => state.accommodation.getAccommodationList
   );
 
-  console.log("예약 목록__", globalReservationList);
+  // console.log("예약 목록__", globalReservationList);
+  console.log("숙소 목록__", globalAccommodationList);
   ///oncCLick 함수
 
-  const onClickReservation = (memberId) => {
-    navigate(`/mypage/myreservation/${memberId}`);
-  };
+  // const onClickReservation = (memberId) => {
+  //   navigate(`/mypage/myreservation/${memberId}`);
+  // };
+
+  // const onClickAccommodation = (accId) => {
+  //   navigate(`/mypage/myhosting/${accId}`);
+  // };
+  let contents = null;
+  if (globalAccommodationList.memberId === localStorage.getItem("memberId")) {
+    contents = globalAccommodationList?.map((item) => {
+      return (
+        <ReservationBox
+          key={item.resId}
+          // onClick={() => onClickReservation(memberId)}
+        >
+          <div>
+            <label>등록일</label>
+            {item.createdAt}
+          </div>
+          <div>
+            <label>체크인</label>
+            {item.resCheckin}
+          </div>
+          <div>
+            <label>체크아웃</label>
+            {item.resCheckOut}
+          </div>
+        </ReservationBox>
+      );
+    });
+  }
 
   return (
     <>
       <WholeBox>
-        <ReservationSection>
-          {globalReservationList?.map((item) => {
-            return (
-              <ReservationBox
-                key={item.resId}
-                onClick={() => onClickReservation(memberId)}
-              >
-                <div>
-                  <label>등록일</label>
-                  {item.createdAt}
-                </div>
-                <div>
-                  <label>체크인</label>
-                  {item.resCheckin}
-                </div>
-                <div>
-                  <label>체크아웃</label>
-                  {item.resCheckOut}
-                </div>
-              </ReservationBox>
-            );
-          })}
-        </ReservationSection>
+        <ReservationSection>{contents}</ReservationSection>
       </WholeBox>
     </>
   );
