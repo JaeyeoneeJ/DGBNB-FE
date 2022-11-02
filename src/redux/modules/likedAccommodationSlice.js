@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import {instance} from '../instance'
 
 const initialState = {
   getLikedAccommodationList: [
@@ -36,6 +37,9 @@ const initialState = {
       deletedAt: null,
     },
   ],
+  isSuccess : false,
+  isLoading : false,
+  error : null,
 };
 
 const url = "";
@@ -60,11 +64,13 @@ export const __putLikedAccommodation = createAsyncThunk(
   "likes/putLikedAccommodationList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.put(`${url}/likes/${payload.accId}`, {
-        params: {
-          userId: payload.userId,
+      const token = localStorage.getItem("token");
+      const { data } = await instance.put(`/likes/${payload}`, payload, {
+        headers: {
+          Authorization: token,
         },
       });
+      console.log(data)
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -75,7 +81,11 @@ export const __putLikedAccommodation = createAsyncThunk(
 const loginSlice = createSlice({
   name: "likes",
   initialState,
-  reducers: {},
+  reducers: {
+    ClearIsSuccess: (state, action) => {
+      state.isSuccess = false
+    }
+  },
   extraReducers: {
     [__getLikedAccommodationList.pending]: (state, action) => {
       console.log(action.payload);
@@ -88,15 +98,20 @@ const loginSlice = createSlice({
     },
     ///
     [__putLikedAccommodation.pending]: (state, action) => {
+      state.isLoading = true;
       console.log(action.payload);
     },
     [__putLikedAccommodation.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
       console.log(action.payload);
     },
     [__putLikedAccommodation.rejected]: (state, action) => {
-      console.log(action.payload);
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });
 
+export const { ClearIsSuccess } = loginSlice.actions;
 export default loginSlice.reducer;

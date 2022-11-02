@@ -529,6 +529,7 @@ const InputTextArea = styled.textarea`
   border-radius: 5px;
   font-size: 14px;
   padding: 8px 12px;
+  white-space: pre-wrap;
 `;
 const BorderBox = styled.div`
   border: 1px solid #ebebeb;

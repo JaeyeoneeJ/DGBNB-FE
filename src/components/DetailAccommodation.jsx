@@ -11,13 +11,15 @@ import { FiChevronDown } from "react-icons/fi";
 import { useLocation, useParams } from 'react-router-dom';
 import { __getAccommodation } from '../redux/modules/accommodationSlice';
 import Button from './elements/Button'
+import { ClearIsSuccess, __putLikedAccommodation } from '../redux/modules/likedAccommodationSlice';
 
 const DetailAccommodation = () => {
     const dispatch = useDispatch()
     const {id} = useParams()
-    console.log(id)
+    const location = useLocation()
     const {getAccommodationFocus} = useSelector((state)=>state.accommodation)
-
+    const {isSuccess, isLoading} = useSelector((state)=>state.likes)
+    console.log(isSuccess)
     const initFacilities = {
         drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
         shampoo: "https://cdn-icons-png.flaticon.com/512/1848/1848239.png",
@@ -33,8 +35,7 @@ const DetailAccommodation = () => {
     const splitFacilities = getAccommodationFocus?.accommoInfo?.facilities?.split(",")
     console.log(splitFacilities)
     // console.log(getAccommodationFocus)
-    const location = useLocation()
-    
+        
     const copyLink = async (text) => {
         try {
             await navigator.clipboard.writeText(text);
@@ -48,13 +49,22 @@ const DetailAccommodation = () => {
     function priceToString(price) {
         return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
-    console.log(getAccommodationFocus)
     const initTotal = getAccommodationFocus?.accommoInfo?.price*5
     const vatTotal = initTotal*0.15
     
-    useEffect(()=> {
+    const onClickLiked = () => {
+        return window.confirm('이 숙소를 위시리스트에 저장하시겠습니까?') ? dispatch(__putLikedAccommodation(id)) : null
+    }
+
+    // useEffect(()=> {
+        
+    // },[location])
+
+    useEffect(()=>{
         dispatch(__getAccommodation(id))
-    },[location])
+        isSuccess && alert('숙소가 위시리스트에 저장되었습니다.')
+        dispatch(ClearIsSuccess())
+    },[isSuccess])
 
     return (
         <Ctn>
@@ -68,7 +78,7 @@ const DetailAccommodation = () => {
                                 <FiShare />
                                 공유하기
                             </PickBtn>
-                            <PickBtn>
+                            <PickBtn onClick={()=>onClickLiked()}>
                                 <FiHeart />
                                 저장
                             </PickBtn>
