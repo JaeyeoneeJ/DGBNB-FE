@@ -38,9 +38,8 @@ const SignupFifth = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   // 업로드하기 버튼 클릭시
   const onClickHandler = () => {
     const fileItem = { memberImg: fileRef.current.files[0] };
-    setOnShowSignup(false);
-    setSignupMode("FIRST");
-    dispatch(__postSignup({ ...globalSignupItems, ...fileItem }));
+    dispatch(getItems(fileItem));
+    setSignupMode("CHECK");
   };
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);

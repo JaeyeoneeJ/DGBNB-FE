@@ -7,6 +7,7 @@ import LogoItem from "./elements/LogoItem";
 import LogoTextItem from "./elements/LogoTextItem";
 import EarthItem from "./elements/EarthItem";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = ({
   onShowSignup,
@@ -94,15 +95,18 @@ const Header = ({
             >
               {isShowHamburgerMenu && (
                 <HamburgerMenu>
-                  <MenuBox><strong>메세지</strong></MenuBox>
-                  <MenuBox><strong>위시리스트</strong></MenuBox>
-                  
+                  <MenuBox>
+                    <strong>메세지</strong>
+                  </MenuBox>
+                  <MenuBox>
+                    <strong>위시리스트</strong>
+                  </MenuBox>
+
                   <MenuLine />
-                  <MenuBox
-                  >숙소 호스트 되기</MenuBox>
-                  <MenuBox
-                    onClick={()=>navigate('/account-setting')}
-                  >계정</MenuBox>
+                  <MenuBox>숙소 호스트 되기</MenuBox>
+                  <MenuBox onClick={() => navigate("/account-setting")}>
+                    계정
+                  </MenuBox>
                   <MenuLine />
                   <MenuBox>도움말</MenuBox>
                   <MenuBox
@@ -122,7 +126,7 @@ const Header = ({
                 <GiHamburgerMenu size={16} />
               </MenuItem>
               <UserImg
-                src={localStorage.getItem('memberImg')}
+                src={localStorage.getItem("memberImg")}
                 alt="userProfile"
               />
               <Alarm>1</Alarm>
@@ -163,18 +167,24 @@ const Header = ({
                   <MenuLine />
                   <MenuBox
                     onClick={() => {
-                      window.confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?') && 
-                      setOnShowLogin(true);
+                      window.confirm(
+                        "로그인이 필요한 기능입니다. 로그인 하시겠습니까?"
+                      ) && setOnShowLogin(true);
                       setIsShowHamburgerMenu(false);
                     }}
-                  >숙소 호스트 되기</MenuBox>
+                  >
+                    숙소 호스트 되기
+                  </MenuBox>
                   <MenuBox
                     onClick={() => {
-                    window.confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?') && 
-                    setOnShowLogin(true);
-                    setIsShowHamburgerMenu(false);
-                  }}
-                  >체험 호스팅 하기</MenuBox>
+                      window.confirm(
+                        "로그인이 필요한 기능입니다. 로그인 하시겠습니까?"
+                      ) && setOnShowLogin(true);
+                      setIsShowHamburgerMenu(false);
+                    }}
+                  >
+                    체험 호스팅 하기
+                  </MenuBox>
                   <MenuBox>도움말</MenuBox>
                 </HamburgerMenu>
               )}
@@ -189,7 +199,7 @@ const Header = ({
           </BoxRight>
         )}
       </HeaderCtn>
-    </Ctn >
+    </Ctn>
   );
 };
 
