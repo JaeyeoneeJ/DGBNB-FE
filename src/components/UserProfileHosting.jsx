@@ -27,6 +27,7 @@ const UserProfileHosting = () => {
       <div>
         <div>숙소 이름 : {globalFocusAccommoInfo.accName}</div>
         <div>숙소 주소 : {globalFocusAccommoInfo.accAddr}</div>
+
         <div>
           숙소 이미지 :
           {/* {img.map((item) => {
