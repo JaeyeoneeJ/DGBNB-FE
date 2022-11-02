@@ -506,13 +506,6 @@ const DetailAccommodation = () => {
                             </a>
                             에 따라 보호를 받습니다. 다른 숙소 후기 보기
                         </Font16LH24>
-                        <button
-                            onClick={() => {
-                                deleteHostingDispatch(id);
-                            }}
-                        >
-                            저는 호스팅 삭제 버튼입니다
-                        </button>
                     </FlexRow>
                 </Padding48>
                 <Padding48></Padding48>

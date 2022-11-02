@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __getAccommodationList } from "../redux/modules/accommodationSlice";
+import { __deleteAccommodation, __getAccommodationList } from "../redux/modules/accommodationSlice";
 import { __getReservationList } from "../redux/modules/reservationSlice";
 import { FaStar } from "react-icons/fa";
+import { FiEdit3, FiX } from "react-icons/fi";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -42,34 +43,57 @@ const UserProfile = () => {
       return text
     }
   }
+
+  const deleteHostingDispatch = (accId) => {
+    if (window.confirm("등록한 숙소를 삭제하시겠습니까?")) {
+        dispatch(__deleteAccommodation(accId));
+    }
+  }
+
   return (
     <>
       <Ctn>
-        <MyHostingText>나의 호스팅</MyHostingText>
+        <Text fontSize="30px" fontWeight="600">나의 호스팅 - 총 {globalAccommodationList
+            .filter(
+              (data) =>
+                data.memberId === Number(localStorage.getItem("memberId"))
+            ).length}개</Text>
         <FlexCol>
           {globalAccommodationList
             .filter(
               (data) =>
                 data.memberId === Number(localStorage.getItem("memberId"))
             )
-            .map((item) => {
+            .slice(0).reverse().map((item) => {
               return (
                 <>
                   <AccommodationBox
                     key={item.accId}
-                    onClick={() => onClickAccommodationFocus(item.accId)}
                   >
                     <AccommodationCtn>
                       <ImgBox>
+                        <ClickBtnArea>
+                          <ClickBtn
+                            bgColor="#1a73e8"
+                          >
+                            <FiEdit3 size={20} stroke="white" />
+                          </ClickBtn>
+                          <ClickBtn
+                            bgColor="tomato"
+                            onClick={() => {
+                              deleteHostingDispatch(item.accId);
+                            }}
+                          >
+                            <FiX size={20} stroke="white" />
+                          </ClickBtn>
+                          
+                        </ClickBtnArea>
                         <ImgTag
+                          onClick={() => onClickAccommodationFocus(item.accId)}
                           src={item.AccommodationsPictures[0].thumbnail}
                         />
                       </ImgBox>
-                      <FlexCol
-                        gap="5px"
-                        justifyContent="space-between"
-                        height="100%"
-                      >
+                      <AccommodationContent>
                         <FlexCol gap="5px">
                           <Text color="#717171">
                             {item.accAddr}
@@ -82,19 +106,19 @@ const UserProfile = () => {
                             최대 인원 {item.maxPerson}명 · 방 {item.room} · 침대 {item.bed}개 · 욕실 {item.bathroom}개
                             </Text>
                         </FlexCol>
-                        <FlexRow gap="10px" justifyContent="space-between" maxWidth="300px">
+                        <FlexRow gap="10px" justifyContent="space-between">
                           <FlexRow gap="5px">
                             <FaStar />
                             <strong>
                               {(item.rating === null) ? "NEW" : item.rating}
                             </strong>
                           </FlexRow>
-                          <FlexRow>
+                          <FlexRow justifyContent="right">
                             <Text fontSize="16px" fontWeight="600">
                             ₩{priceToString(item.price)} </Text><Text fontSize="16px">/박</Text>
                           </FlexRow>
                         </FlexRow>
-                      </FlexCol>
+                      </AccommodationContent>
                     </AccommodationCtn>
                   </AccommodationBox>
                   <Liner margin="20px 0" />
@@ -110,13 +134,14 @@ const UserProfile = () => {
 export default UserProfile;
 
 const Ctn = styled.div`
-  max-width: 1200px;
+  max-width: 800px;
   margin: 120px auto 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 0 30px;
 `;
+
 const FlexRow = styled.div`
   width: ${(props) => props.width};
   max-width: ${(props) => props.maxWidth};
@@ -134,6 +159,7 @@ const FlexRow = styled.div`
   border-radius: ${(props) => props.borderRadius};
   width: 100%;
 `;
+
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -178,16 +204,6 @@ const Text = styled.p`
   text-decoration: ${(props) => props.textDecoration};
 `;
 
-
-
-
-
-const MyHostingText = styled.div`
-  font-size: 30px;
-  font-weight: 600;
-`;
-
-
 const AccommodationBox = styled.div`
   width: 100%;
   display: flex;
@@ -196,17 +212,20 @@ const AccommodationBox = styled.div`
   cursor: pointer;
 `;
 const ImgBox = styled.div`
+  position: relative;
   width: 100%;
-  min-width: 300px;
+  height: 100%;
   max-width: 300px;
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 10px;
   background-color: black;
+  @media screen and (max-width: 800px){
+    max-width: 800px;
+  }
 `
 const ImgTag = styled.img`
   width: 100%;
-  min-width: 300px;
   max-width: 300px;
   display: block;
   aspect-ratio: 4/3;
@@ -215,12 +234,47 @@ const ImgTag = styled.img`
   &:hover {
     opacity: 0.8;
   }
+  @media screen and (max-width: 800px){
+    max-width: 800px;
+  }
 `;
+const ClickBtnArea = styled.div`
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+  /* background-color: tomato; */
+`
+const ClickBtn = styled.div`
+  display: flex;
+  background-color: ${props=>props.bgColor};
+  border: 2px solid white;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+`
 const AccommodationCtn = styled.div`
   display: flex;
   width: 100%;
   gap: 20px;
   align-items: center;
+  @media screen and (max-width: 800px){
+    flex-direction: column;
+  }
 `;
-
+const AccommodationContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  justify-content: space-between;
+  height: 100%;
+  @media screen and (max-width: 800px){
+    height: auto;
+  }
+`
 

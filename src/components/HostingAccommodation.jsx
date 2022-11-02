@@ -362,26 +362,7 @@ const ImgTag = styled.img`
     opacity: 0.8;
   }
 `;
-const PicBtn = styled.button`
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background-color: white;
-  padding: 7px 15px;
-  font-weight: 600;
-  border: 1px solid #222;
-  border-radius: 5px;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    background-color: #ebebeb;
-  }
-  @media screen and (max-width: 800px) {
-    display: none;
-  }
-`;
+
 /////
 const FlexRow = styled.div`
   display: flex;
@@ -414,93 +395,6 @@ const Text = styled.p`
   color: ${(props) => props.color}; // 기본: #222222
 `;
 
-const HeaderCtn = styled.div`
-  width: 100%;
-  display: block;
-  position: fixed;
-  z-index: 2;
-  background-color: white;
-  border-bottom: 1px solid #ebebeb;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-`;
-const Header = styled.div`
-  max-width: 1400px;
-  width: 100%;
-  justify-content: space-between;
-
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 14px 50px;
-  display: flex;
-  align-items: center;
-  @media screen and (max-width: 800px) {
-    padding: 14px 24px;
-  }
-`;
-const Box = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  cursor: pointer;
-`;
-const Logo1150Up = styled.div`
-  display: flex;
-  @media screen and (max-width: 1150px) {
-    display: none;
-  }
-`;
-const Logo1150Down = styled.div`
-  display: none;
-  @media screen and (max-width: 1150px) {
-    display: flex;
-  }
-`;
-
-const Profile = styled.div`
-  position: relative;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  background: transparent;
-  cursor: pointer;
-  margin: 0;
-  text-align: inherit;
-  border: 1px solid #ebebeb;
-  border-radius: 50px;
-  height: 42px;
-  transition: box-shadow 0.2s ease;
-  &:hover {
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const Alarm = styled.div`
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid white;
-  border-radius: 50%;
-  font-size: 10px;
-  font-weight: 700;
-  color: white;
-  background-color: #ff385c;
-  width: 17px;
-  height: 17px;
-`;
-
-const MenuItem = styled.div`
-  display: flex;
-  padding: 10px;
-`;
-
-const UserImg = styled.img`
-  width: 30px;
-  height: auto;
-  border-radius: 50%;
-`;
 const ContentCtn = styled.div`
   max-width: 800px;
   display: flex;
