@@ -242,9 +242,22 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
             <Text fontSize="16px" fontWeight="600">
               사진
             </Text>
-            <Text fontSize="14px" color="#B0B0B0">
-              사진을 최소 5장 선택해주세요.
-            </Text>
+            <FlexRow justifyContent="space-between">
+              <Text fontSize="14px" color="#B0B0B0">
+                사진을 최소 5장 선택해주세요.
+              </Text>
+              <Button
+                onClick={() => deleteFileImage()}
+                
+                color="tomato"
+                fontSize="14px"
+                fontWeight="600"
+                width="auto"
+                border="1px solid tomato"
+              >
+                Reset to Pictures
+              </Button>
+            </FlexRow>
 
             {fileImage &&
               fileImage.map((item) => {
@@ -257,16 +270,7 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
                 );
               })}
 
-            <button
-              style={{
-                backgroundColor: "gray",
-                color: "white",
-                width: "55px",
-                height: "40px",
-                cursor: "pointer",
-              }}
-              onClick={() => deleteFileImage()}
-            ></button>
+            
             <InputArea
               type="file"
               id="input-file"

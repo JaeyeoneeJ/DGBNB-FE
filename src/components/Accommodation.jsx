@@ -9,8 +9,6 @@ const Accommodation = ({ acc }) => {
     function priceToString(price) {
         return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
-    
-    console.log(acc?.AccommodationsPictures[0]?.thumbnail)
     // const [thumbnail] = acc?.AccommodationsPictures
     // console.log(thumbnail)
     // const mainImg = thumbnail.thumbnail

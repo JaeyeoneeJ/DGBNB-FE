@@ -53,7 +53,7 @@ const DetailAccommodation = () => {
     const vatTotal = initTotal*0.15
     
     useEffect(()=> {
-         dispatch(__getAccommodation(id))
+        dispatch(__getAccommodation(id))
     },[location])
 
     return (
