@@ -42,12 +42,30 @@ export const __getMessages = createAsyncThunk(
     }
   }
 );
+export const __deleteMessage = createAsyncThunk(
+  "messages/deleteMessage",
+  async (payload, thunkAPI) => {
+    try {
+      console.log('hello')
+      const token = localStorage.getItem("token");
+      const { data } = await instance.delete(`/notifications/${payload}`, {
+        headers: {
+          Authorization: token,
+        }
+      });
+      console.log(data)
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 const messageSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
-    ClearIsSuccess: (state, action) => {
+    clearIsSuccess: (state, action) => {
       state.isSuccess = false;
     },
   },
@@ -61,8 +79,24 @@ const messageSlice = createSlice({
     [__getMessages.rejected]: (state, action) => {
       console.log(action.payload);
     },
+    [__deleteMessage.pending]: (state, action) => {
+      state.isLoading = true
+      console.log(action.payload);
+    },
+    [__deleteMessage.fulfilled]: (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      console.log(action.payload)
+      state.messages = state.messages.filter((msg)=> {
+        return msg.notiId !== action.payload
+      })
+    },
+    [__deleteMessage.rejected]: (state, action) => {
+      state.isLoading = true
+      console.log(action.payload);
+    },
   },
 });
 
-export const { ClearIsSuccess } = messageSlice.actions;
+export const { clearIsSuccess } = messageSlice.actions;
 export default messageSlice.reducer;
