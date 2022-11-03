@@ -263,9 +263,13 @@ const BoxRight = styled.div`
   min-width: 216px;
   align-items: center;
   justify-content: right;
-  @media screen and (max-width: 800px) {
+  /* @media screen and (max-width: 800px) {
     display: none;
+  } */
+  @media screen and (max-width: 800px) {
+    min-width: auto;
   }
+
 `;
 const SearchBar = styled.div`
   width: 100%;
@@ -304,6 +308,9 @@ const SearchTitle = styled.h4``;
 const SearchContent = styled.p`
   font-size: 12px;
   color: #717171;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 const HoverBtn = styled.button`
   padding: 10px;
@@ -313,6 +320,9 @@ const HoverBtn = styled.button`
   cursor: pointer;
   &:hover {
     background-color: #ebebeb;
+  }
+  @media screen and (max-width: 800px) {
+    display: none;
   }
 `;
 const Profile = styled.div`

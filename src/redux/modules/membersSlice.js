@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
+import { instance } from "../instance";
 
 const initialState = {
   getMembers: {
@@ -12,14 +13,14 @@ const initialState = {
   },
 };
 
-const url = process.env.REACT_APP_API_URL;
+// const url = "";
 
 export const __getMembers = createAsyncThunk(
   "members/getMembers",
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.get(`${url}/members`, {
+      const { data } = await instance.get(`/members`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,7 +47,7 @@ export const __putMembers = createAsyncThunk(
 
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.put(`${url}/members`, formDate, {
+      const { data } = await instance.put(`/members`, formDate, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,7 +64,7 @@ export const __deleteMembers = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.delete(`${url}/members`, {
+      const { data } = await instance.delete(`/members`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

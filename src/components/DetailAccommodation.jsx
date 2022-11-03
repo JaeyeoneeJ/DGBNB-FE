@@ -55,11 +55,7 @@ const DetailAccommodation = () => {
     }, [location]);
     ///
 
-    const deleteHostingDispatch = (accId) => {
-        if (window.confirm("호스팅을 삭제하시겠습니까?")) {
-            dispatch(__deleteAccommodation(accId));
-        }
-    }
+    
 
     function priceToString(price) {
         return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -89,7 +85,7 @@ const DetailAccommodation = () => {
                     <DetailHeaderBox>
                         <AccAddr>{getAccommodationFocus?.accommoInfo?.accAddr}</AccAddr>
                         <PickArea>
-                            <PickBtn onClick={() => copyLink(`http://localhost:3000${location.pathname}`)}>
+                            <PickBtn onClick={() => copyLink(`https://dgbnb-jayquqae9-jaeyeoneej.vercel.app${location.pathname}`)}>
                                 <FiShare />
                                 공유하기
                             </PickBtn>
@@ -506,13 +502,6 @@ const DetailAccommodation = () => {
                             </a>
                             에 따라 보호를 받습니다. 다른 숙소 후기 보기
                         </Font16LH24>
-                        <button
-                            onClick={() => {
-                                deleteHostingDispatch(id);
-                            }}
-                        >
-                            저는 호스팅 삭제 버튼입니다
-                        </button>
                     </FlexRow>
                 </Padding48>
                 <Padding48></Padding48>

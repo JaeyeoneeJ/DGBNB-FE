@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
+import { instance } from "../instance";
 
 const initialState = {
   getReservationList: [],
@@ -19,13 +20,13 @@ const initialState = {
   ],
 };
 
-const url = process.env.REACT_APP_API_URL;
+// const url = "http://13.209.21.117:3000";
 
 export const __getReservationList = createAsyncThunk(
   "reservation/getReservationList",
   async (payload, thunkAPI) => {
     try {
-      const data = await axios.get(`${url}/reservations/length/${payload}`, {
+      const data = await instance.get(`/reservations/length/${payload}`, {
         params: {
           memberId: payload,
         },
@@ -42,7 +43,7 @@ export const __getReservation = createAsyncThunk(
   "reservation/getReservation",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.get(`${url}/reservations/${payload}`, {
+      const { data } = await instance.get(`/reservations/${payload}`, {
         params: {
           accId: payload,
         },
@@ -74,7 +75,7 @@ export const __postReservation = createAsyncThunk(
     formData.append(reservationItems);
 
     try {
-      const { data } = await axios.post(`${url}/reservations`, formData);
+      const { data } = await instance.post(`/reservations`, formData);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -86,7 +87,7 @@ export const __putReservation = createAsyncThunk(
   "reservation/putReservation",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.put(`${url}/reservations/${payload.accId}`, {
+      const { data } = await instance.put(`/reservations/${payload.accId}`, {
         params: {
           accId: payload.accId,
         },
@@ -102,8 +103,8 @@ export const __deleteReservation = createAsyncThunk(
   "reservation/deleteReservation",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await axios.delete(
-        `${url}/reservations/${payload.accId}`,
+      const { data } = await instance.delete(
+        `/reservations/${payload.accId}`,
         {
           params: {
             accId: payload.accId,

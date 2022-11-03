@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
+import { instance } from "../instance";
 
 const initialState = {
   postSignupItems: {},
@@ -7,7 +8,7 @@ const initialState = {
   isSignup: false,
 };
 
-const url = process.env.REACT_APP_API_URL;
+// const url = "http://13.209.21.117:3000";
 
 export const __postSignup = createAsyncThunk(
   "signup/postSignup",
@@ -39,7 +40,7 @@ export const __postSignup = createAsyncThunk(
       //   console.log(key);
       // }
 
-      const { data } = await axios.post(`${url}/members/signup`, formdata, {
+      const { data } = await instance.post(`/members/signup`, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

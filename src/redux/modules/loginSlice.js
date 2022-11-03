@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
 import { instance } from "../instance";
 
 const initialState = {
@@ -27,7 +27,7 @@ const initialState = {
   error: "",
 };
 
-const url = process.env.REACT_APP_API_URL;
+// const url = "http://13.209.21.117:3000";
 
 export const __postLogin = createAsyncThunk(
   "login/postLogin",
@@ -37,7 +37,7 @@ export const __postLogin = createAsyncThunk(
       password: payload.password,
     };
     try {
-      const { data } = await axios.post(`${url}/members/login`, loginItems, {
+      const { data } = await instance.post(`/members/login`, loginItems, {
         headers: {
           "Content-Type": `application/json`,
         },
