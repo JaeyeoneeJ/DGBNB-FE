@@ -33,7 +33,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
     (state) => state.accommodation.getAccommodationFocus
   );
 
-  console.log("디테일 호스팅 정보__", globalMyHosting);
+  //   console.log("디테일 호스팅 정보__", globalMyHosting);
 
   const accNameRef = useRef();
   const accAddrRef = useRef();

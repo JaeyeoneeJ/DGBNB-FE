@@ -46,7 +46,7 @@ export const __postAccommodations = createAsyncThunk(
     formdata.append("description", payload.description);
 
     const entriesImg = Object.entries(payload.accImg);
-    console.log(entriesImg);
+    // console.log(entriesImg);
     const entriesValue = entriesImg.map((item) => {
       return item[1];
     });
@@ -81,7 +81,7 @@ export const __getAccommodationList = createAsyncThunk(
       const data = await instance.get(`/accommodations`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -92,7 +92,7 @@ export const __getAccommodation = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      console.log(token);
+      // console.log(token);
 
       let data = {};
       if (token === null) {
@@ -105,7 +105,7 @@ export const __getAccommodation = createAsyncThunk(
         });
       }
 
-      console.log("숙소 상세 데이터_", data.data);
+      // console.log("숙소 상세 데이터_", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -130,7 +130,7 @@ export const __patchAccommodation = createAsyncThunk(
     formData.append("room", payload.room);
     formData.append("bathroom", payload.bathroom);
     formData.append("thumbnail", payload.thumbnail);
-    console.log(payload.accImg);
+    // console.log(payload.accImg);
     const entriesImg = Object.entries(payload.accImg);
     const entriesValue = entriesImg.map((item) => {
       return item[1];
@@ -149,7 +149,7 @@ export const __patchAccommodation = createAsyncThunk(
       );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -171,7 +171,7 @@ export const __deleteAccommodation = createAsyncThunk(
       });
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -195,7 +195,6 @@ const accommodationSlice = createSlice({
     // post
     [__postAccommodations.pending]: (state, action) => {
       state.isLoading = true;
-      console.log();
     },
     [__postAccommodations.fulfilled]: (state, action) => {
       state.isLoading = false;
@@ -204,28 +203,19 @@ const accommodationSlice = createSlice({
     },
     [__postAccommodations.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log();
     },
     /// get
-    [__getAccommodationList.pending]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodationList.pending]: (state, action) => {},
     [__getAccommodationList.fulfilled]: (state, action) => {
       state.getAccommodationList = action.payload;
     },
-    [__getAccommodationList.rejected]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodationList.rejected]: (state, action) => {},
     /// __getAccommodation
-    [__getAccommodation.pending]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodation.pending]: (state, action) => {},
     [__getAccommodation.fulfilled]: (state, action) => {
       state.getAccommodationFocus = action.payload;
     },
-    [__getAccommodation.rejected]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodation.rejected]: (state, action) => {},
     /// put
     [__patchAccommodation.pending]: (state, action) => {},
     [__patchAccommodation.fulfilled]: (state, action) => {

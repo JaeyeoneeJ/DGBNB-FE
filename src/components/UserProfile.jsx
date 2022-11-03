@@ -26,7 +26,7 @@ const UserProfile = () => {
   function priceToString(price) {
     return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-  console.log("숙소 목록__", globalAccommodationList);
+  // console.log("숙소 목록__", globalAccommodationList)
   ///oncCLick 함수
 
   const onClickAccommodationFocus = (accId) => {
