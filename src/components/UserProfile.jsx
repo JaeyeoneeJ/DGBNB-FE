@@ -9,6 +9,7 @@ import {
 import { __getReservationList } from "../redux/modules/reservationSlice";
 import { FaStar } from "react-icons/fa";
 import { FiEdit3, FiX } from "react-icons/fi";
+import { resetDeleteAuth } from "../redux/modules/accommodationSlice";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,16 @@ const UserProfile = () => {
       dispatch(__deleteAccommodation(accId));
     }
   };
+  const globalDeleteAuth = useSelector(
+    (state) => state.accommodation.isDeleteAuth
+  );
+  useEffect(() => {
+    if (globalDeleteAuth === true) {
+      alert("삭제가 완료되었습니다.");
+      dispatch(resetDeleteAuth());
+      window.location.reload();
+    }
+  });
 
   return (
     <>

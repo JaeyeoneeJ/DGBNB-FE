@@ -10,7 +10,9 @@ const initialState = {
   hostInfo: {},
   //예약 상세 정보
   isSuccess: false,
-  isLoading: false
+  isLoading: false,
+  isAuth: null,
+  isDeleteAuth: null,
 };
 
 // const url = "http://13.209.21.117:3000";
@@ -90,19 +92,19 @@ export const __getAccommodation = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      console.log(token)
-      
-      let data = {}
-      if (token===null) {
+      console.log(token);
+
+      let data = {};
+      if (token === null) {
         data = await instance.get(`/accommodations/${payload}`);
       } else {
         data = await instance.get(`/accommodations/${payload}`, {
           headers: {
             Authorization: `${token}`,
-          }
-        },);
+          },
+        });
       }
-      
+
       console.log("숙소 상세 데이터_", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -179,23 +181,29 @@ const accommodationSlice = createSlice({
   name: "accommodation",
   initialState,
   reducers: {
-    clearIsSuccess : (state, action) => {
-      state.isSuccess = false
-    }
+    clearIsSuccess: (state, action) => {
+      state.isSuccess = false;
+    },
+    resetAuth: (state, action) => {
+      state.isAuth = null;
+    },
+    resetDeleteAuth: (state, action) => {
+      state.isDeleteAuth = null;
+    },
   },
   extraReducers: {
     // post
     [__postAccommodations.pending]: (state, action) => {
-      state.isLoading = true
+      state.isLoading = true;
       console.log();
     },
     [__postAccommodations.fulfilled]: (state, action) => {
-      state.isLoading = false
-      state.isSuccess = true
-      alert('호스팅 등록이 성공적으로 진행되었습니다.')
+      state.isLoading = false;
+      state.isSuccess = true;
+      alert("호스팅 등록이 성공적으로 진행되었습니다.");
     },
     [__postAccommodations.rejected]: (state, action) => {
-      state.isLoading = false
+      state.isLoading = false;
       console.log();
     },
     /// get
@@ -219,23 +227,25 @@ const accommodationSlice = createSlice({
       console.log();
     },
     /// put
-    [__patchAccommodation.pending]: (state, action) => {
-      console.log();
+    [__patchAccommodation.pending]: (state, action) => {},
+    [__patchAccommodation.fulfilled]: (state, action) => {
+      state.isAuth = true;
     },
-    [__patchAccommodation.fulfilled]: (state, action) => {},
     [__patchAccommodation.rejected]: (state, action) => {
-      console.log();
+      state.isAuth = false;
     },
     /// delete
     [__deleteAccommodation.pending]: (state, action) => {},
     [__deleteAccommodation.fulfilled]: (state, action) => {
-      alert(action.payload, "삭제가 완료되었습니다.");
+      state.isDeleteAuth = true;
     },
     [__deleteAccommodation.rejected]: (state, action) => {
+      state.isDeleteAuth = false;
       alert(action.payload, "삭제권한이 없습니다");
     },
   },
 });
 
-export const { clearIsSuccess } = accommodationSlice.actions;
+export const { clearIsSuccess, resetAuth, resetDeleteAuth } =
+  accommodationSlice.actions;
 export default accommodationSlice.reducer;

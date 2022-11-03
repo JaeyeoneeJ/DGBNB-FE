@@ -8,22 +8,28 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { TbGridDots } from "react-icons/tb";
 import { __getAccommodation } from "../redux/modules/accommodationSlice";
 import { __patchAccommodation } from "../redux/modules/accommodationSlice";
+import { resetAuth } from "../redux/modules/accommodationSlice";
 
 const HostingAccommodationModify = ({ setOnShowSignup }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const { accId } = location.state;
-
+  const globalAuth = useSelector((state) => state.accommodation.isAuth);
   useEffect(() => {
     dispatch(__getAccommodation(accId));
     // accId를 수정 누를 때 location으로 받아오기
   }, [dispatch]);
 
-  const globalMyHosting = useSelector(
-    (state) => state.accommodation.getAccommodationFocus
-  );
+  useEffect(() => {
+    if (globalAuth === true) {
+      alert("수정이 완료되었습니다.");
+      dispatch(resetAuth());
+      navigate("/account-setting/myhostinglist");
+    }
+  }, [globalAuth]);
 
-  const globalMyHostingPic = useSelector(
+  const globalMyHosting = useSelector(
     (state) => state.accommodation.getAccommodationFocus
   );
 
@@ -39,29 +45,30 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
   const bathroomRef = useRef();
   const accImgRef = useRef();
   const descriptionRef = useRef();
-
   const onClickHandler = () => {
-    const selectedEl = document.querySelectorAll(
-      "input[name='facilities']:checked"
-    );
-    const selectedElArray = Array.prototype.slice.call(selectedEl);
-    const facilityItems = selectedElArray.map((item) => item.id);
-    const postAccommodationItems = {
-      accName: accNameRef.current.value,
-      accAddr: accAddrRef.current.value,
-      price: Number(priceRef.current.value),
-      facilities: facilitiesRef.current,
-      maxPerson: Number(maxPersonRef.current.value),
-      bed: Number(bedRef.current.value),
-      room: Number(roomRef.current.value),
-      bathroom: Number(bathroomRef.current.value),
-      facilities: facilityItems,
-      description: descriptionRef.current.value,
-      accImg: accImgRef.current.files,
-      accId: accId,
-    };
-    console.log("가는 아이템들__", postAccommodationItems);
-    dispatch(__patchAccommodation(postAccommodationItems));
+    if (window.confirm("숙소를 수정하시겠습니까?")) {
+      const selectedEl = document.querySelectorAll(
+        "input[name='facilities']:checked"
+      );
+      const selectedElArray = Array.prototype.slice.call(selectedEl);
+      const facilityItems = selectedElArray.map((item) => item.id);
+      const postAccommodationItems = {
+        accName: accNameRef.current.value,
+        accAddr: accAddrRef.current.value,
+        price: Number(priceRef.current.value),
+        facilities: facilitiesRef.current,
+        maxPerson: Number(maxPersonRef.current.value),
+        bed: Number(bedRef.current.value),
+        room: Number(roomRef.current.value),
+        bathroom: Number(bathroomRef.current.value),
+        facilities: facilityItems,
+        description: descriptionRef.current.value,
+        accImg: accImgRef.current.files,
+        accId: accId,
+      };
+      //   console.log("가는 아이템들__", postAccommodationItems);
+      dispatch(__patchAccommodation(postAccommodationItems));
+    }
   };
 
   ///// 이미지프리뷰
