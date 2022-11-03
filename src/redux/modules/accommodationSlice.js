@@ -4,13 +4,15 @@ import { instance } from "../instance";
 
 const initialState = {
   getAccommodationList: [],
-  getAccomodationFocus: {},
+  getAccommodationFocus: {},
   //호스팅 상세정보
   accommoInfo: {},
   hostInfo: {},
   //예약 상세 정보
   isSuccess: false,
-  isLoading: false
+  isLoading: false,
+  isAuth: null,
+  isDeleteAuth: null,
 };
 
 // const url = "http://13.209.21.117:3000";
@@ -44,7 +46,7 @@ export const __postAccommodations = createAsyncThunk(
     formdata.append("description", payload.description);
 
     const entriesImg = Object.entries(payload.accImg);
-    console.log(entriesImg);
+    // console.log(entriesImg);
     const entriesValue = entriesImg.map((item) => {
       return item[1];
     });
@@ -79,7 +81,7 @@ export const __getAccommodationList = createAsyncThunk(
       const data = await instance.get(`/accommodations`);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -90,20 +92,20 @@ export const __getAccommodation = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const token = localStorage.getItem("token");
-      console.log(token)
-      
-      let data = {}
-      if (token===null) {
+      // console.log(token);
+
+      let data = {};
+      if (token === null) {
         data = await instance.get(`/accommodations/${payload}`);
       } else {
         data = await instance.get(`/accommodations/${payload}`, {
           headers: {
             Authorization: `${token}`,
-          }
-        },);
+          },
+        });
       }
-      
-      console.log("숙소 상세 데이터_", data.data);
+
+      // console.log("숙소 상세 데이터_", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -111,39 +113,43 @@ export const __getAccommodation = createAsyncThunk(
   }
 );
 
-export const __putAccommodation = createAsyncThunk(
-  "accommodation/putAccomodation",
+export const __patchAccommodation = createAsyncThunk(
+  "accommodation/patchAccomodation",
   async (payload, thunkAPI) => {
-    const accomodationItems = {
-      accName: payload.accName,
-      accAddr: payload.accAddr,
-      lat: payload.lat, //null
-      lnt: payload.lnt, //null
-      maxPerson: payload.maxPerson,
-      bed: payload.bed,
-      room: payload.room,
-      bathroom: payload.bathroom,
-      category: payload.category,
-      thumbnail: payload.thumbnail,
-      accImg: payload.accImg, // imageList,
-    };
+    const token = localStorage.getItem("token");
     const formData = new FormData();
-    formData.append(accomodationItems);
+    formData.append("accName", payload.accName);
+    formData.append("accAddr", payload.accAddr);
+
+    formData.append("lat", null);
+    formData.append("lnt", null);
+    formData.append("category", null);
+
+    formData.append("maxPerson", payload.maxPerson);
+    formData.append("bed", payload.bed);
+    formData.append("room", payload.room);
+    formData.append("bathroom", payload.bathroom);
+    formData.append("thumbnail", payload.thumbnail);
+    // console.log(payload.accImg);
+    const entriesImg = Object.entries(payload.accImg);
+    const entriesValue = entriesImg.map((item) => {
+      return item[1];
+    });
+    entriesValue.forEach((accImg) => formData.append("accImg", accImg));
     try {
-      const { data } = await instance.put(
+      const { data } = await instance.patch(
         `/accommodations/${payload.accId}`,
+        formData,
         {
           params: {
             accId: payload.accId,
           },
-          data: {
-            formData: formData,
-          },
+          headers: { Authorization: `${token}` },
         }
       );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -154,21 +160,19 @@ export const __deleteAccommodation = createAsyncThunk(
   async (payload, thunkAPI) => {
     const token = localStorage.getItem("token");
     const NumberAccId = Number(payload);
-    console.log(NumberAccId)
+    console.log(NumberAccId);
     try {
-      const { data } = await instance.delete(`/accommodations/${NumberAccId}`,
-        {
-          params: {
-            accId: NumberAccId,
-          },
-          headers: {
-            Authorization: `${token}`,
-          },
-        }
-      );
+      const { data } = await instance.delete(`/accommodations/${NumberAccId}`, {
+        params: {
+          accId: NumberAccId,
+        },
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -178,63 +182,61 @@ const accommodationSlice = createSlice({
   name: "accommodation",
   initialState,
   reducers: {
-    clearIsSuccess : (state, action) => {
-      state.isSuccess = false
-    }
+    clearIsSuccess: (state, action) => {
+      state.isSuccess = false;
+    },
+    resetAuth: (state, action) => {
+      state.isAuth = null;
+    },
+    resetDeleteAuth: (state, action) => {
+      state.isDeleteAuth = null;
+    },
   },
   extraReducers: {
     // post
     [__postAccommodations.pending]: (state, action) => {
-      state.isLoading = true
-      console.log();
+      state.isLoading = true;
     },
     [__postAccommodations.fulfilled]: (state, action) => {
-      state.isLoading = false
-      state.isSuccess = true
-      alert('호스팅 등록이 성공적으로 진행되었습니다.')
+      state.isLoading = false;
+      state.isSuccess = true;
+      alert("호스팅 등록이 성공적으로 진행되었습니다.");
     },
     [__postAccommodations.rejected]: (state, action) => {
-      state.isLoading = false
-      console.log();
+      state.isLoading = false;
     },
     /// get
-    [__getAccommodationList.pending]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodationList.pending]: (state, action) => {},
     [__getAccommodationList.fulfilled]: (state, action) => {
       state.getAccommodationList = action.payload;
     },
-    [__getAccommodationList.rejected]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodationList.rejected]: (state, action) => {},
     /// __getAccommodation
-    [__getAccommodation.pending]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodation.pending]: (state, action) => {},
     [__getAccommodation.fulfilled]: (state, action) => {
       state.getAccommodationFocus = action.payload;
     },
-    [__getAccommodation.rejected]: (state, action) => {
-      console.log();
-    },
+    [__getAccommodation.rejected]: (state, action) => {},
     /// put
-    [__putAccommodation.pending]: (state, action) => {
-      console.log();
+    [__patchAccommodation.pending]: (state, action) => {},
+    [__patchAccommodation.fulfilled]: (state, action) => {
+      state.isAuth = true;
     },
-    [__putAccommodation.fulfilled]: (state, action) => {},
-    [__putAccommodation.rejected]: (state, action) => {
-      console.log();
+    [__patchAccommodation.rejected]: (state, action) => {
+      state.isAuth = false;
     },
     /// delete
     [__deleteAccommodation.pending]: (state, action) => {},
     [__deleteAccommodation.fulfilled]: (state, action) => {
-      alert(action.payload, "삭제가 완료되었습니다.");
+      state.isDeleteAuth = true;
     },
     [__deleteAccommodation.rejected]: (state, action) => {
+      state.isDeleteAuth = false;
       alert(action.payload, "삭제권한이 없습니다");
     },
   },
 });
 
-export const { clearIsSuccess } = accommodationSlice.actions;
+export const { clearIsSuccess, resetAuth, resetDeleteAuth } =
+  accommodationSlice.actions;
 export default accommodationSlice.reducer;
