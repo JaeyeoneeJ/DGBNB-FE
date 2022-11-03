@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { __deleteAccommodation, __getAccommodationList } from "../redux/modules/accommodationSlice";
+import {
+  __deleteAccommodation,
+  __getAccommodationList,
+} from "../redux/modules/accommodationSlice";
 import { __getReservationList } from "../redux/modules/reservationSlice";
 import { FaStar } from "react-icons/fa";
 import { FiEdit3, FiX } from "react-icons/fi";
@@ -20,7 +23,7 @@ const UserProfile = () => {
     (state) => state.accommodation.getAccommodationList
   );
   function priceToString(price) {
-    return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   console.log("숙소 목록__", globalAccommodationList);
   ///oncCLick 함수
@@ -31,49 +34,59 @@ const UserProfile = () => {
 
   const overLength30 = (text) => {
     if (text.length > 30) {
-      return text.slice(0, 30)+"..."
+      return text.slice(0, 30) + "...";
     } else {
-      return text
+      return text;
     }
-  }
+  };
   const overLength100 = (text) => {
     if (text.length > 100) {
-      return text.slice(0, 100)+"..."
+      return text.slice(0, 100) + "...";
     } else {
-      return text
+      return text;
     }
-  }
+  };
 
   const deleteHostingDispatch = (accId) => {
     if (window.confirm("등록한 숙소를 삭제하시겠습니까?")) {
-        dispatch(__deleteAccommodation(accId));
+      dispatch(__deleteAccommodation(accId));
     }
-  }
+  };
 
   return (
     <>
       <Ctn>
-        <Text fontSize="30px" fontWeight="600">나의 호스팅 - 총 {globalAccommodationList
-            .filter(
+        <Text fontSize="30px" fontWeight="600">
+          나의 호스팅 - 총{" "}
+          {
+            globalAccommodationList.filter(
               (data) =>
                 data.memberId === Number(localStorage.getItem("memberId"))
-            ).length}개</Text>
+            ).length
+          }
+          개
+        </Text>
         <FlexCol>
           {globalAccommodationList
             .filter(
               (data) =>
                 data.memberId === Number(localStorage.getItem("memberId"))
             )
-            .slice(0).reverse().map((item) => {
+            .slice(0)
+            .reverse()
+            .map((item) => {
               return (
                 <>
-                  <AccommodationBox
-                    key={item.accId}
-                  >
+                  <AccommodationBox key={item.accId}>
                     <AccommodationCtn>
                       <ImgBox>
                         <ClickBtnArea>
                           <ClickBtn
+                            onClick={() =>
+                              navigate("/modi", {
+                                state: { accId: item.accId },
+                              })
+                            }
                             bgColor="#1a73e8"
                           >
                             <FiEdit3 size={20} stroke="white" />
@@ -86,7 +99,6 @@ const UserProfile = () => {
                           >
                             <FiX size={20} stroke="white" />
                           </ClickBtn>
-                          
                         </ClickBtnArea>
                         <ImgTag
                           onClick={() => onClickAccommodationFocus(item.accId)}
@@ -95,27 +107,28 @@ const UserProfile = () => {
                       </ImgBox>
                       <AccommodationContent>
                         <FlexCol gap="5px">
-                          <Text color="#717171">
-                            {item.accAddr}
-                          </Text>
+                          <Text color="#717171">{item.accAddr}</Text>
                           <Text fontSize="20px" fontWeight="600">
                             {overLength30(item.accName)}
                           </Text>
-                          <Liner width="40px" height="2px"/>
+                          <Liner width="40px" height="2px" />
                           <Text color="#717171">
-                            최대 인원 {item.maxPerson}명 · 방 {item.room} · 침대 {item.bed}개 · 욕실 {item.bathroom}개
-                            </Text>
+                            최대 인원 {item.maxPerson}명 · 방 {item.room} · 침대{" "}
+                            {item.bed}개 · 욕실 {item.bathroom}개
+                          </Text>
                         </FlexCol>
                         <FlexRow gap="10px" justifyContent="space-between">
                           <FlexRow gap="5px">
                             <FaStar />
                             <strong>
-                              {(item.rating === null) ? "NEW" : item.rating}
+                              {item.rating === null ? "NEW" : item.rating}
                             </strong>
                           </FlexRow>
                           <FlexRow justifyContent="right">
                             <Text fontSize="16px" fontWeight="600">
-                            ₩{priceToString(item.price)} </Text><Text fontSize="16px">/박</Text>
+                              ₩{priceToString(item.price)}{" "}
+                            </Text>
+                            <Text fontSize="16px">/박</Text>
                           </FlexRow>
                         </FlexRow>
                       </AccommodationContent>
@@ -177,22 +190,22 @@ const FlexCol = styled.div`
 `;
 const Liner = styled.div`
   width: ${(props) => props.width};
-  height: ${(props)=> {
-    if (props.height===undefined) {
-      return "1px"
+  height: ${(props) => {
+    if (props.height === undefined) {
+      return "1px";
     } else {
-      return props.height
+      return props.height;
     }
   }};
-  margin: ${(props)=> {
-    if (props.margin===undefined) {
-      return "10px 0"
+  margin: ${(props) => {
+    if (props.margin === undefined) {
+      return "10px 0";
     } else {
-      return props.margin
+      return props.margin;
     }
   }};
   background-color: #ebebeb;
-`
+`;
 
 const Text = styled.p`
   font-size: ${(props) => props.fontSize};
@@ -220,10 +233,10 @@ const ImgBox = styled.div`
   overflow: hidden;
   border-radius: 10px;
   background-color: black;
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 800px) {
     max-width: 800px;
   }
-`
+`;
 const ImgTag = styled.img`
   width: 100%;
   max-width: 300px;
@@ -234,7 +247,7 @@ const ImgTag = styled.img`
   &:hover {
     opacity: 0.8;
   }
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 800px) {
     max-width: 800px;
   }
 `;
@@ -246,23 +259,23 @@ const ClickBtnArea = styled.div`
   display: flex;
   gap: 10px;
   /* background-color: tomato; */
-`
+`;
 const ClickBtn = styled.div`
   display: flex;
-  background-color: ${props=>props.bgColor};
+  background-color: ${(props) => props.bgColor};
   border: 2px solid white;
   justify-content: center;
   align-items: center;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-`
+`;
 const AccommodationCtn = styled.div`
   display: flex;
   width: 100%;
   gap: 20px;
   align-items: center;
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 800px) {
     flex-direction: column;
   }
 `;
@@ -273,8 +286,7 @@ const AccommodationContent = styled.div`
   width: 100%;
   justify-content: space-between;
   height: 100%;
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 800px) {
     height: auto;
   }
-`
-
+`;

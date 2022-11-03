@@ -10,18 +10,21 @@ import { __getAccommodation } from "../redux/modules/accommodationSlice";
 import { __patchAccommodation } from "../redux/modules/accommodationSlice";
 
 const HostingAccommodationModify = ({ setOnShowSignup }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  //   const { accId } = location.state;
+  const { accId } = location.state;
 
   useEffect(() => {
-    // dispatch(__getAccommodation(accId));
-    //accId를 수정 누를 때 location으로 받아오기
+    dispatch(__getAccommodation(accId));
+    // accId를 수정 누를 때 location으로 받아오기
   }, [dispatch]);
 
   const globalMyHosting = useSelector(
-    (state) => state.accommodation.getAccomodationFocus
+    (state) => state.accommodation.getAccommodationFocus
+  );
+
+  const globalMyHostingPic = useSelector(
+    (state) => state.accommodation.getAccommodationFocus
   );
 
   console.log("디테일 호스팅 정보__", globalMyHosting);
@@ -43,8 +46,6 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
     );
     const selectedElArray = Array.prototype.slice.call(selectedEl);
     const facilityItems = selectedElArray.map((item) => item.id);
-    console.log(facilityItems);
-    // formDataImg.append('accImg', accImgs)
     const postAccommodationItems = {
       accName: accNameRef.current.value,
       accAddr: accAddrRef.current.value,
@@ -55,10 +56,11 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
       room: Number(roomRef.current.value),
       bathroom: Number(bathroomRef.current.value),
       facilities: facilityItems,
-      accImg: accImgRef.current.files,
       description: descriptionRef.current.value,
+      accImg: accImgRef.current.files,
+      accId: accId,
     };
-
+    console.log("가는 아이템들__", postAccommodationItems);
     dispatch(__patchAccommodation(postAccommodationItems));
   };
 
@@ -112,7 +114,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="accName"
-              defaultValue={globalMyHosting.accName}
+              defaultValue={globalMyHosting.accommoInfo?.result.accName}
               ref={accNameRef}
               placeholder="숙소 이름"
               required
@@ -126,7 +128,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="accAddr"
-              defaultValue={globalMyHosting.accAddr}
+              defaultValue={globalMyHosting.accommoInfo?.result.accAddr}
               ref={accAddrRef}
               placeholder="숙소 주소"
               required
@@ -140,7 +142,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="price"
-              defaultValue={globalMyHosting.price}
+              defaultValue={globalMyHosting.accommoInfo?.result.price}
               ref={priceRef}
               placeholder="숙소 가격"
               required
@@ -154,7 +156,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputTextArea
               type="text"
               name="description"
-              defaultValue={globalMyHosting.description}
+              defaultValue={globalMyHosting.accommoInfo?.result.description}
               ref={descriptionRef}
               placeholder="숙소에 대한 상세설명을 적어주세요."
               rows="3"
@@ -199,7 +201,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="maxPerson"
-              defaultValue={globalMyHosting.maxPerson}
+              defaultValue={globalMyHosting.accommoInfo?.result.maxPerson}
               ref={maxPersonRef}
               placeholder="00명"
               required
@@ -213,7 +215,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="bed"
-              defaultValue={globalMyHosting.bed}
+              defaultValue={globalMyHosting.accommoInfo?.result.bed}
               ref={bedRef}
               placeholder="00개"
               required
@@ -227,7 +229,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="room"
-              defaultValue={globalMyHosting.room}
+              defaultValue={globalMyHosting.accommoInfo?.result.room}
               ref={roomRef}
               placeholder="00개"
               required
@@ -241,7 +243,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="bathroom"
-              defaultValue={globalMyHosting.bathroom}
+              defaultValue={globalMyHosting.accommoInfo?.result.bathroom}
               ref={bathroomRef}
               placeholder="00개"
               required
@@ -273,8 +275,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                 <ImgTagBox>
                   <ImgTag
                     src={
-                      globalMyHosting.accImg
-                        ? globalMyHosting.accImg[0]
+                      fileImage
+                        ? fileImage[0]
                         : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                     }
                   />
@@ -285,8 +287,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        globalMyHosting.accImg
-                          ? globalMyHosting.accImg[1]
+                        fileImage
+                          ? fileImage[1]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -294,8 +296,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        globalMyHosting.accImg
-                          ? globalMyHosting.accImg[2]
+                        fileImage
+                          ? fileImage[2]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -305,8 +307,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        globalMyHosting.accImg
-                          ? globalMyHosting.accImg[3]
+                        fileImage
+                          ? fileImage[3]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -314,8 +316,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        globalMyHosting.accImg
-                          ? globalMyHosting.accImg[4]
+                        fileImage
+                          ? fileImage[4]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -344,7 +346,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             width="100%"
             padding="14px"
           >
-            호스팅하기
+            해당 호스팅 수정하기
           </Button>
         </FlexCol>
       </ContentCtn>

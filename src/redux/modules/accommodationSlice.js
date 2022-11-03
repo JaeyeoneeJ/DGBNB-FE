@@ -4,7 +4,7 @@ import { instance } from "../instance";
 
 const initialState = {
   getAccommodationList: [],
-  getAccomodationFocus: {},
+  getAccommodationFocus: {},
   //호스팅 상세정보
   accommoInfo: {},
   hostInfo: {},
@@ -100,6 +100,7 @@ export const __getAccommodation = createAsyncThunk(
 export const __patchAccommodation = createAsyncThunk(
   "accommodation/patchAccomodation",
   async (payload, thunkAPI) => {
+    const token = localStorage.getItem("token");
     const formData = new FormData();
     formData.append("accName", payload.accName);
     formData.append("accAddr", payload.accAddr);
@@ -113,22 +114,23 @@ export const __patchAccommodation = createAsyncThunk(
     formData.append("room", payload.room);
     formData.append("bathroom", payload.bathroom);
     formData.append("thumbnail", payload.thumbnail);
-    formData.append("accName", payload.entriesValue);
-
+    console.log(payload.accImg);
     const entriesImg = Object.entries(payload.accImg);
     const entriesValue = entriesImg.map((item) => {
       return item[1];
     });
     entriesValue.forEach((accImg) => formData.append("accImg", accImg));
     try {
-      const { data } = await instance.put(`/accommodations/${payload.accId}`, {
-        params: {
-          accId: payload.accId,
-        },
-        data: {
-          formData: formData,
-        },
-      });
+      const { data } = await instance.patch(
+        `/accommodations/${payload.accId}`,
+        formData,
+        {
+          params: {
+            accId: payload.accId,
+          },
+          headers: { Authorization: `${token}` },
+        }
+      );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       console.log(error);
