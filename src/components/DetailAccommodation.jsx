@@ -71,12 +71,12 @@ const DetailAccommodation = () => {
             setIsLike(getAccommodationFocus.accommoInfo.likesData)
             return alert('로그인이 필요한 기능입니다.')
         } else if(!isLike || !getAccommodationFocus.accommoInfo.likesData) {
-            if (window.confirm('이 숙소를 위시리스트에 삭제하시겠습니까?')) {
+            if (window.confirm('이 숙소를 위시리스트에 저장하시겠습니까?')) {
                 dispatch(__putLikedAccommodation(id))
                 return setIsLike(true)
             } else return setIsLike(false)
         } else if(isLike || getAccommodationFocus.accommoInfo.likesData) {
-            if (window.confirm('이 숙소를 위시리스트에 저장하시겠습니까?')) {
+            if (window.confirm('이 숙소를 위시리스트에 삭제하시겠습니까?')) {
                 dispatch(__putLikedAccommodation(id))
                 return setIsLike(false)
             } else return setIsLike(true)
@@ -90,9 +90,9 @@ const DetailAccommodation = () => {
         if (isLike === undefined && getAccommodationFocus?.accommoInfo?.likesData === undefined) {
             return "#222222"
         } else if (!isLike || !getAccommodationFocus?.accommoInfo?.likesData) {
-            return "red"
-        } else if (isLike || getAccommodationFocus?.accommoInfo?.likesData) {
             return "#222222"
+        } else if (isLike || getAccommodationFocus?.accommoInfo?.likesData) {
+            return "red"
         } else {return "#222222" }
     }
     useEffect(() => {
@@ -113,7 +113,7 @@ const DetailAccommodation = () => {
                     <DetailHeaderBox>
                         <AccAddr>{getAccommodationFocus?.accommoInfo?.result?.accAddr}</AccAddr>
                         <PickArea>
-                            <PickBtn onClick={() => copyLink(`https://dgbnb-jayquqae9-jaeyeoneej.vercel.app${location.pathname}`)}>
+                            <PickBtn onClick={() => copyLink(`https://dgbnb-fe.vercel.app${location.pathname}`)}>
                                 <FiShare />
                                 공유하기
                             </PickBtn>

@@ -19,8 +19,13 @@ const Message = () => {
     },[])
 
     useEffect(()=> {
-        isSuccess && alert('메세지가 성공적으로 삭제되었습니다.')
-        dispatch(clearIsSuccess())
+        if (isSuccess) {
+            window.location.replace('/account-setting/message')
+            alert('메세지가 성공적으로 삭제되었습니다.')  
+            dispatch(clearIsSuccess())
+            
+        } 
+        
     },[isLoading, isSuccess])
 
     return (
