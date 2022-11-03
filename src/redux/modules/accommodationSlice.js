@@ -97,36 +97,39 @@ export const __getAccommodation = createAsyncThunk(
   }
 );
 
-export const __putAccommodation = createAsyncThunk(
-  "accommodation/putAccomodation",
+export const __patchAccommodation = createAsyncThunk(
+  "accommodation/patchAccomodation",
   async (payload, thunkAPI) => {
-    const accomodationItems = {
-      accName: payload.accName,
-      accAddr: payload.accAddr,
-      lat: payload.lat, //null
-      lnt: payload.lnt, //null
-      maxPerson: payload.maxPerson,
-      bed: payload.bed,
-      room: payload.room,
-      bathroom: payload.bathroom,
-      category: payload.category,
-      thumbnail: payload.thumbnail,
-      accImg: payload.accImg, // imageList,
-    };
     const formData = new FormData();
-    formData.append(accomodationItems);
+    formData.append("accName", payload.accName);
+    formData.append("accAddr", payload.accAddr);
+
+    formData.append("lat", null);
+    formData.append("lnt", null);
+    formData.append("category", null);
+
+    formData.append("maxPerson", payload.maxPerson);
+    formData.append("bed", payload.bed);
+    formData.append("room", payload.room);
+    formData.append("bathroom", payload.bathroom);
+    formData.append("thumbnail", payload.thumbnail);
+    formData.append("accName", payload.entriesValue);
+
+    const entriesImg = Object.entries(payload.accImg);
+    const entriesValue = entriesImg.map((item) => {
+      return item[1];
+    });
+    entriesValue.forEach((accImg) => formData.append("accImg", accImg));
     try {
-      const { data } = await axios.put(
-        `${url}/accommodations/${payload.accId}`,
-        {
-          params: {
-            accId: payload.accId,
-          },
-          data: {
-            formData: formData,
-          },
-        }
-      );
+      const { data } = await axios.patch(`${url}/accommodations/${payload}`, {
+        params: {
+          accId: payload.accId,
+        },
+        data: {
+          formData: formData,
+        },
+      });
+      console.log(data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       console.log(error);
@@ -196,11 +199,11 @@ const accommodationSlice = createSlice({
       console.log();
     },
     /// put
-    [__putAccommodation.pending]: (state, action) => {
+    [__patchAccommodation.pending]: (state, action) => {
       console.log();
     },
-    [__putAccommodation.fulfilled]: (state, action) => {},
-    [__putAccommodation.rejected]: (state, action) => {
+    [__patchAccommodation.fulfilled]: (state, action) => {},
+    [__patchAccommodation.rejected]: (state, action) => {
       console.log();
     },
     /// delete

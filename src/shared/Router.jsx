@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import SignupJJY from "../components/SignupJJY";
 import DetailAccPage from "../pages/DetailAccPage";
 import HomePage from "../pages/HomePage";
@@ -15,12 +15,14 @@ import SignupCheck from "../components/SignupCheck";
 import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import AccountSettingPage from "../pages/AccountSettingPage";
+import HostingAccommodation from "../components/HostingAccommodation";
 
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
   const [onShowLogin, setOnShowLogin] = useState(false);
   // console.log(onShowLogin)
   const dispatch = useDispatch();
+  const location = useLocation();
 
   /// 모드에 따라 렌더링 모달이 달라진다.
   const [signupMode, setSignupMode] = useState("FIRST");
@@ -93,7 +95,7 @@ const Router = () => {
         <Route path="/accommodation" element={<PostAccommodation />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/mypage" element={<UserProfile />} />
-
+        <Route path="/modihosting" element={<HostingAccommodation />} />
         <Route
           path="/account-setting/hosting"
           element={<PostAccommodation />}
