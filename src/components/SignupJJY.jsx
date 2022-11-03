@@ -8,20 +8,40 @@ import { getItems } from "../redux/modules/signupSlice";
 const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
   const emailRef = useRef();
   const dispatch = useDispatch();
+  const [next, setNext] = useState(false);
   const onClickHandler = () => {
-    const firstItem = { memberEmail: emailRef.current.value };
-    setSignupMode("SECOND");
-    dispatch(getItems(firstItem));
+    if (next) {
+      const firstItem = { memberEmail: emailRef.current.value };
+      setSignupMode("SECOND");
+      dispatch(getItems(firstItem));
+    }
   };
   //// 기존 코드
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState("");
+  const checkEmail = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+  const [validationText, setvalidationText] = useState(
+    <ValidText style={{ padding: 7 }}>이메일 형식으로 작성해주세요</ValidText>
+  );
   const handleTextChange = (text) => {
     setValue(text);
     if (text !== "") {
       setIsActive(true);
     } else {
       setIsActive(false);
+    }
+    if (!checkEmail.test(text)) {
+      setvalidationText(
+        <ValidText style={{ color: "tomato" }}>
+          이메일 형식으로 작성해주세요
+        </ValidText>
+      );
+      setNext(false);
+    } else {
+      setvalidationText(
+        <ValidText style={{ padding: 7 }}>올바른 이메일 형식입니다.</ValidText>
+      );
+      setNext(true);
     }
   };
 
@@ -73,6 +93,7 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
                   ref={emailRef}
                   required
                 />
+                {validationText}
               </SelectArea>
               <SelectNotice>
                 <span>
@@ -143,7 +164,9 @@ const SignupJJY = ({ onShowSignup, setOnShowSignup, setSignupMode }) => {
     </BGBlack>
   );
 };
-
+const ValidText = styled.div`
+  margin: 10px 0;
+`;
 const BGBlack = styled.div`
   position: fixed;
   z-index: 10;

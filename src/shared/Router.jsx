@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import SignupJJY from "../components/SignupJJY";
 import DetailAccPage from "../pages/DetailAccPage";
 import HomePage from "../pages/HomePage";
@@ -15,8 +15,11 @@ import SignupCheck from "../components/SignupCheck";
 import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import AccountSettingPage from "../pages/AccountSettingPage";
+import HostingAccommodation from "../components/HostingAccommodation";
+import HostingAccommodationModify from "../components/HostingAccommodationModify";
 import WishList from "../components/WishList";
 import MessagePage from "../pages/MessagePage";
+
 
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
@@ -94,6 +97,10 @@ const Router = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/accommodation" element={<PostAccommodation />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/mypage" element={<UserProfile />} />
+        <Route path="/modihosting" element={<HostingAccommodation />} />
+
+
 
         <Route
           path="/account-setting/hosting"
@@ -104,6 +111,9 @@ const Router = () => {
           path="/account-setting/myhostinglist"
           element={<UserProfile />}
         />
+
+        <Route path="/modi" element={<HostingAccommodationModify />} />
+
         <Route
           path="/account-setting/message"
           element={<MessagePage />}
@@ -113,6 +123,7 @@ const Router = () => {
           element={<WishList />}
         />
         <Route path="" element={<UserProfileReservation />} />
+
         {/*  */}
         <Route path="/accommodation/:id" element={<DetailAccPage />} />
         <Route path="/account-setting" element={<AccountSettingPage />} />
