@@ -13,16 +13,18 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const { accId } = location.state;
+  //   const { accId } = location.state;
 
   useEffect(() => {
-    dispatch(__getAccommodation(accId));
+    // dispatch(__getAccommodation(accId));
     //accId를 수정 누를 때 location으로 받아오기
-  });
+  }, [dispatch]);
 
   const globalMyHosting = useSelector(
     (state) => state.accommodation.getAccomodationFocus
   );
+
+  console.log("디테일 호스팅 정보__", globalMyHosting);
 
   const accNameRef = useRef();
   const accAddrRef = useRef();
@@ -110,7 +112,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="accName"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.accName}
               ref={accNameRef}
               placeholder="숙소 이름"
               required
@@ -124,7 +126,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="accAddr"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.accAddr}
               ref={accAddrRef}
               placeholder="숙소 주소"
               required
@@ -138,7 +140,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="price"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.price}
               ref={priceRef}
               placeholder="숙소 가격"
               required
@@ -152,7 +154,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputTextArea
               type="text"
               name="description"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.description}
               ref={descriptionRef}
               placeholder="숙소에 대한 상세설명을 적어주세요."
               rows="3"
@@ -197,7 +199,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="maxPerson"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.maxPerson}
               ref={maxPersonRef}
               placeholder="00명"
               required
@@ -211,7 +213,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="bed"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.bed}
               ref={bedRef}
               placeholder="00개"
               required
@@ -225,7 +227,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="room"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.room}
               ref={roomRef}
               placeholder="00개"
               required
@@ -239,7 +241,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="bathroom"
-              defaultValue={globalMyHosting}
+              defaultValue={globalMyHosting.bathroom}
               ref={bathroomRef}
               placeholder="00개"
               required
@@ -271,8 +273,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                 <ImgTagBox>
                   <ImgTag
                     src={
-                      fileImage
-                        ? fileImage[0]
+                      globalMyHosting.accImg
+                        ? globalMyHosting.accImg[0]
                         : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                     }
                   />
@@ -283,8 +285,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        fileImage
-                          ? fileImage[1]
+                        globalMyHosting.accImg
+                          ? globalMyHosting.accImg[1]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -292,8 +294,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        fileImage
-                          ? fileImage[2]
+                        globalMyHosting.accImg
+                          ? globalMyHosting.accImg[2]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -303,8 +305,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        fileImage
-                          ? fileImage[3]
+                        globalMyHosting.accImg
+                          ? globalMyHosting.accImg[3]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -312,8 +314,8 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
                   <ImgTagBox>
                     <ImgTag
                       src={
-                        fileImage
-                          ? fileImage[4]
+                        globalMyHosting.accImg
+                          ? globalMyHosting.accImg[4]
                           : "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
                       }
                     />
@@ -336,7 +338,6 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
           <Button
             onClick={onClickHandler}
             background="linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%)"
-            // bgColor='#ff385c'
             color="white"
             border="none"
             fontSize="16px"
