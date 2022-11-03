@@ -9,6 +9,8 @@ const initialState = {
   accommoInfo: {},
   hostInfo: {},
   //예약 상세 정보
+  isSuccess: false,
+  isLoading: false
 };
 
 // const url = "http://13.209.21.117:3000";
@@ -75,7 +77,6 @@ export const __getAccommodationList = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const data = await instance.get(`/accommodations`);
-
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -88,7 +89,20 @@ export const __getAccommodation = createAsyncThunk(
   "accommodation/getAccommodation",
   async (payload, thunkAPI) => {
     try {
-      const data = await instance.get(`/accommodations/${payload}`, {});
+      const token = localStorage.getItem("token");
+      console.log(token)
+      
+      let data = {}
+      if (token===null) {
+        data = await instance.get(`/accommodations/${payload}`);
+      } else {
+        data = await instance.get(`/accommodations/${payload}`, {
+          headers: {
+            Authorization: `${token}`,
+          }
+        },);
+      }
+      
       console.log("숙소 상세 데이터_", data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
@@ -164,16 +178,24 @@ export const __deleteAccommodation = createAsyncThunk(
 const accommodationSlice = createSlice({
   name: "accommodation",
   initialState,
-  reducers: {},
+  reducers: {
+    clearIsSuccess : (state, action) => {
+      state.isSuccess = false
+    }
+  },
   extraReducers: {
     // post
     [__postAccommodations.pending]: (state, action) => {
+      state.isLoading = true
       console.log();
     },
     [__postAccommodations.fulfilled]: (state, action) => {
-      console.log();
+      state.isLoading = false
+      state.isSuccess = true
+      alert('호스팅 등록이 성공적으로 진행되었습니다.')
     },
     [__postAccommodations.rejected]: (state, action) => {
+      state.isLoading = false
       console.log();
     },
     /// get
@@ -215,4 +237,5 @@ const accommodationSlice = createSlice({
   },
 });
 
+export const { clearIsSuccess } = accommodationSlice.actions;
 export default accommodationSlice.reducer;

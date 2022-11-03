@@ -110,7 +110,7 @@ const Header = ({
 									</MenuBox>
 
 									<MenuLine />
-									<MenuBox>숙소 호스트 되기</MenuBox>
+									<MenuBox onClick={()=>navigate("account-setting/hosting/")}>숙소 호스트 되기</MenuBox>
 									<MenuBox onClick={() => navigate("/account-setting")}>
 										계정
 									</MenuBox>
