@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { __postAccommodations } from "../redux/modules/accommodationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearIsSuccess, __postAccommodations } from "../redux/modules/accommodationSlice";
 import styled from "styled-components";
 import { HiChevronRight } from "react-icons/hi";
 import Button from "./elements/Button";
 import { useNavigate } from "react-router-dom";
 import { TbGridDots } from "react-icons/tb";
 const HostingAccommodation = ({ setOnShowSignup }) => {
+  const {isSuccess, isLoading} = useSelector(state=>state.accommodation)
+  
   const navigate = useNavigate();
 
   const accNameRef = useRef();
@@ -22,6 +24,9 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
 
   const dispatch = useDispatch();
 
+  function priceToString(price) {
+    return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   const onClickHandler = () => {
     const selectedEl = document.querySelectorAll(
       "input[name='facilities']:checked"
@@ -33,7 +38,7 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
       accName: accNameRef.current.value,
       accAddr: accAddrRef.current.value,
       price: Number(priceRef.current.value),
-      facilities: facilitiesRef.current,
+      // facilities: facilitiesRef.current,
       maxPerson: Number(maxPersonRef.current.value),
       bed: Number(bedRef.current.value),
       room: Number(roomRef.current.value),
@@ -43,23 +48,21 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
       description: descriptionRef.current.value,
     };
 
-    console.log(postAccommodationItems)
-    (window.confirm(
-      `입력하신 정보는 다음과 같습니다.\n
-      숙소 이름: "${postAccommodationItems.accName}",\n
-      숙소 주소: ,\n
-      숙소 가격: ,\n
-      숙소 설명: ,\n
-      제공하는 편의시설: ,\n
-      최대 인원 수: ,\n
-      침대: ,\n
-      방: ,\n
-      화장실: ,\n
-      사진: ,\n
+    // console.log(postAccommodationItems)
+    (window.confirm(`입력하신 정보는 다음과 같습니다.
+      
+      숙소 이름: ${postAccommodationItems.accName}
+      숙소 주소: ${postAccommodationItems.accAddr}
+      숙소 가격: ${priceToString(postAccommodationItems.price)}원,
+      숙소 설명: ${postAccommodationItems.description}
+      제공하는 편의시설: ${postAccommodationItems.facilities}
+      최대 인원 수: ${postAccommodationItems.maxPerson}명
+      침대: ${postAccommodationItems.bed}개
+      방: ${postAccommodationItems.room}개
+      화장실: ${postAccommodationItems.bathroom}개
+      사진: ${postAccommodationItems.accImg.length}개
 
-      위 사항이 맞으시다면 확인 버튼을 눌러주세요.
-
-    `)) ? dispatch(__postAccommodations(postAccommodationItems)) : alert('신중하게 입력해주세요.')
+      입력하신 사항이 맞으시다면 확인 버튼을 눌러주세요.`)) ? dispatch(__postAccommodations(postAccommodationItems)) : alert('신중하게 입력해주세요.')
   };
 
   ///// 이미지프리뷰
@@ -86,8 +89,10 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
   };
 
   useEffect(()=> {
-
-  })
+    console.log('되냐?')
+    isSuccess && navigate('/account-setting/myhostinglist')
+    dispatch(clearIsSuccess())
+  }, [isLoading])
 
   return (
     <>

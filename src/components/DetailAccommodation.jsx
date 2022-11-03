@@ -34,9 +34,9 @@ const DetailAccommodation = () => {
     };
 
     const splitFacilities =
-        getAccommodationFocus?.accommoInfo?.facilities?.split(",");
+        getAccommodationFocus?.accommoInfo?.result?.facilities?.split(",");
     console.log(splitFacilities);
-    // console.log(getAccommodationFocus)
+    console.log(getAccommodationFocus)
     const location = useLocation();
 
     const copyLink = async (text) => {
@@ -60,7 +60,7 @@ const DetailAccommodation = () => {
     function priceToString(price) {
         return price?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
-    const initTotal = getAccommodationFocus?.accommoInfo?.price * 5
+    const initTotal = getAccommodationFocus?.accommoInfo?.result?.price * 5
     const vatTotal = initTotal * 0.15
 
     const onClickLiked = () => {
@@ -81,9 +81,9 @@ const DetailAccommodation = () => {
         <Ctn>
             <DetailCtn>
                 <DetailHeader>
-                    <Font22>{getAccommodationFocus?.accommoInfo?.accName}</Font22>
+                    <Font22>{getAccommodationFocus?.accommoInfo?.result?.accName}</Font22>
                     <DetailHeaderBox>
-                        <AccAddr>{getAccommodationFocus?.accommoInfo?.accAddr}</AccAddr>
+                        <AccAddr>{getAccommodationFocus?.accommoInfo?.result?.accAddr}</AccAddr>
                         <PickArea>
                             <PickBtn onClick={() => copyLink(`https://dgbnb-jayquqae9-jaeyeoneej.vercel.app${location.pathname}`)}>
                                 <FiShare />
@@ -100,7 +100,7 @@ const DetailAccommodation = () => {
                     <MainPic>
                         <ImgTagBox>
                             <ImgTag
-                                src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.thumbnail}
+                                src={getAccommodationFocus?.accommoInfo?.result?.AccommodationsPictures[0]?.thumbnail}
                             />
                         </ImgTagBox>
                     </MainPic>
@@ -108,24 +108,24 @@ const DetailAccommodation = () => {
                         <OtherPicBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image1}
+                                    src={getAccommodationFocus?.accommoInfo?.result?.AccommodationsPictures[0]?.image1}
                                 />
                             </ImgTagBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image2}
+                                    src={getAccommodationFocus?.accommoInfo?.result?.AccommodationsPictures[0]?.image2}
                                 />
                             </ImgTagBox>
                         </OtherPicBox>
                         <OtherPicBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image3}
+                                    src={getAccommodationFocus?.accommoInfo?.result?.AccommodationsPictures[0]?.image3}
                                 />
                             </ImgTagBox>
                             <ImgTagBox>
                                 <ImgTag
-                                    src={getAccommodationFocus?.accommoInfo?.AccommodationsPictures[0]?.image4}
+                                    src={getAccommodationFocus?.accommoInfo?.result?.AccommodationsPictures[0]?.image4}
                                 />
                             </ImgTagBox>
                         </OtherPicBox>
@@ -146,7 +146,7 @@ const DetailAccommodation = () => {
                                     {getAccommodationFocus?.hostInfo?.name}님이 호스팅하는 펜션
                                 </Font22>
                                 <Font16>
-                                    최대 인원 {getAccommodationFocus?.accommoInfo?.maxPerson}명 · 방 {getAccommodationFocus?.accommoInfo?.room} · 침대 {getAccommodationFocus?.accommoInfo?.bed}개 · 욕실 {getAccommodationFocus?.accommoInfo?.bathroom}개
+                                    최대 인원 {getAccommodationFocus?.accommoInfo?.result?.maxPerson}명 · 방 {getAccommodationFocus?.accommoInfo?.result?.room} · 침대 {getAccommodationFocus?.accommoInfo?.result?.bed}개 · 욕실 {getAccommodationFocus?.accommoInfo?.result?.bathroom}개
                                 </Font16>
                             </DatailBoxHeader2>
                             <DatailBoxHeader2>
@@ -193,7 +193,7 @@ const DetailAccommodation = () => {
                             flexDir='column'
                         >
                             <Font16>
-                                {getAccommodationFocus?.accommoInfo?.description}
+                                {getAccommodationFocus?.accommoInfo?.result?.description}
                             </Font16>
                             <Font16
                                 fontWeight='600'
@@ -349,13 +349,13 @@ const DetailAccommodation = () => {
                             <StickyBox>
                                 <FlexCol gap="5px">
                                     <FlexRowLeftCenter>
-                                        <Font22>₩{priceToString(getAccommodationFocus?.accommoInfo?.price)} </Font22>
+                                        <Font22>₩{priceToString(getAccommodationFocus?.accommoInfo?.result?.price)} </Font22>
                                         <Font16>/박</Font16>
                                     </FlexRowLeftCenter>
                                     <FlexRow gap="5px">
                                         <FaStar />
                                         <span>
-                                            {(getAccommodationFocus?.accommoInfo?.rating === null) ? "NEW" : getAccommodationFocus?.accommoInfo?.rating}</span>
+                                            {(getAccommodationFocus?.accommoInfo?.result?.rating === null) ? "NEW" : getAccommodationFocus?.accommoInfo?.result?.rating}</span>
                                         <Font14Underline>
                                             후기 {"46"}개
                                         </Font14Underline>
@@ -437,7 +437,7 @@ const DetailAccommodation = () => {
                                 <FlexCol gap="10px">
                                     <FlexRow justifyContent="space-between">
                                         <Text fontSize="14px" textDecoration="underline">
-                                            ₩{priceToString(getAccommodationFocus?.accommoInfo?.price)} × 5박
+                                            ₩{priceToString(getAccommodationFocus?.accommoInfo?.result?.price)} × 5박
                                         </Text>
                                         <Text fontSize="14px">
                                             ₩{priceToString(initTotal)}
