@@ -16,13 +16,13 @@ import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import AccountSettingPage from "../pages/AccountSettingPage";
 import HostingAccommodation from "../components/HostingAccommodation";
+import HostingAccommodationModify from "../components/HostingAccommodationModify";
 
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
   const [onShowLogin, setOnShowLogin] = useState(false);
   // console.log(onShowLogin)
   const dispatch = useDispatch();
-  const location = useLocation();
 
   /// 모드에 따라 렌더링 모달이 달라진다.
   const [signupMode, setSignupMode] = useState("FIRST");
@@ -105,7 +105,7 @@ const Router = () => {
           path="/account-setting/myhostinglist"
           element={<UserProfile />}
         />
-        <Route path="" element={<UserProfileReservation />} />
+        <Route path="/modi" element={<HostingAccommodationModify />} />
         {/*  */}
         <Route path="/accommodation/:id" element={<DetailAccPage />} />
         <Route path="/account-setting" element={<AccountSettingPage />} />

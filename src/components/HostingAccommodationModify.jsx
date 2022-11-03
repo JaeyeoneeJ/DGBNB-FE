@@ -1,13 +1,28 @@
-import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { __postAccommodations } from "../redux/modules/accommodationSlice";
 import styled from "styled-components";
 import { HiChevronRight } from "react-icons/hi";
 import Button from "./elements/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { TbGridDots } from "react-icons/tb";
+import { __getAccommodation } from "../redux/modules/accommodationSlice";
+import { __patchAccommodation } from "../redux/modules/accommodationSlice";
+
 const HostingAccommodationModify = ({ setOnShowSignup }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { accId } = location.state;
+
+  useEffect(() => {
+    dispatch(__getAccommodation(accId));
+    //accId를 수정 누를 때 location으로 받아오기
+  });
+
+  const globalMyHosting = useSelector(
+    (state) => state.accommodation.getAccomodationFocus
+  );
 
   const accNameRef = useRef();
   const accAddrRef = useRef();
@@ -19,8 +34,6 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
   const bathroomRef = useRef();
   const accImgRef = useRef();
   const descriptionRef = useRef();
-
-  const dispatch = useDispatch();
 
   const onClickHandler = () => {
     const selectedEl = document.querySelectorAll(
@@ -43,7 +56,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
       description: descriptionRef.current.value,
     };
 
-    dispatch(__postAccommodations(postAccommodationItems));
+    dispatch(__patchAccommodation(postAccommodationItems));
   };
 
   ///// 이미지프리뷰
@@ -62,6 +75,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
     setFileImage(filesArrayUrls);
   };
 
+  ///파일 삭제
   const deleteFileImage = () => {
     URL.revokeObjectURL(fileImage);
     setFileImage(
@@ -83,7 +97,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <Text fontWeight="600">호스팅</Text>
           </FlexRow>
           <Text fontSize="32px" fontWeight="800">
-            호스팅
+            나의 호스팅 수정
           </Text>
         </FlexCol>
 
@@ -95,6 +109,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="accName"
+              defaultValue={globalMyHosting}
               ref={accNameRef}
               placeholder="숙소 이름"
               required
@@ -108,6 +123,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="accAddr"
+              defaultValue={globalMyHosting}
               ref={accAddrRef}
               placeholder="숙소 주소"
               required
@@ -121,6 +137,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="price"
+              defaultValue={globalMyHosting}
               ref={priceRef}
               placeholder="숙소 가격"
               required
@@ -134,6 +151,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputTextArea
               type="text"
               name="description"
+              defaultValue={globalMyHosting}
               ref={descriptionRef}
               placeholder="숙소에 대한 상세설명을 적어주세요."
               rows="3"
@@ -178,6 +196,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="maxPerson"
+              defaultValue={globalMyHosting}
               ref={maxPersonRef}
               placeholder="00명"
               required
@@ -191,6 +210,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="bed"
+              defaultValue={globalMyHosting}
               ref={bedRef}
               placeholder="00개"
               required
@@ -204,6 +224,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="room"
+              defaultValue={globalMyHosting}
               ref={roomRef}
               placeholder="00개"
               required
@@ -217,6 +238,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
             <InputArea
               type="text"
               name="bathroom"
+              defaultValue={globalMyHosting}
               ref={bathroomRef}
               placeholder="00개"
               required
