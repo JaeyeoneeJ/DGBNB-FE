@@ -17,6 +17,9 @@ import Header from "../components/Header";
 import AccountSettingPage from "../pages/AccountSettingPage";
 import HostingAccommodation from "../components/HostingAccommodation";
 import HostingAccommodationModify from "../components/HostingAccommodationModify";
+import WishList from "../components/WishList";
+import MessagePage from "../pages/MessagePage";
+
 
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
@@ -96,6 +99,9 @@ const Router = () => {
         <Route path="/Login" element={<Login />} />
         <Route path="/mypage" element={<UserProfile />} />
         <Route path="/modihosting" element={<HostingAccommodation />} />
+
+
+
         <Route
           path="/account-setting/hosting"
           element={<PostAccommodation />}
@@ -105,7 +111,19 @@ const Router = () => {
           path="/account-setting/myhostinglist"
           element={<UserProfile />}
         />
+
         <Route path="/modi" element={<HostingAccommodationModify />} />
+
+        <Route
+          path="/account-setting/message"
+          element={<MessagePage />}
+        />
+        <Route
+          path="/account-setting/wishlist"
+          element={<WishList />}
+        />
+        <Route path="" element={<UserProfileReservation />} />
+
         {/*  */}
         <Route path="/accommodation/:id" element={<DetailAccPage />} />
         <Route path="/account-setting" element={<AccountSettingPage />} />

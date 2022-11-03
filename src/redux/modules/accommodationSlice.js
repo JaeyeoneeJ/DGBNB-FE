@@ -160,15 +160,18 @@ export const __deleteAccommodation = createAsyncThunk(
   async (payload, thunkAPI) => {
     const token = localStorage.getItem("token");
     const NumberAccId = Number(payload);
+    console.log(NumberAccId)
     try {
-      const { data } = await instance.delete(`/accommodations/${NumberAccId}`, {
-        params: {
-          accId: NumberAccId,
-        },
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+      const { data } = await instance.delete(`/accommodations/${NumberAccId}`,
+        {
+          params: {
+            accId: NumberAccId,
+          },
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       // console.log(error);

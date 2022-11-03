@@ -6,6 +6,7 @@ import reservation from "../modules/reservationSlice";
 import accommodation from "../modules/accommodationSlice";
 import reviews from "../modules/reviewsSlice";
 import likes from "../modules/likedAccommodationSlice";
+import messages from "../modules/messageSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     accommodation: accommodation,
     reviews: reviews,
     likes: likes,
+    messages: messages,
   },
 });
 

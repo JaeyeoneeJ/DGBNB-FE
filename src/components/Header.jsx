@@ -102,10 +102,10 @@ const Header = ({
 						>
 							{isShowHamburgerMenu && (
 								<HamburgerMenu>
-									<MenuBox>
+									<MenuBox onClick={()=>navigate("/account-setting/message")}>
 										<strong>메세지</strong>
 									</MenuBox>
-									<MenuBox>
+									<MenuBox onClick={()=>navigate("/account-setting/wishlist")}>
 										<strong>위시리스트</strong>
 									</MenuBox>
 

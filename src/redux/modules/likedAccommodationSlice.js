@@ -48,11 +48,14 @@ export const __getLikedAccommodationList = createAsyncThunk(
   "likes/getLikedAccommodationList",
   async (payload, thunkAPI) => {
     try {
-      const { data } = await instance.get(`/likes/${payload.userId}`, {
-        params: {
-          userId: payload.userId,
-        },
+      console.log('hello')
+      const token = localStorage.getItem("token");
+      const { data } = await instance.get(`/likes`, {
+        headers: {
+          Authorization: token,
+        }
       });
+      // console.log(data)
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -78,7 +81,7 @@ export const __putLikedAccommodation = createAsyncThunk(
   }
 );
 
-const loginSlice = createSlice({
+const likedAccommodationSlice = createSlice({
   name: "likes",
   initialState,
   reducers: {
@@ -91,7 +94,7 @@ const loginSlice = createSlice({
       console.log(action.payload);
     },
     [__getLikedAccommodationList.fulfilled]: (state, action) => {
-      console.log(action.payload);
+      state.getLikedAccommodationList = action.payload
     },
     [__getLikedAccommodationList.rejected]: (state, action) => {
       console.log(action.payload);
@@ -113,5 +116,5 @@ const loginSlice = createSlice({
   },
 });
 
-export const { ClearIsSuccess } = loginSlice.actions;
-export default loginSlice.reducer;
+export const { ClearIsSuccess } = likedAccommodationSlice.actions;
+export default likedAccommodationSlice.reducer;
