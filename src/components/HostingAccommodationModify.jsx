@@ -41,6 +41,7 @@ const HostingAccommodationModify = ({ setOnShowSignup }) => {
     );
     const selectedElArray = Array.prototype.slice.call(selectedEl);
     const facilityItems = selectedElArray.map((item) => item.id);
+    console.log(facilityItems);
     // formDataImg.append('accImg', accImgs)
     const postAccommodationItems = {
       accName: accNameRef.current.value,
