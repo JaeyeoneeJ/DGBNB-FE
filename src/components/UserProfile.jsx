@@ -220,6 +220,12 @@ const ImgBox = styled.div`
   overflow: hidden;
   border-radius: 10px;
   background-color: black;
+  &:hover > span {
+    opacity: 1;
+  }
+  &:hover img {
+    opacity: 0.8;
+  }
   @media screen and (max-width: 800px){
     max-width: 800px;
   }
@@ -231,20 +237,19 @@ const ImgTag = styled.img`
   aspect-ratio: 4/3;
   object-fit: cover;
   transition: all, 0.3s;
-  &:hover {
-    opacity: 0.8;
-  }
   @media screen and (max-width: 800px){
     max-width: 800px;
   }
 `;
-const ClickBtnArea = styled.div`
+const ClickBtnArea = styled.span`
   position: absolute;
   z-index: 1;
   top: 10px;
   right: 10px;
   display: flex;
   gap: 10px;
+  opacity: 0.2;
+  transition: all, 0.3s;
   /* background-color: tomato; */
 `
 const ClickBtn = styled.div`

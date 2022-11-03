@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { __postAccommodations } from "../redux/modules/accommodationSlice";
 import styled from "styled-components";
@@ -42,8 +42,24 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
       accImg: accImgRef.current.files,
       description: descriptionRef.current.value,
     };
-    
-    dispatch(__postAccommodations(postAccommodationItems));
+
+    console.log(postAccommodationItems)
+    (window.confirm(
+      `입력하신 정보는 다음과 같습니다.\n
+      숙소 이름: "${postAccommodationItems.accName}",\n
+      숙소 주소: ,\n
+      숙소 가격: ,\n
+      숙소 설명: ,\n
+      제공하는 편의시설: ,\n
+      최대 인원 수: ,\n
+      침대: ,\n
+      방: ,\n
+      화장실: ,\n
+      사진: ,\n
+
+      위 사항이 맞으시다면 확인 버튼을 눌러주세요.
+
+    `)) ? dispatch(__postAccommodations(postAccommodationItems)) : alert('신중하게 입력해주세요.')
   };
 
   ///// 이미지프리뷰
@@ -68,6 +84,10 @@ const HostingAccommodation = ({ setOnShowSignup }) => {
       "https://user-images.githubusercontent.com/77138259/199446108-5d3ed884-5071-4440-bc29-c52c6c604738.png"
       ))
   };
+
+  useEffect(()=> {
+
+  })
 
   return (
     <>
