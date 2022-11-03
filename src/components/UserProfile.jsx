@@ -93,11 +93,17 @@ const UserProfile = () => {
                       <ImgBox>
                         <ClickBtnArea>
                           <ClickBtn
-                            onClick={() =>
-                              navigate("/modi", {
-                                state: { accId: item.accId },
-                              })
-                            }
+                            onClick={() => {
+                              if (
+                                window.confirm(
+                                  "등록한 숙소를 수정하시겠습니까?"
+                                )
+                              ) {
+                                navigate("/modi", {
+                                  state: { accId: item.accId },
+                                });
+                              }
+                            }}
                             bgColor="#1a73e8"
                           >
                             <FiEdit3 size={20} stroke="white" />
