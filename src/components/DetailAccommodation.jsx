@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { FiShare, FiHeart } from "react-icons/fi";
@@ -19,7 +19,9 @@ const DetailAccommodation = () => {
     const { id } = useParams();
     console.log(id);
     const { getAccommodationFocus } = useSelector((state) => state.accommodation);
-    const {isSuccess} = useSelector((state)=>state.likes)
+    const {isSuccess,isLoading} = useSelector((state)=>state.likes)
+    console.log(getAccommodationFocus)
+    const [isLike, setIsLike] = useState(getAccommodationFocus?.accommoInfo?.likesData)
 
     const initFacilities = {
         drier: "https://cdn-icons-png.flaticon.com/512/4540/4540144.png",
@@ -63,19 +65,45 @@ const DetailAccommodation = () => {
     const initTotal = getAccommodationFocus?.accommoInfo?.result?.price * 5
     const vatTotal = initTotal * 0.15
 
+    
     const onClickLiked = () => {
-        return window.confirm('이 숙소를 위시리스트에 저장하시겠습니까?') ? dispatch(__putLikedAccommodation(id)) : null
+        if (isLike === undefined && getAccommodationFocus.accommoInfo.likesData === undefined) {
+            setIsLike(getAccommodationFocus.accommoInfo.likesData)
+            return alert('로그인이 필요한 기능입니다.')
+        } else if(!isLike || !getAccommodationFocus.accommoInfo.likesData) {
+            if (window.confirm('이 숙소를 위시리스트에 삭제하시겠습니까?')) {
+                dispatch(__putLikedAccommodation(id))
+                return setIsLike(true)
+            } else return setIsLike(false)
+        } else if(isLike || getAccommodationFocus.accommoInfo.likesData) {
+            if (window.confirm('이 숙소를 위시리스트에 저장하시겠습니까?')) {
+                dispatch(__putLikedAccommodation(id))
+                return setIsLike(false)
+            } else return setIsLike(true)
+        }
     }
 
     // useEffect(()=> {
 
     // },[location])
-
+    const iconColor = () => {
+        if (isLike === undefined && getAccommodationFocus?.accommoInfo?.likesData === undefined) {
+            return "#222222"
+        } else if (!isLike || !getAccommodationFocus?.accommoInfo?.likesData) {
+            return "red"
+        } else if (isLike || getAccommodationFocus?.accommoInfo?.likesData) {
+            return "#222222"
+        } else {return "#222222" }
+    }
     useEffect(() => {
         dispatch(__getAccommodation(id))
-        isSuccess && alert('숙소가 위시리스트에 저장되었습니다.')
+    }, [])
+    useEffect(()=> {
+        isSuccess && (isLike) && alert('숙소가 위시리스트에 삭제되었습니다.') && setIsLike(true)
+        isSuccess && (!isLike) && alert('숙소가 위시리스트에 저장되었습니다.') && setIsLike(false)
+        
         dispatch(ClearIsSuccess())
-    }, [isSuccess])
+    },[isLoading])
 
     return (
         <Ctn>
@@ -89,8 +117,9 @@ const DetailAccommodation = () => {
                                 <FiShare />
                                 공유하기
                             </PickBtn>
-                            <PickBtn onClick={() => onClickLiked()}>
-                                <FiHeart />
+                            <PickBtn onClick={() => {
+                                onClickLiked()}} color={iconColor()}>
+                                <FiHeart stroke={iconColor()} />
                                 저장
                             </PickBtn>
                         </PickArea>
@@ -571,6 +600,7 @@ const PickArea = styled.div`
   gap: 5px;
 `;
 const PickBtn = styled.button`
+  color: ${props=>props.color};
   display: flex;
   gap: 5px;
   align-items: center;

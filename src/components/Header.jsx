@@ -105,7 +105,7 @@ const Header = ({
 									<MenuBox>
 										<strong>메세지</strong>
 									</MenuBox>
-									<MenuBox>
+									<MenuBox onClick={()=>navigate("/account-setting/wishlist")}>
 										<strong>위시리스트</strong>
 									</MenuBox>
 

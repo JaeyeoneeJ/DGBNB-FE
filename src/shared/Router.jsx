@@ -15,6 +15,7 @@ import SignupCheck from "../components/SignupCheck";
 import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import AccountSettingPage from "../pages/AccountSettingPage";
+import WishList from "../components/WishList";
 
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
@@ -102,6 +103,10 @@ const Router = () => {
         <Route
           path="/account-setting/myhostinglist"
           element={<UserProfile />}
+        />
+        <Route
+          path="/account-setting/wishlist"
+          element={<WishList />}
         />
         <Route path="" element={<UserProfileReservation />} />
         {/*  */}
