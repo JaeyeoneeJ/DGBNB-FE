@@ -503,34 +503,34 @@ const DetailAccommodation = () => {
                 {/* 아래 영역 시작 */}
                 <Padding48 gap="50px" width="100%">
                     <FlexRow gap="10px" width="50%">
-                        <FlexRow>
+                        <FlexRow gap="10px">
                             <SlStar size={24} />
+                            <Font16LH24>
+                                이 호스트의 다른 숙소에 대한 후기가 1개 있습니다.{" "}
+                                <a
+                                    href="#"
+                                    style={{ fontWeight: "600", textDecoration: "underline" }}
+                                >
+                                    다른 숙소 후기 보기
+                                </a>
+                            </Font16LH24>
                         </FlexRow>
-                        <Font16LH24>
-                            이 호스트의 다른 숙소에 대한 후기가 1개 있습니다.{" "}
-                            <a
-                                href="#"
-                                style={{ fontWeight: "600", textDecoration: "underline" }}
-                            >
-                                다른 숙소 후기 보기
-                            </a>
-                        </Font16LH24>
+                        
                     </FlexRow>
                     <FlexRow gap="10px" width="50%">
-                        <FlexRow>
+                        <FlexRow gap="10px">
                             <SlGlobe size={24} />
+                            <Font16LH24>
+                                여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은{" "}
+                                <a
+                                    href="#"
+                                    style={{ fontWeight: "600", textDecoration: "underline" }}
+                                >
+                                    에어비앤비의 게스트 환불 정책
+                                </a>
+                                에 따라 보호를 받습니다. 다른 숙소 후기 보기
+                            </Font16LH24>
                         </FlexRow>
-
-                        <Font16LH24>
-                            여행에 차질이 없도록 최선을 다해 도와드리겠습니다. 모든 예약은{" "}
-                            <a
-                                href="#"
-                                style={{ fontWeight: "600", textDecoration: "underline" }}
-                            >
-                                에어비앤비의 게스트 환불 정책
-                            </a>
-                            에 따라 보호를 받습니다. 다른 숙소 후기 보기
-                        </Font16LH24>
                     </FlexRow>
                 </Padding48>
                 <Padding48></Padding48>
@@ -585,7 +585,8 @@ const DetailCtn = styled.div`
   flex-direction: column;
   gap: 10px;
 `;
-const DetailHeader = styled.div``;
+const DetailHeader = styled.div`
+`;
 const AccAddr = styled.p`
   font-weight: 600;
   text-decoration: underline;
@@ -593,7 +594,14 @@ const AccAddr = styled.p`
 const DetailHeaderBox = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
+  /* @media screen and (max-width: 500px){
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start
+  } */
 `;
 const PickArea = styled.div`
   display: flex;

@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import AccountSettingPage from "../pages/AccountSettingPage";
 import WishList from "../components/WishList";
+import MessagePage from "../pages/MessagePage";
 
 const Router = () => {
   const [onShowSignup, setOnShowSignup] = useState(false);
@@ -93,7 +94,6 @@ const Router = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/accommodation" element={<PostAccommodation />} />
         <Route path="/Login" element={<Login />} />
-        <Route path="/mypage" element={<UserProfile />} />
 
         <Route
           path="/account-setting/hosting"
@@ -103,6 +103,10 @@ const Router = () => {
         <Route
           path="/account-setting/myhostinglist"
           element={<UserProfile />}
+        />
+        <Route
+          path="/account-setting/message"
+          element={<MessagePage />}
         />
         <Route
           path="/account-setting/wishlist"
