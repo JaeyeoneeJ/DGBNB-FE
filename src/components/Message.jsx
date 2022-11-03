@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { __getMessages } from '../redux/modules/messageSlice'
 
 const Message = () => {
     const dispatch = useDispatch()
+    const {messages} = useSelector(state=>state.messages)
+    console.log(messages)
 
     useEffect(()=> {
         dispatch(__getMessages())
@@ -12,7 +14,7 @@ const Message = () => {
 
     return (
         <Ctn>
-            <Text fontSize="30px" fontWeight="600">메세지 - 총 {'getLikedAccommodationList?.length'}개</Text>
+            <Text fontSize="30px" fontWeight="600">메세지 - 총 {messages?.length}개</Text>
         </Ctn>
     )
 }
