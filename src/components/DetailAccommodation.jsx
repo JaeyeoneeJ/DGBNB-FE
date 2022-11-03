@@ -99,8 +99,8 @@ const DetailAccommodation = () => {
         dispatch(__getAccommodation(id))
     }, [])
     useEffect(()=> {
-        isSuccess && (isLike) && alert('숙소가 위시리스트에 삭제되었습니다.') && setIsLike(true)
-        isSuccess && (!isLike) && alert('숙소가 위시리스트에 저장되었습니다.') && setIsLike(false)
+        isSuccess && (isLike) && alert('숙소가 위시리스트에 저장되었습니다.') && setIsLike(true)
+        isSuccess && (!isLike) && alert('숙소가 위시리스트에 삭제되었습니다.') && setIsLike(false)
         
         dispatch(ClearIsSuccess())
     },[isLoading])
